@@ -276,7 +276,7 @@
             this.textBoxPassword.PasswordChar = '*';
             this.textBoxPassword.Size = new System.Drawing.Size(112, 20);
             this.textBoxPassword.TabIndex = 32;
-            this.textBoxPassword.Text = "12345";
+            this.textBoxPassword.Text = "qwer1234";
             // 
             // textBoxUserName
             // 
@@ -284,7 +284,7 @@
             this.textBoxUserName.Name = "textBoxUserName";
             this.textBoxUserName.Size = new System.Drawing.Size(114, 20);
             this.textBoxUserName.TabIndex = 31;
-            this.textBoxUserName.Text = "admin";
+            this.textBoxUserName.Text = "Test";
             // 
             // textBoxPort
             // 
@@ -300,7 +300,8 @@
             this.textBoxIP.Name = "textBoxIP";
             this.textBoxIP.Size = new System.Drawing.Size(114, 20);
             this.textBoxIP.TabIndex = 29;
-            this.textBoxIP.Text = "172.6.22.19";
+            this.textBoxIP.Text = "178.64.253.11";
+            this.textBoxIP.TextChanged += new System.EventHandler(this.textBoxIP_TextChanged);
             // 
             // LoginButton
             // 
