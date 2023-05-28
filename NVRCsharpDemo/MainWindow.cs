@@ -126,7 +126,7 @@ namespace NVRCsharpDemo
                     MessageBox.Show(str1);
                     return;
                 }
-                listViewIPChannel.Items.Clear();//Clear channel list
+                DevicesList.Items.Clear();//Clear channel list
                 m_lUserID = -1;
                 btnLogin.Text = "Login";
             }
@@ -214,7 +214,7 @@ namespace NVRCsharpDemo
                     str2 = "online"; //The channel is online
             }
             
-            listViewIPChannel.Items.Add(new ListViewItem(new string[] {str1, str2}));//Add channels to list
+            DevicesList.Items.Add(new ListViewItem(new string[] {str1, str2}));//Add channels to list
         }
         public void ListAnalogChannel(Int32 iChanNo, byte byEnable)
         {
@@ -230,14 +230,14 @@ namespace NVRCsharpDemo
                 str2 = "Enabled"; //This channel has been enabled  
             }
 
-            listViewIPChannel.Items.Add(new ListViewItem(new string[] { str1, str2 }));//Add channels to list
+            DevicesList.Items.Add(new ListViewItem(new string[] { str1, str2 }));//Add channels to list
         }
 
         private void listViewIPChannel_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
-            if (listViewIPChannel.SelectedItems.Count > 0) 
+            if (DevicesList.SelectedItems.Count > 0) 
             {
-                iSelIndex = listViewIPChannel.SelectedItems[0].Index;  //Select the current items
+                iSelIndex = DevicesList.SelectedItems[0].Index;  //Select the current items
             }
         }
 
@@ -901,17 +901,12 @@ namespace NVRCsharpDemo
             }
         }
 
-        private void label5_Click(object sender, EventArgs e)
+        private void DelDeviceButton_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void groupBox4_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void listViewIPChannel_SelectedIndexChanged(object sender, EventArgs e)
+        private void LoginButton_Click(object sender, EventArgs e)
         {
 
         }
