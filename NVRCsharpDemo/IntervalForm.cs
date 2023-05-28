@@ -16,5 +16,10 @@ namespace NVRCsharpDemo
         {
             InitializeComponent();
         }
+
+        private void IntervalForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

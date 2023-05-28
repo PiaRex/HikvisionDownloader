@@ -84,7 +84,7 @@
             this.dateTimeStart.UseWaitCursor = true;
             this.dateTimeStart.Value = new System.DateTime(2014, 2, 28, 14, 43, 28, 0);
             // 
-            // SheduleForm
+            // IntervalForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -94,8 +94,9 @@
             this.Controls.Add(this.label16);
             this.Controls.Add(this.dateTimeEnd);
             this.Controls.Add(this.dateTimeStart);
-            this.Name = "SheduleForm";
+            this.Name = "IntervalForm";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.IntervalForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);

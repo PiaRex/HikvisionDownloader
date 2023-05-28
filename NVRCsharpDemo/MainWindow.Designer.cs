@@ -54,10 +54,15 @@
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.DelScheduleButton = new System.Windows.Forms.Button();
+            this.EditScheduleButton = new System.Windows.Forms.Button();
             this.listViewFile = new System.Windows.Forms.ListView();
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader11 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.timerDownload = new System.Windows.Forms.Timer(this.components);
             this.timerPlayback = new System.Windows.Forms.Timer(this.components);
             this.btn_Exit = new System.Windows.Forms.Button();
@@ -69,16 +74,11 @@
             this.textBoxUserName = new System.Windows.Forms.TextBox();
             this.textBoxPort = new System.Windows.Forms.TextBox();
             this.textBoxIP = new System.Windows.Forms.TextBox();
-            this.btnLogin = new System.Windows.Forms.Button();
+            this.LoginButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader11 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.EditScheduleButton = new System.Windows.Forms.Button();
-            this.DelScheduleButton = new System.Windows.Forms.Button();
             this.TimeLabel = new System.Windows.Forms.Label();
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -142,6 +142,24 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Расписание";
             // 
+            // DelScheduleButton
+            // 
+            this.DelScheduleButton.Location = new System.Drawing.Point(123, 27);
+            this.DelScheduleButton.Name = "DelScheduleButton";
+            this.DelScheduleButton.Size = new System.Drawing.Size(75, 30);
+            this.DelScheduleButton.TabIndex = 51;
+            this.DelScheduleButton.Text = "Удалить";
+            this.DelScheduleButton.UseVisualStyleBackColor = true;
+            // 
+            // EditScheduleButton
+            // 
+            this.EditScheduleButton.Location = new System.Drawing.Point(17, 26);
+            this.EditScheduleButton.Name = "EditScheduleButton";
+            this.EditScheduleButton.Size = new System.Drawing.Size(100, 31);
+            this.EditScheduleButton.TabIndex = 50;
+            this.EditScheduleButton.Text = "Редактировать";
+            this.EditScheduleButton.UseVisualStyleBackColor = true;
+            // 
             // listViewFile
             // 
             this.listViewFile.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -177,13 +195,20 @@
             this.columnHeader5.Text = "Канал";
             this.columnHeader5.Width = 55;
             // 
-            // timerDownload
+            // columnHeader9
             // 
-            this.timerDownload.Tick += new System.EventHandler(this.timerProgress_Tick);
+            this.columnHeader9.Text = "Начальное время";
+            this.columnHeader9.Width = 112;
             // 
-            // timerPlayback
+            // columnHeader10
             // 
-            this.timerPlayback.Tick += new System.EventHandler(this.timerPlayback_Tick);
+            this.columnHeader10.Text = "Конечное время";
+            this.columnHeader10.Width = 105;
+            // 
+            // columnHeader11
+            // 
+            this.columnHeader11.Text = "Статус загрузки";
+            this.columnHeader11.Width = 197;
             // 
             // btn_Exit
             // 
@@ -225,7 +250,6 @@
             this.AddIntervalButton.TabIndex = 33;
             this.AddIntervalButton.Text = "Добавить в расписание";
             this.AddIntervalButton.UseVisualStyleBackColor = true;
-            this.AddIntervalButton.Click += new System.EventHandler(this.LoginButton_Click);
             // 
             // groupBox3
             // 
@@ -233,7 +257,7 @@
             this.groupBox3.Controls.Add(this.textBoxUserName);
             this.groupBox3.Controls.Add(this.textBoxPort);
             this.groupBox3.Controls.Add(this.textBoxIP);
-            this.groupBox3.Controls.Add(this.btnLogin);
+            this.groupBox3.Controls.Add(this.LoginButton);
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.label3);
@@ -278,13 +302,14 @@
             this.textBoxIP.TabIndex = 29;
             this.textBoxIP.Text = "172.6.22.19";
             // 
-            // btnLogin
+            // LoginButton
             // 
-            this.btnLogin.Location = new System.Drawing.Point(441, 26);
-            this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(87, 54);
-            this.btnLogin.TabIndex = 28;
-            this.btnLogin.Text = "Добавить устройство";
+            this.LoginButton.Location = new System.Drawing.Point(441, 26);
+            this.LoginButton.Name = "LoginButton";
+            this.LoginButton.Size = new System.Drawing.Size(87, 54);
+            this.LoginButton.TabIndex = 28;
+            this.LoginButton.Text = "Добавить устройство";
+            this.LoginButton.Click += new System.EventHandler(this.LoginButton_Click);
             // 
             // label1
             // 
@@ -317,39 +342,6 @@
             this.label4.Size = new System.Drawing.Size(79, 18);
             this.label4.TabIndex = 26;
             this.label4.Text = "Порт";
-            // 
-            // columnHeader9
-            // 
-            this.columnHeader9.Text = "Начальное время";
-            this.columnHeader9.Width = 112;
-            // 
-            // columnHeader10
-            // 
-            this.columnHeader10.Text = "Конечное время";
-            this.columnHeader10.Width = 105;
-            // 
-            // columnHeader11
-            // 
-            this.columnHeader11.Text = "Статус загрузки";
-            this.columnHeader11.Width = 197;
-            // 
-            // EditScheduleButton
-            // 
-            this.EditScheduleButton.Location = new System.Drawing.Point(17, 26);
-            this.EditScheduleButton.Name = "EditScheduleButton";
-            this.EditScheduleButton.Size = new System.Drawing.Size(100, 31);
-            this.EditScheduleButton.TabIndex = 50;
-            this.EditScheduleButton.Text = "Редактировать";
-            this.EditScheduleButton.UseVisualStyleBackColor = true;
-            // 
-            // DelScheduleButton
-            // 
-            this.DelScheduleButton.Location = new System.Drawing.Point(123, 27);
-            this.DelScheduleButton.Name = "DelScheduleButton";
-            this.DelScheduleButton.Size = new System.Drawing.Size(75, 30);
-            this.DelScheduleButton.TabIndex = 51;
-            this.DelScheduleButton.Text = "Удалить";
-            this.DelScheduleButton.UseVisualStyleBackColor = true;
             // 
             // TimeLabel
             // 
@@ -406,7 +398,7 @@
         private System.Windows.Forms.TextBox textBoxUserName;
         private System.Windows.Forms.TextBox textBoxPort;
         private System.Windows.Forms.TextBox textBoxIP;
-        private System.Windows.Forms.Button btnLogin;
+        private System.Windows.Forms.Button LoginButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;

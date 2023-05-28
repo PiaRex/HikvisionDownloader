@@ -61,76 +61,7 @@ namespace NVRCsharpDemo
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            if (textBoxIP.Text == "" || textBoxPort.Text == "" ||
-                textBoxUserName.Text == "" || textBoxPassword.Text == "")
-            {
-                MessageBox.Show("Please input IP, Port, User name and Password!");
-                return;
-            }
-            if (m_lUserID < 0)
-            {
-                string DVRIPAddress = textBoxIP.Text; //IP or domain of device
-                Int16 DVRPortNumber = Int16.Parse(textBoxPort.Text);//Service port of device
-                string DVRUserName = textBoxUserName.Text;//Login name of deivce
-                string DVRPassword = textBoxPassword.Text;//Login password of device
 
-            //    DeviceInfo = new CHCNetSDK.NET_DVR_DEVICEINFO_V30();
-
-                //Login the device
-                m_lUserID = CHCNetSDK.NET_DVR_Login_V30(DVRIPAddress, DVRPortNumber, DVRUserName, DVRPassword, ref DeviceInfo);
-                if (m_lUserID < 0)
-                {
-                    iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                    str1 = "NET_DVR_Login_V30 failed, error code= " + iLastErr; //Login failed,print error code
-                    MessageBox.Show(str1);
-                    return;
-                }
-                else
-                {
-                    //Login successsfully
-                    MessageBox.Show("Login Success!");
-                    btnLogin.Text = "Logout";
-
-                    dwAChanTotalNum = (uint)DeviceInfo.byChanNum;
-                    dwDChanTotalNum = (uint)DeviceInfo.byIPChanNum + 256 * (uint)DeviceInfo.byHighDChanNum;
-
-                    if (dwDChanTotalNum > 0)
-                    {
-                        InfoIPChannel();
-                    }
-                    else
-                    {
-                        for (i = 0; i < dwAChanTotalNum; i++)
-                        {
-                            ListAnalogChannel(i+1, 1);
-                            iChannelNum[i] = i + (int)DeviceInfo.byStartChan;
-                        }
-                       // MessageBox.Show("This device has no IP channel!");
-                    }
-                }
-
-            }
-            else
-            {                
-                if (m_lPlayHandle >= 0) 
-                {
-                    MessageBox.Show("Please stop playback firstly"); //Please stop playback before logout
-                    return;
-                }
-
-                //Logout the device
-                if (!CHCNetSDK.NET_DVR_Logout(m_lUserID))
-                {
-                    iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                    str1 = "NET_DVR_Logout failed, error code= " + iLastErr;
-                    MessageBox.Show(str1);
-                    return;
-                }
-                DevicesList.Items.Clear();//Clear channel list
-                m_lUserID = -1;
-                btnLogin.Text = "Login";
-            }
-            return;
         }
 
         public void InfoIPChannel()
@@ -269,7 +200,7 @@ namespace NVRCsharpDemo
             return;
         }
         
-        private void btnSearch_Click(object sender, EventArgs e)
+ /*       private void btnSearch_Click(object sender, EventArgs e)
         {
 
             listViewFile.Items.Clear();//Clear item files
@@ -351,7 +282,7 @@ namespace NVRCsharpDemo
                
             }
 
-        }
+        }*/
 
         private void listViewFile_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -361,280 +292,7 @@ namespace NVRCsharpDemo
             }
         }
 
-        private void btnPlaybackName_Click(object sender, EventArgs e)
-        {
-            if (sPlayBackFileName==null)
-            {
-                MessageBox.Show("Please select one file firstly!");//Select playback files first
-                return;
-            }
-
-            if (m_lPlayHandle >= 0)
-            {
-                //Please stop playback if playbacking now.
-                if (!CHCNetSDK.NET_DVR_StopPlayBack(m_lPlayHandle))
-                {
-                    iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                    str = "NET_DVR_StopPlayBack failed, error code= " + iLastErr; //Stop playbacking failed,print error code
-                    MessageBox.Show(str);
-                    return;
-                }
-
-                m_bReverse = false;
-                btnReverse.Text = "Reverse";
-                labelReverse.Text = "Switch to Reverse";
-
-                m_bPause = false;
-                btnPause.Text = "||";
-                labelPause.Text = "Pause";
-
-                m_lPlayHandle = -1;
-                PlaybackprogressBar.Value = 0;
-            }
-
-            //Payback by file name
-            m_lPlayHandle = CHCNetSDK.NET_DVR_PlayBackByName(m_lUserID, sPlayBackFileName, VideoPlayWnd.Handle);
-            if (m_lPlayHandle<0)
-            {
-                iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                str = "NET_DVR_PlayBackByName failed, error code= " + iLastErr;
-                MessageBox.Show(str);
-                return;            
-            }
-           
-            uint iOutValue=0;
-            if (!CHCNetSDK.NET_DVR_PlayBackControl_V40(m_lPlayHandle, CHCNetSDK.NET_DVR_PLAYSTART, IntPtr.Zero, 0, IntPtr.Zero, ref iOutValue))
-            {
-                iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                str = "NET_DVR_PLAYSTART failed, error code= " + iLastErr; //Palyback controlling failed,print error code.
-                MessageBox.Show(str);
-                return;
-            }
-            timerPlayback.Interval = 1000;
-            timerPlayback.Enabled = true;
-            btnStopPlayback.Enabled = true;
-        }
-
-        private void btnPlaybackTime_Click(object sender, EventArgs e)
-        {
-            if (m_lPlayHandle >= 0)
-            {
-                //Please stop playback if playbacking now.
-                if (!CHCNetSDK.NET_DVR_StopPlayBack(m_lPlayHandle))
-                {
-                    iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                    str = "NET_DVR_StopPlayBack failed, error code= " + iLastErr; 
-                    MessageBox.Show(str);
-                    return;
-                }
-
-                m_bReverse = false;
-                btnReverse.Text = "Reverse";
-                labelReverse.Text = "Switch to Reverse";
-
-                m_bPause = false;
-                btnPause.Text = "||";
-                labelPause.Text = "Pause"; 
-
-                m_lPlayHandle = -1;
-
-                PlaybackprogressBar.Value = 0;
-            }
-
-            CHCNetSDK.NET_DVR_VOD_PARA struVodPara = new CHCNetSDK.NET_DVR_VOD_PARA();
-            struVodPara.dwSize = (uint)Marshal.SizeOf(struVodPara);
-            struVodPara.struIDInfo.dwChannel = (uint)iChannelNum[(int)iSelIndex]; //Channel number  
-            struVodPara.hWnd = VideoPlayWnd.Handle;//handle of playback
-
-            //Set the starting time to search video files
-            struVodPara.struBeginTime.dwYear = (uint)dateTimeStart.Value.Year;
-            struVodPara.struBeginTime.dwMonth = (uint)dateTimeStart.Value.Month;
-            struVodPara.struBeginTime.dwDay = (uint)dateTimeStart.Value.Day;
-            struVodPara.struBeginTime.dwHour = (uint)dateTimeStart.Value.Hour;
-            struVodPara.struBeginTime.dwMinute = (uint)dateTimeStart.Value.Minute;
-            struVodPara.struBeginTime.dwSecond = (uint)dateTimeStart.Value.Second;
-
-            //Set the stopping time to search video files
-            struVodPara.struEndTime.dwYear = (uint)dateTimeEnd.Value.Year;
-            struVodPara.struEndTime.dwMonth = (uint)dateTimeEnd.Value.Month;
-            struVodPara.struEndTime.dwDay = (uint)dateTimeEnd.Value.Day;
-            struVodPara.struEndTime.dwHour = (uint)dateTimeEnd.Value.Hour;
-            struVodPara.struEndTime.dwMinute = (uint)dateTimeEnd.Value.Minute;
-            struVodPara.struEndTime.dwSecond = (uint)dateTimeEnd.Value.Second;
-
-            //Playback by time
-            m_lPlayHandle = CHCNetSDK.NET_DVR_PlayBackByTime_V40(m_lUserID, ref struVodPara);
-            if (m_lPlayHandle < 0)
-            {
-                iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                str = "NET_DVR_PlayBackByTime_V40 failed, error code= " + iLastErr;
-                MessageBox.Show(str);
-                return;
-            }
-
-            uint iOutValue = 0;
-            if (!CHCNetSDK.NET_DVR_PlayBackControl_V40(m_lPlayHandle, CHCNetSDK.NET_DVR_PLAYSTART, IntPtr.Zero, 0, IntPtr.Zero, ref iOutValue))
-            {
-                iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                str = "NET_DVR_PLAYSTART failed, error code= " + iLastErr; //Playback controlling failed,print error code.
-                MessageBox.Show(str);
-                return;
-            }
-            timerPlayback.Interval = 1000;
-            timerPlayback.Enabled = true;
-            btnStopPlayback.Enabled = true;
-        }
-
-        private void btnStopPlayback_Click(object sender, EventArgs e)
-        {
-            if (m_lPlayHandle < 0)
-            {
-                return;
-            }
-
-            //Stop playback
-            if (!CHCNetSDK.NET_DVR_StopPlayBack(m_lPlayHandle))
-            {
-                iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                str = "NET_DVR_StopPlayBack failed, error code= " + iLastErr;
-                MessageBox.Show(str);
-                return;
-            }
-
-            PlaybackprogressBar.Value = 0;
-            timerPlayback.Stop();
-            
-            m_bReverse = false;
-            btnReverse.Text = "Reverse";
-            labelReverse.Text = "Switch to Reverse";
-            
-            m_bPause = false;
-            btnPause.Text = "||";
-            labelPause.Text = "Pause";
-            
-            m_lPlayHandle = -1;
-            VideoPlayWnd.Invalidate();//Refresh window
-            btnStopPlayback.Enabled = false;
-        }
-
-        private void btnPause_Click(object sender, EventArgs e)
-        {
-            uint iOutValue = 0;
-
-            if (!m_bPause)
-            {
-                if (!CHCNetSDK.NET_DVR_PlayBackControl_V40(m_lPlayHandle, CHCNetSDK.NET_DVR_PLAYPAUSE, IntPtr.Zero, 0, IntPtr.Zero, ref iOutValue))
-                {
-                    iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                    str = "NET_DVR_PLAYPAUSE failed, error code= " + iLastErr; //Playback controlling failed,print error code
-                    MessageBox.Show(str);
-                    return;
-                }
-                m_bPause = true;
-                btnPause.Text = ">";
-                labelPause.Text = "Play";
-            }
-            else
-            {
-                if (!CHCNetSDK.NET_DVR_PlayBackControl_V40(m_lPlayHandle, CHCNetSDK.NET_DVR_PLAYRESTART, IntPtr.Zero, 0, IntPtr.Zero, ref iOutValue))
-                {
-                    iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                    str = "NET_DVR_PLAYRESTART failed, error code= " + iLastErr; //Playback controlling failed,print error code
-                    MessageBox.Show(str);
-                    return;
-                }
-                m_bPause = false;
-                btnPause.Text = "||";
-                labelPause.Text = "Pause";
-            }
-            return;
-        }
-
-        private void btnSlow_Click(object sender, EventArgs e)
-        {
-            uint iOutValue = 0;
-
-            if (!CHCNetSDK.NET_DVR_PlayBackControl_V40(m_lPlayHandle, CHCNetSDK.NET_DVR_PLAYSLOW, IntPtr.Zero, 0, IntPtr.Zero, ref iOutValue))
-            {
-                iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                str = "NET_DVR_PLAYSLOW failed, error code= " + iLastErr; //Playback controlling failed,print error code
-                MessageBox.Show(str);
-                return;
-            }
-        }
-
-        private void btnFast_Click(object sender, EventArgs e)
-        {
-            uint iOutValue = 0;
-
-            if (!CHCNetSDK.NET_DVR_PlayBackControl_V40(m_lPlayHandle, CHCNetSDK.NET_DVR_PLAYFAST, IntPtr.Zero, 0, IntPtr.Zero, ref iOutValue))
-            {
-                iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                str = "NET_DVR_PLAYFAST failed, error code= " + iLastErr; //Playback controlling failed,print error code
-                MessageBox.Show(str);
-                return;
-            }
-        }
-
-        private void btnFrame_Click(object sender, EventArgs e)
-        {
-            uint iOutValue = 0;
-
-            if (!CHCNetSDK.NET_DVR_PlayBackControl_V40(m_lPlayHandle, CHCNetSDK.NET_DVR_PLAYFRAME, IntPtr.Zero, 0, IntPtr.Zero, ref iOutValue))
-            {
-                iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                str = "NET_DVR_PLAYFRAME failed, error code= " + iLastErr; //Playback controlling failed,print error code
-                MessageBox.Show(str);
-                return;
-            }
-        }
-
-        private void btnResume_Click(object sender, EventArgs e)
-        {
-            uint iOutValue = 0;
-
-            if (!CHCNetSDK.NET_DVR_PlayBackControl_V40(m_lPlayHandle, CHCNetSDK.NET_DVR_PLAYNORMAL, IntPtr.Zero, 0, IntPtr.Zero, ref iOutValue))
-            {
-                iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                str = "NET_DVR_PLAYNORMAL failed, error code= " + iLastErr; //Playback controlling failed,print error code
-                MessageBox.Show(str);
-                return;
-            }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            uint iOutValue = 0;
-            if (!m_bReverse)
-            {
-                if (!CHCNetSDK.NET_DVR_PlayBackControl_V40(m_lPlayHandle, CHCNetSDK.NET_DVR_PLAY_REVERSE, IntPtr.Zero, 0, IntPtr.Zero, ref iOutValue))
-                {
-                    iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                    str = "NET_DVR_PLAY_REVERSE failed, error code= " + iLastErr; //Playback controlling failed,print error code
-                    MessageBox.Show(str);
-                    return;
-                }
-                m_bReverse = true;
-                btnReverse.Text = "Forward";
-                labelReverse.Text = "Switch to Forward";
-            }
-            else
-            {
-                if (!CHCNetSDK.NET_DVR_PlayBackControl_V40(m_lPlayHandle, CHCNetSDK.NET_DVR_PLAY_FORWARD, IntPtr.Zero, 0, IntPtr.Zero, ref iOutValue))
-                {
-                    iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                    str = "NET_DVR_PLAY_FORWARD failed, error code= " + iLastErr; //Playback controlling failed,print error code
-                    MessageBox.Show(str);
-                    return;
-                }
-                m_bReverse = false;
-                btnReverse.Text = "Reverse";
-                labelReverse.Text = "Switch to Reverse";       
-            }
-
-        }
-
-        private void btnDownloadTime_Click(object sender, EventArgs e)
+/*        private void btnDownloadTime_Click(object sender, EventArgs e)
         {
             if (m_lDownHandle >= 0)
             {
@@ -793,55 +451,11 @@ namespace NVRCsharpDemo
                 MessageBox.Show("The downloading is abnormal for the abnormal network!");
                 timerDownload.Stop();
             }
-        }
-
-        private void timerPlayback_Tick(object sender, EventArgs e)
-        {
-            PlaybackprogressBar.Maximum = 100;
-            PlaybackprogressBar.Minimum = 0;
-
-            uint iOutValue = 0;
-            int iPos = 0;
-
-            IntPtr lpOutBuffer = Marshal.AllocHGlobal(4);
-
-            //get playback process
-            CHCNetSDK.NET_DVR_PlayBackControl_V40(m_lPlayHandle, CHCNetSDK.NET_DVR_PLAYGETPOS, IntPtr.Zero, 0, lpOutBuffer, ref iOutValue);
-
-            iPos = (int)Marshal.PtrToStructure(lpOutBuffer, typeof(int));
-
-            if ((iPos > PlaybackprogressBar.Minimum) && (iPos < PlaybackprogressBar.Maximum))
-            {
-                PlaybackprogressBar.Value = iPos;
-            }
-
-            if (iPos == 100)  //Playback finished
-            {
-                PlaybackprogressBar.Value = iPos;
-                if (!CHCNetSDK.NET_DVR_StopPlayBack(m_lPlayHandle))
-                {
-                    iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                    str = "NET_DVR_StopPlayBack failed, error code= " + iLastErr; //Download controlling failed,print error code
-                    MessageBox.Show(str);
-                    return;
-                }
-                m_lPlayHandle = -1;
-                timerPlayback.Stop();
-            }
-
-            if (iPos == 200) //Network abnormal,playback failed
-            {
-                MessageBox.Show("The playback is abnormal for the abnormal network!");
-                timerPlayback.Stop();
-            }
-            Marshal.FreeHGlobal(lpOutBuffer);
-        }
-
+        }*/
         private void MainWindow_Load(object sender, EventArgs e)
         {
             //Initialize time
-            dateTimeStart.Text = DateTime.Now.ToShortDateString();
-            dateTimeEnd.Text = DateTime.Now.ToString();
+            TimeLabel.Text = DateTime.Now.ToShortDateString();
         }
 
         private void btn_Exit_Click(object sender, EventArgs e)
@@ -870,37 +484,6 @@ namespace NVRCsharpDemo
             Application.Exit();
         }
 
-        private void btnSound_Click(object sender, EventArgs e)
-        {
-            uint iOutValue = 0;
-            if (!m_bSound)
-            {
-                if (!CHCNetSDK.NET_DVR_PlayBackControl_V40(m_lPlayHandle, CHCNetSDK.NET_DVR_PLAYSTARTAUDIO, IntPtr.Zero, 0, IntPtr.Zero, ref iOutValue))
-                {
-                    iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                    str = "NET_DVR_PLAYSTARTAUDIO failed, error code= " + iLastErr; //Playback controlling failed,print error code
-                    MessageBox.Show(str);
-                    return;
-                }
-                m_bSound = true;
-                btnSound.Text = "Stop";
-                labelSound.Text = "Close Audio";
-            }
-            else
-            {
-                if (!CHCNetSDK.NET_DVR_PlayBackControl_V40(m_lPlayHandle, CHCNetSDK.NET_DVR_PLAYSTOPAUDIO, IntPtr.Zero, 0, IntPtr.Zero, ref iOutValue))
-                {
-                    iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                    str = "NET_DVR_PLAYSTOPAUDIO failed, error code= " + iLastErr; //Playback controlling failed,print error code
-                    MessageBox.Show(str);
-                    return;
-                }
-                m_bSound = false;
-                btnSound.Text = "Sound";
-                labelSound.Text = "Open Audio";
-            }
-        }
-
         private void DelDeviceButton_Click(object sender, EventArgs e)
         {
 
@@ -908,7 +491,76 @@ namespace NVRCsharpDemo
 
         private void LoginButton_Click(object sender, EventArgs e)
         {
+            if (textBoxIP.Text == "" || textBoxPort.Text == "" ||
+                textBoxUserName.Text == "" || textBoxPassword.Text == "")
+            {
+                MessageBox.Show("Please input IP, Port, User name and Password!");
+                return;
+            }
+            if (m_lUserID < 0)
+            {
+                string DVRIPAddress = textBoxIP.Text; //IP or domain of device
+                Int16 DVRPortNumber = Int16.Parse(textBoxPort.Text);//Service port of device
+                string DVRUserName = textBoxUserName.Text;//Login name of deivce
+                string DVRPassword = textBoxPassword.Text;//Login password of device
 
+                //    DeviceInfo = new CHCNetSDK.NET_DVR_DEVICEINFO_V30();
+
+                //Login the device
+                m_lUserID = CHCNetSDK.NET_DVR_Login_V30(DVRIPAddress, DVRPortNumber, DVRUserName, DVRPassword, ref DeviceInfo);
+                if (m_lUserID < 0)
+                {
+                    iLastErr = CHCNetSDK.NET_DVR_GetLastError();
+                    str1 = "NET_DVR_Login_V30 failed, error code= " + iLastErr; //Login failed,print error code
+                    MessageBox.Show(str1);
+                    return;
+                }
+                else
+                {
+                    //Login successsfully
+                    MessageBox.Show("Login Success!");
+                    LoginButton.Text = "Logout";
+
+                    dwAChanTotalNum = (uint)DeviceInfo.byChanNum;
+                    dwDChanTotalNum = (uint)DeviceInfo.byIPChanNum + 256 * (uint)DeviceInfo.byHighDChanNum;
+
+                    if (dwDChanTotalNum > 0)
+                    {
+                        InfoIPChannel();
+                    }
+                    else
+                    {
+                        for (i = 0; i < dwAChanTotalNum; i++)
+                        {
+                            ListAnalogChannel(i + 1, 1);
+                            iChannelNum[i] = i + (int)DeviceInfo.byStartChan;
+                        }
+                        // MessageBox.Show("This device has no IP channel!");
+                    }
+                }
+
+            }
+            else
+            {
+                if (m_lPlayHandle >= 0)
+                {
+                    MessageBox.Show("Please stop playback firstly"); //Please stop playback before logout
+                    return;
+                }
+
+                //Logout the device
+                if (!CHCNetSDK.NET_DVR_Logout(m_lUserID))
+                {
+                    iLastErr = CHCNetSDK.NET_DVR_GetLastError();
+                    str1 = "NET_DVR_Logout failed, error code= " + iLastErr;
+                    MessageBox.Show(str1);
+                    return;
+                }
+                DevicesList.Items.Clear();//Clear channel list
+                m_lUserID = -1;
+                LoginButton.Text = "Login";
+            }
+            return;
         }
     }
 }
