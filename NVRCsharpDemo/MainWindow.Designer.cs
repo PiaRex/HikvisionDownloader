@@ -52,7 +52,6 @@
             this.ColumnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.DelScheduleButton = new System.Windows.Forms.Button();
             this.EditScheduleButton = new System.Windows.Forms.Button();
@@ -70,6 +69,8 @@
             this.DelDeviceButton = new System.Windows.Forms.Button();
             this.AddIntervalButton = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.textBoxDeviceName = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.textBoxPassword = new System.Windows.Forms.TextBox();
             this.textBoxUserName = new System.Windows.Forms.TextBox();
             this.textBoxPort = new System.Windows.Forms.TextBox();
@@ -92,15 +93,14 @@
             this.ColumnHeader1,
             this.ColumnHeader2,
             this.columnHeader6,
-            this.columnHeader7,
-            this.columnHeader8});
+            this.columnHeader7});
             this.DevicesList.FullRowSelect = true;
             this.DevicesList.GridLines = true;
             this.DevicesList.HideSelection = false;
             this.DevicesList.Location = new System.Drawing.Point(9, 19);
             this.DevicesList.MultiSelect = false;
             this.DevicesList.Name = "DevicesList";
-            this.DevicesList.Size = new System.Drawing.Size(426, 476);
+            this.DevicesList.Size = new System.Drawing.Size(370, 476);
             this.DevicesList.TabIndex = 32;
             this.DevicesList.UseCompatibleStateImageBehavior = false;
             this.DevicesList.View = System.Windows.Forms.View.Details;
@@ -110,7 +110,7 @@
             // ColumnHeader1
             // 
             this.ColumnHeader1.Text = "Имя";
-            this.ColumnHeader1.Width = 107;
+            this.ColumnHeader1.Width = 140;
             // 
             // ColumnHeader2
             // 
@@ -127,19 +127,14 @@
             this.columnHeader7.Text = "Пользователь";
             this.columnHeader7.Width = 90;
             // 
-            // columnHeader8
-            // 
-            this.columnHeader8.Text = "Статус";
-            this.columnHeader8.Width = 85;
-            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.DelScheduleButton);
             this.groupBox4.Controls.Add(this.EditScheduleButton);
             this.groupBox4.Controls.Add(this.listViewFile);
-            this.groupBox4.Location = new System.Drawing.Point(562, 35);
+            this.groupBox4.Location = new System.Drawing.Point(558, 35);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(744, 626);
+            this.groupBox4.Size = new System.Drawing.Size(748, 667);
             this.groupBox4.TabIndex = 42;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Расписание";
@@ -176,7 +171,7 @@
             this.listViewFile.HideSelection = false;
             this.listViewFile.Location = new System.Drawing.Point(17, 63);
             this.listViewFile.Name = "listViewFile";
-            this.listViewFile.Size = new System.Drawing.Size(703, 551);
+            this.listViewFile.Size = new System.Drawing.Size(703, 590);
             this.listViewFile.TabIndex = 49;
             this.listViewFile.UseCompatibleStateImageBehavior = false;
             this.listViewFile.View = System.Windows.Forms.View.Details;
@@ -214,7 +209,7 @@
             // 
             // btn_Exit
             // 
-            this.btn_Exit.Location = new System.Drawing.Point(1179, 676);
+            this.btn_Exit.Location = new System.Drawing.Point(1179, 708);
             this.btn_Exit.Name = "btn_Exit";
             this.btn_Exit.Size = new System.Drawing.Size(127, 32);
             this.btn_Exit.TabIndex = 44;
@@ -227,18 +222,18 @@
             this.groupBox1.Controls.Add(this.DelDeviceButton);
             this.groupBox1.Controls.Add(this.AddIntervalButton);
             this.groupBox1.Controls.Add(this.DevicesList);
-            this.groupBox1.Location = new System.Drawing.Point(12, 146);
+            this.groupBox1.Location = new System.Drawing.Point(12, 193);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(544, 515);
+            this.groupBox1.Size = new System.Drawing.Size(540, 509);
             this.groupBox1.TabIndex = 45;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Устройства";
             // 
             // DelDeviceButton
             // 
-            this.DelDeviceButton.Location = new System.Drawing.Point(441, 60);
+            this.DelDeviceButton.Location = new System.Drawing.Point(385, 60);
             this.DelDeviceButton.Name = "DelDeviceButton";
-            this.DelDeviceButton.Size = new System.Drawing.Size(87, 35);
+            this.DelDeviceButton.Size = new System.Drawing.Size(149, 35);
             this.DelDeviceButton.TabIndex = 34;
             this.DelDeviceButton.Text = "Удалить устройство";
             this.DelDeviceButton.UseVisualStyleBackColor = true;
@@ -246,15 +241,18 @@
             // 
             // AddIntervalButton
             // 
-            this.AddIntervalButton.Location = new System.Drawing.Point(441, 19);
+            this.AddIntervalButton.Location = new System.Drawing.Point(385, 19);
             this.AddIntervalButton.Name = "AddIntervalButton";
-            this.AddIntervalButton.Size = new System.Drawing.Size(87, 35);
+            this.AddIntervalButton.Size = new System.Drawing.Size(149, 35);
             this.AddIntervalButton.TabIndex = 33;
             this.AddIntervalButton.Text = "Добавить в расписание";
             this.AddIntervalButton.UseVisualStyleBackColor = true;
+            this.AddIntervalButton.Click += new System.EventHandler(this.AddIntervalButton_Click);
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.textBoxDeviceName);
+            this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Controls.Add(this.textBoxPassword);
             this.groupBox3.Controls.Add(this.textBoxUserName);
             this.groupBox3.Controls.Add(this.textBoxPort);
@@ -266,14 +264,31 @@
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Location = new System.Drawing.Point(12, 35);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(544, 105);
+            this.groupBox3.Size = new System.Drawing.Size(540, 159);
             this.groupBox3.TabIndex = 46;
             this.groupBox3.TabStop = false;
+            // 
+            // textBoxDeviceName
+            // 
+            this.textBoxDeviceName.Location = new System.Drawing.Point(113, 23);
+            this.textBoxDeviceName.Name = "textBoxDeviceName";
+            this.textBoxDeviceName.Size = new System.Drawing.Size(147, 20);
+            this.textBoxDeviceName.TabIndex = 34;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 26);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(89, 13);
+            this.label5.TabIndex = 33;
+            this.label5.Text = "Имя устройства";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // textBoxPassword
             // 
             this.textBoxPassword.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.textBoxPassword.Location = new System.Drawing.Point(304, 67);
+            this.textBoxPassword.Location = new System.Drawing.Point(279, 98);
             this.textBoxPassword.Name = "textBoxPassword";
             this.textBoxPassword.PasswordChar = '*';
             this.textBoxPassword.Size = new System.Drawing.Size(112, 20);
@@ -282,15 +297,15 @@
             // 
             // textBoxUserName
             // 
-            this.textBoxUserName.Location = new System.Drawing.Point(98, 67);
+            this.textBoxUserName.Location = new System.Drawing.Point(102, 99);
             this.textBoxUserName.Name = "textBoxUserName";
-            this.textBoxUserName.Size = new System.Drawing.Size(114, 20);
+            this.textBoxUserName.Size = new System.Drawing.Size(94, 20);
             this.textBoxUserName.TabIndex = 31;
             this.textBoxUserName.Text = "Test";
             // 
             // textBoxPort
             // 
-            this.textBoxPort.Location = new System.Drawing.Point(304, 19);
+            this.textBoxPort.Location = new System.Drawing.Point(279, 58);
             this.textBoxPort.Name = "textBoxPort";
             this.textBoxPort.Size = new System.Drawing.Size(112, 20);
             this.textBoxPort.TabIndex = 30;
@@ -298,25 +313,25 @@
             // 
             // textBoxIP
             // 
-            this.textBoxIP.Location = new System.Drawing.Point(98, 19);
+            this.textBoxIP.Location = new System.Drawing.Point(102, 59);
             this.textBoxIP.Name = "textBoxIP";
-            this.textBoxIP.Size = new System.Drawing.Size(114, 20);
+            this.textBoxIP.Size = new System.Drawing.Size(94, 20);
             this.textBoxIP.TabIndex = 29;
             this.textBoxIP.Text = "178.64.253.11";
             this.textBoxIP.TextChanged += new System.EventHandler(this.textBoxIP_TextChanged);
             // 
             // LoginButton
             // 
-            this.LoginButton.Location = new System.Drawing.Point(441, 26);
+            this.LoginButton.Location = new System.Drawing.Point(435, 62);
             this.LoginButton.Name = "LoginButton";
-            this.LoginButton.Size = new System.Drawing.Size(87, 54);
+            this.LoginButton.Size = new System.Drawing.Size(90, 54);
             this.LoginButton.TabIndex = 28;
             this.LoginButton.Text = "Добавить устройство";
             this.LoginButton.Click += new System.EventHandler(this.LoginButton_Click);
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(6, 16);
+            this.label1.Location = new System.Drawing.Point(6, 62);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(74, 20);
             this.label1.TabIndex = 25;
@@ -324,7 +339,7 @@
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(6, 63);
+            this.label2.Location = new System.Drawing.Point(6, 99);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(94, 19);
             this.label2.TabIndex = 24;
@@ -332,7 +347,7 @@
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(241, 63);
+            this.label3.Location = new System.Drawing.Point(219, 99);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(63, 17);
             this.label3.TabIndex = 27;
@@ -340,11 +355,12 @@
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(241, 16);
+            this.label4.Location = new System.Drawing.Point(219, 61);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(79, 18);
             this.label4.TabIndex = 26;
             this.label4.Text = "Порт";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // TimeLabel
             // 
@@ -368,7 +384,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1321, 723);
+            this.ClientSize = new System.Drawing.Size(1321, 752);
             this.Controls.Add(this.DateTimeLabel);
             this.Controls.Add(this.TimeLabel);
             this.Controls.Add(this.groupBox3);
@@ -402,7 +418,6 @@
         private System.Windows.Forms.Button btn_Exit;
         private System.Windows.Forms.ColumnHeader columnHeader6;
         private System.Windows.Forms.ColumnHeader columnHeader7;
-        private System.Windows.Forms.ColumnHeader columnHeader8;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button AddIntervalButton;
         private System.Windows.Forms.Button DelDeviceButton;
@@ -423,6 +438,8 @@
         private System.Windows.Forms.Button DelScheduleButton;
         private System.Windows.Forms.Label TimeLabel;
         private System.Windows.Forms.Label DateTimeLabel;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox textBoxDeviceName;
     }
 }
 

@@ -40,6 +40,7 @@ namespace NVRCsharpDemo
         public CHCNetSDK.NET_DVR_IPPARACFG_V40 m_struIpParaCfgV40;
         public CHCNetSDK.NET_DVR_GET_STREAM_UNION m_unionGetStream;
         public CHCNetSDK.NET_DVR_IPCHANINFO m_struChanInfo;
+        Form scheduleForm = new ScheduleForm();
 
         public class SaveData
         {
@@ -607,6 +608,24 @@ namespace NVRCsharpDemo
         private void DevicesList_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AddIntervalButton_Click(object sender, EventArgs e)
+        {
+            scheduleForm.Left = this.Left + 560;
+            scheduleForm.Top = this.Top + 240;
+            scheduleForm.Show();
+            scheduleForm.TopMost = true;
         }
     }
 }
