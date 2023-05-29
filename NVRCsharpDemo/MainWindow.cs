@@ -28,11 +28,6 @@ namespace NVRCsharpDemo
         private Int32 i = 0;
         private Int32 m_lTree = 0;
         private Timer currentTimeTimer = new Timer();
-
-        private bool m_bPause = false;
-        private bool m_bReverse = false;
-        private bool m_bSound = false;
-
         private long iSelIndex = 0;
         private uint dwAChanTotalNum = 0;
         private uint dwDChanTotalNum = 0;
@@ -191,33 +186,6 @@ namespace NVRCsharpDemo
             }
         }
 
-        private void btnBMP_Click(object sender, EventArgs e)
-        {
-            if (m_lPlayHandle < 0)
-            {
-                MessageBox.Show("Please start playback firstly!"); //Playback should be started before BMP Snapshot
-                return;
-            }
-
-            string sBmpPicFileName;
-            //the path and file name to save picture
-            sBmpPicFileName = "test.bmp";
-
-            //Capture a BMP picture
-            if (!CHCNetSDK.NET_DVR_PlayBackCaptureFile(m_lPlayHandle, sBmpPicFileName))
-            {
-                iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                str = "NET_DVR_PlayBackCaptureFile failed, error code= " + iLastErr;
-                MessageBox.Show(str);
-                return;
-            }
-            else
-            {
-                str = "Successful to capture the BMP file and the saved file is " + sBmpPicFileName;
-                MessageBox.Show(str);
-            }
-            return;
-        }
 
         /*       private void btnSearch_Click(object sender, EventArgs e)
                {
