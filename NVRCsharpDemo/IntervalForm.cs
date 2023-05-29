@@ -32,14 +32,12 @@ namespace NVRCsharpDemo
 
         private void CancelButton_Click(object sender, EventArgs e)
         {
-            this.TopMost = false;
             this.Hide();
             if (scheduleForm != null)
             {
 
                 scheduleForm.Activate();
                 scheduleForm.Enabled = true;
-                scheduleForm.TopMost = true;
             }
             else MessageBox.Show("mainWindow");
         }

@@ -31,7 +31,6 @@ namespace NVRCsharpDemo
 
         private void CancelButton_Click(object sender, EventArgs e)
         {
-            this.TopMost = false;
             this.Hide();
             if (mainWindow != null)
             {
@@ -45,7 +44,6 @@ namespace NVRCsharpDemo
             IntervalForm.Top = this.Top + 240;
             this.TopMost = false;
             IntervalForm.Show();
-            IntervalForm.TopMost = true;
         }
     }
 }

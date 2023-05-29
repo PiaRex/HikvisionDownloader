@@ -140,6 +140,7 @@
             this.Controls.Add(this.label1);
             this.Name = "ScheduleForm";
             this.Text = "Расписание устройства";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.ScheduleForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

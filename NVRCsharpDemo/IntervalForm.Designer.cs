@@ -179,6 +179,7 @@
             this.Controls.Add(this.ChannelsGroupBox);
             this.Name = "IntervalForm";
             this.Text = "Новый интервал";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.IntervalForm_Load);
             this.ChannelsGroupBox.ResumeLayout(false);
             this.ChannelsGroupBox.PerformLayout();

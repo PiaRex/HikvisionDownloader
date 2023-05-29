@@ -625,7 +625,6 @@ namespace NVRCsharpDemo
             scheduleForm.Left = this.Left + 560;
             scheduleForm.Top = this.Top + 240;
             scheduleForm.Show();
-            scheduleForm.TopMost = true;
         }
     }
 }
