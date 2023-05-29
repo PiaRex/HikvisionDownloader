@@ -13,7 +13,10 @@ namespace NVRCsharpDemo
 {
 
     public partial class MainWindow : Form
+
     {
+        private bool service=false;
+
         private bool m_bInitSDK = false;
         private uint iLastErr = 0;
         private Int32 m_lUserID = -1;
@@ -623,6 +626,18 @@ namespace NVRCsharpDemo
             scheduleForm.Left = this.Left + 560;
             scheduleForm.Top = this.Top + 240;
             scheduleForm.Show();
+        }
+
+        private void buttonStartService_Click(object sender, EventArgs e)
+        {
+            
+            if (service=false)
+            {
+
+                buttonStartService.BackColor = Color.Green;
+                service
+            }
+            
         }
     }
 }

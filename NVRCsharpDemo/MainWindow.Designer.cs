@@ -82,6 +82,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.TimeLabel = new System.Windows.Forms.Label();
             this.DateTimeLabel = new System.Windows.Forms.Label();
+            this.buttonStartService = new System.Windows.Forms.Button();
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -380,11 +381,22 @@
             this.DateTimeLabel.TabIndex = 48;
             this.DateTimeLabel.Text = "TimeLabel";
             // 
+            // buttonStartService
+            // 
+            this.buttonStartService.Location = new System.Drawing.Point(194, 4);
+            this.buttonStartService.Name = "buttonStartService";
+            this.buttonStartService.Size = new System.Drawing.Size(116, 33);
+            this.buttonStartService.TabIndex = 35;
+            this.buttonStartService.Text = "СТАРТ";
+            this.buttonStartService.UseVisualStyleBackColor = true;
+            this.buttonStartService.Click += new System.EventHandler(this.button1_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1321, 752);
+            this.Controls.Add(this.buttonStartService);
             this.Controls.Add(this.DateTimeLabel);
             this.Controls.Add(this.TimeLabel);
             this.Controls.Add(this.groupBox3);
@@ -440,6 +452,7 @@
         private System.Windows.Forms.Label DateTimeLabel;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBoxDeviceName;
+        private System.Windows.Forms.Button buttonStartService;
     }
 }
 
