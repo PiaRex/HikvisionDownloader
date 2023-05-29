@@ -40,7 +40,7 @@ namespace NVRCsharpDemo
         public CHCNetSDK.NET_DVR_IPCHANINFO m_struChanInfo;
         Form scheduleForm = new ScheduleForm();
 
-        public class SaveData
+        public class DataReg // данные регистратора
         {
             public string DeviceIP { get; set; }
             public string DevicePort { get; set; }
@@ -49,8 +49,19 @@ namespace NVRCsharpDemo
 
         }
 
+        public class DataShedule // расписание на скачку
+        {
+            public string DeviceIP { get; set; }
+            public string Channel1 { get; set; }
+            public string Channel2 { get; set; }
+            public string Channel3 { get; set; }
+            public string Channel4 { get; set; }
+        }
+
         // создание колекции обьектов
-        public List<SaveData> saveDataList = new List<SaveData>();
+        public List<DataReg> DataRegList = new List<DataReg>();
+        public List<DataShedule> DataSheduleList = new List<DataShedule>();
+
 
         [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = 96, ArraySubType = UnmanagedType.U4)]
         private int[] iChannelNum;
@@ -532,9 +543,9 @@ namespace NVRCsharpDemo
                         // MessageBox.Show("This device has no IP channel!");
                     }
 
-                    List<SaveData> saveDataList = FileOperations.LoadData();
+                    List<DataReg> DataRegList = FileOperations.LoadDataReg();
 
-                    saveDataList.Add(new SaveData
+                    DataRegList.Add(new DataReg
                     {
                         DeviceIP = textBoxIP.Text,
                         DevicePort = textBoxPort.Text,
@@ -542,7 +553,7 @@ namespace NVRCsharpDemo
                         Password = textBoxPassword.Text
                     });
 
-                    FileOperations.SaveData(saveDataList);
+                    FileOperations.SaveDataReg(DataRegList);
 
                 }
 
