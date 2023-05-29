@@ -301,10 +301,7 @@
             this.textBoxIP.Size = new System.Drawing.Size(114, 20);
             this.textBoxIP.TabIndex = 29;
             this.textBoxIP.Text = "178.64.253.11";
-<<<<<<< HEAD
-=======
             this.textBoxIP.TextChanged += new System.EventHandler(this.textBoxIP_TextChanged);
->>>>>>> 1afd33e44647fdfda7cce4782e2dc2b5135c80ca
             // 
             // LoginButton
             // 

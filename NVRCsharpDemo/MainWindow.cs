@@ -551,13 +551,15 @@ namespace NVRCsharpDemo
                         // MessageBox.Show("This device has no IP channel!");
                     }
 
+                    string json;
+                    // проверка, есть ли файл
+                    if (File.Exists("data.json"))
+                    {
 
-
-
-                    // загрузка массива объектов из файла
-                    string json = File.ReadAllText("data.json");
-                    List<SaveData> saveDataList = JsonConvert.DeserializeObject<List<SaveData>>(json);
-
+                        // загрузка массива объектов из файла
+                       json = File.ReadAllText("data.json");
+                        List<SaveData> saveDataList = JsonConvert.DeserializeObject<List<SaveData>>(json);
+                    }
                     // добавление новых объектов в массив
                     saveDataList.Add(new SaveData
                     {
