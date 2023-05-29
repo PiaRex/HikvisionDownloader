@@ -30,8 +30,6 @@
         {
             this.label17 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
-            this.dateTimeEnd = new System.Windows.Forms.DateTimePicker();
-            this.dateTimeStart = new System.Windows.Forms.DateTimePicker();
             this.ChannelsGroupBox = new System.Windows.Forms.GroupBox();
             this.Ch1CheckBox = new System.Windows.Forms.CheckBox();
             this.Ch2CheckBox = new System.Windows.Forms.CheckBox();
@@ -40,6 +38,8 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.OKButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
+            this.StartTimeText = new System.Windows.Forms.MaskedTextBox();
+            this.EndTimeText = new System.Windows.Forms.MaskedTextBox();
             this.ChannelsGroupBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -62,27 +62,6 @@
             this.label16.TabIndex = 64;
             this.label16.Text = "Начальное время:";
             this.label16.Click += new System.EventHandler(this.label16_Click);
-            // 
-            // dateTimeEnd
-            // 
-            this.dateTimeEnd.CustomFormat = "HH:mm";
-            this.dateTimeEnd.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimeEnd.Location = new System.Drawing.Point(18, 99);
-            this.dateTimeEnd.Name = "dateTimeEnd";
-            this.dateTimeEnd.Size = new System.Drawing.Size(156, 20);
-            this.dateTimeEnd.TabIndex = 63;
-            this.dateTimeEnd.Value = new System.DateTime(2014, 2, 28, 14, 40, 31, 0);
-            // 
-            // dateTimeStart
-            // 
-            this.dateTimeStart.CustomFormat = "HH:mm";
-            this.dateTimeStart.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimeStart.Location = new System.Drawing.Point(18, 43);
-            this.dateTimeStart.Name = "dateTimeStart";
-            this.dateTimeStart.Size = new System.Drawing.Size(156, 20);
-            this.dateTimeStart.TabIndex = 62;
-            this.dateTimeStart.UseWaitCursor = true;
-            this.dateTimeStart.Value = new System.DateTime(2014, 2, 28, 14, 43, 28, 0);
             // 
             // ChannelsGroupBox
             // 
@@ -139,10 +118,10 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.EndTimeText);
+            this.groupBox1.Controls.Add(this.StartTimeText);
             this.groupBox1.Controls.Add(this.label16);
             this.groupBox1.Controls.Add(this.label17);
-            this.groupBox1.Controls.Add(this.dateTimeStart);
-            this.groupBox1.Controls.Add(this.dateTimeEnd);
             this.groupBox1.Location = new System.Drawing.Point(12, 93);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(196, 147);
@@ -169,6 +148,26 @@
             this.CancelButton.UseVisualStyleBackColor = true;
             this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
+            // StartTimeText
+            // 
+            this.StartTimeText.Location = new System.Drawing.Point(18, 43);
+            this.StartTimeText.Mask = "00:00";
+            this.StartTimeText.Name = "StartTimeText";
+            this.StartTimeText.Size = new System.Drawing.Size(42, 20);
+            this.StartTimeText.TabIndex = 66;
+            this.StartTimeText.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.StartTimeText.ValidatingType = typeof(System.DateTime);
+            // 
+            // EndTimeText
+            // 
+            this.EndTimeText.Location = new System.Drawing.Point(18, 99);
+            this.EndTimeText.Mask = "00:00";
+            this.EndTimeText.Name = "EndTimeText";
+            this.EndTimeText.Size = new System.Drawing.Size(42, 20);
+            this.EndTimeText.TabIndex = 67;
+            this.EndTimeText.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.EndTimeText.ValidatingType = typeof(System.DateTime);
+            // 
             // IntervalForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -192,8 +191,6 @@
         #endregion
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.DateTimePicker dateTimeEnd;
-        private System.Windows.Forms.DateTimePicker dateTimeStart;
         private System.Windows.Forms.GroupBox ChannelsGroupBox;
         private System.Windows.Forms.CheckBox Ch4CheckBox;
         private System.Windows.Forms.CheckBox Ch3CheckBox;
@@ -202,5 +199,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button OKButton;
         private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.MaskedTextBox StartTimeText;
+        private System.Windows.Forms.MaskedTextBox EndTimeText;
     }
 }
