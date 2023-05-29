@@ -50,18 +50,18 @@
             this.label17.AutoSize = true;
             this.label17.Location = new System.Drawing.Point(274, 227);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(62, 13);
+            this.label17.Size = new System.Drawing.Size(58, 13);
             this.label17.TabIndex = 65;
-            this.label17.Text = "Ending time";
+            this.label17.Text = "Конечное ";
             // 
             // label16
             // 
             this.label16.AutoSize = true;
             this.label16.Location = new System.Drawing.Point(274, 185);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(76, 13);
+            this.label16.Size = new System.Drawing.Size(97, 13);
             this.label16.TabIndex = 64;
-            this.label16.Text = "Beginning time";
+            this.label16.Text = "Начальное время";
             // 
             // dateTimeEnd
             // 
@@ -95,7 +95,7 @@
             this.Controls.Add(this.dateTimeEnd);
             this.Controls.Add(this.dateTimeStart);
             this.Name = "IntervalForm";
-            this.Text = "Form1";
+            this.Text = "Добавление интервала";
             this.Load += new System.EventHandler(this.IntervalForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);

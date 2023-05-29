@@ -80,6 +80,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.TimeLabel = new System.Windows.Forms.Label();
+            this.DateTimeLabel = new System.Windows.Forms.Label();
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -104,6 +105,7 @@
             this.DevicesList.UseCompatibleStateImageBehavior = false;
             this.DevicesList.View = System.Windows.Forms.View.Details;
             this.DevicesList.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listViewIPChannel_ItemSelectionChanged);
+            this.DevicesList.SelectedIndexChanged += new System.EventHandler(this.DevicesList_SelectedIndexChanged);
             // 
             // ColumnHeader1
             // 
@@ -353,11 +355,21 @@
             this.TimeLabel.TabIndex = 47;
             this.TimeLabel.Text = "Текущее время:";
             // 
+            // DateTimeLabel
+            // 
+            this.DateTimeLabel.AutoSize = true;
+            this.DateTimeLabel.Location = new System.Drawing.Point(96, 9);
+            this.DateTimeLabel.Name = "DateTimeLabel";
+            this.DateTimeLabel.Size = new System.Drawing.Size(56, 13);
+            this.DateTimeLabel.TabIndex = 48;
+            this.DateTimeLabel.Text = "TimeLabel";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1321, 723);
+            this.Controls.Add(this.DateTimeLabel);
             this.Controls.Add(this.TimeLabel);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
@@ -410,6 +422,7 @@
         private System.Windows.Forms.Button EditScheduleButton;
         private System.Windows.Forms.Button DelScheduleButton;
         private System.Windows.Forms.Label TimeLabel;
+        private System.Windows.Forms.Label DateTimeLabel;
     }
 }
 

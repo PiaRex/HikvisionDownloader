@@ -27,6 +27,7 @@ namespace NVRCsharpDemo
         private string sPlayBackFileName = null;
         private Int32 i = 0;
         private Int32 m_lTree = 0;
+        private Timer currentTimeTimer = new Timer();
 
         private bool m_bPause = false;
         private bool m_bReverse = false;
@@ -58,6 +59,10 @@ namespace NVRCsharpDemo
         public MainWindow()
         {
             InitializeComponent();
+            currentTimeTimer.Interval = 1000;
+            currentTimeTimer.Tick += Timer_Tick;
+            currentTimeTimer.Start();
+
             m_bInitSDK = CHCNetSDK.NET_DVR_Init();
             if (m_bInitSDK == false)
             {
@@ -465,10 +470,15 @@ namespace NVRCsharpDemo
                         timerDownload.Stop();
                     }
                 }*/
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            //Show current time
+            DateTimeLabel.Text = DateTime.Now.ToLongTimeString();
+        }
         private void MainWindow_Load(object sender, EventArgs e)
         {
-            //Initialize time
-            TimeLabel.Text = DateTime.Now.ToShortDateString();
+            //Initialize current time
+            DateTimeLabel.Text = DateTime.Now.ToLongTimeString();
         }
 
         private void btn_Exit_Click(object sender, EventArgs e)
@@ -590,6 +600,11 @@ namespace NVRCsharpDemo
         }
 
         private void textBoxIP_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void DevicesList_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
