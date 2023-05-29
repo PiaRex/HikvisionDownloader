@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace NVRCsharpDemo
 {
-    internal class Class1
+    internal class Monitor
     {
+        public static void TimeMonitor() 
+        { 
+            //каждый час просматриваем файл 
+        }
+        private void Downloader() { }
     }
 }
