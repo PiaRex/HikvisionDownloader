@@ -83,6 +83,7 @@
             this.TimeLabel = new System.Windows.Forms.Label();
             this.DateTimeLabel = new System.Windows.Forms.Label();
             this.buttonStartService = new System.Windows.Forms.Button();
+            this.StatusServiceLabel = new System.Windows.Forms.Label();
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -383,19 +384,32 @@
             // 
             // buttonStartService
             // 
-            this.buttonStartService.Location = new System.Drawing.Point(194, 4);
+            this.buttonStartService.Location = new System.Drawing.Point(282, 3);
             this.buttonStartService.Name = "buttonStartService";
             this.buttonStartService.Size = new System.Drawing.Size(116, 33);
             this.buttonStartService.TabIndex = 35;
             this.buttonStartService.Text = "СТАРТ";
             this.buttonStartService.UseVisualStyleBackColor = true;
-            this.buttonStartService.Click += new System.EventHandler(this.button1_Click);
+            this.buttonStartService.Click += new System.EventHandler(this.buttonStartService_Click);
+            // 
+            // StatusServiceLabel
+            // 
+            this.StatusServiceLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.StatusServiceLabel.AutoSize = true;
+            this.StatusServiceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.StatusServiceLabel.Location = new System.Drawing.Point(571, 5);
+            this.StatusServiceLabel.Name = "StatusServiceLabel";
+            this.StatusServiceLabel.Size = new System.Drawing.Size(297, 24);
+            this.StatusServiceLabel.TabIndex = 49;
+            this.StatusServiceLabel.Text = "Статус сервиса: Остановлен";
+            this.StatusServiceLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1321, 752);
+            this.Controls.Add(this.StatusServiceLabel);
             this.Controls.Add(this.buttonStartService);
             this.Controls.Add(this.DateTimeLabel);
             this.Controls.Add(this.TimeLabel);
@@ -453,6 +467,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBoxDeviceName;
         private System.Windows.Forms.Button buttonStartService;
+        private System.Windows.Forms.Label StatusServiceLabel;
     }
 }
 

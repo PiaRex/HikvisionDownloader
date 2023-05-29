@@ -610,13 +610,20 @@ namespace NVRCsharpDemo
         private void buttonStartService_Click(object sender, EventArgs e)
         {
             
-            if (service=false)
+            if (!service)
             {
-
-                buttonStartService.BackColor = Color.Green;
-                service
+                buttonStartService.Text = "СТОП";
+                StatusServiceLabel.ForeColor = Color.Green;
+                StatusServiceLabel.Text = "Статус сервиса: Запущен";
+                service = true;
             }
-            
+            else
+            {
+                buttonStartService.Text= "СТАРТ";
+                StatusServiceLabel.ForeColor = Color.Black;
+                StatusServiceLabel.Text = "Статус сервиса: Остановлен";
+                service = false;
+            }      
         }
     }
 }
