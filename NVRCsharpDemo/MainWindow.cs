@@ -543,7 +543,6 @@ namespace NVRCsharpDemo
                 {
                     //Login successsfully
                     MessageBox.Show("Login Success!");
-                    LoginButton.Text = "Logout";
 
                     dwAChanTotalNum = (uint)DeviceInfo.byChanNum;
                     dwDChanTotalNum = (uint)DeviceInfo.byIPChanNum + 256 * (uint)DeviceInfo.byHighDChanNum;
@@ -595,7 +594,6 @@ namespace NVRCsharpDemo
                 }
                 DevicesList.Items.Clear();//Clear channel list
                 m_lUserID = -1;
-                LoginButton.Text = "Login";
             }
             return;
         }
