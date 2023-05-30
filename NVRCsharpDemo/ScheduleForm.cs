@@ -21,6 +21,7 @@ namespace NVRCsharpDemo
         private void ScheduleForm_Load(object sender, EventArgs e)
         {
             mainWindow = Application.OpenForms.OfType<MainWindow>().FirstOrDefault();
+            
             this.Left = mainWindow.Left + 560;
             this.Top = mainWindow.Top + 240;
         }

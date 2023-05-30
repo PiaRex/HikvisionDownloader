@@ -106,7 +106,7 @@
             this.DevicesList.TabIndex = 32;
             this.DevicesList.UseCompatibleStateImageBehavior = false;
             this.DevicesList.View = System.Windows.Forms.View.Details;
-            this.DevicesList.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listViewIPChannel_ItemSelectionChanged);
+            this.DevicesList.SelectedIndexChanged += new System.EventHandler(this.DevicesList_SelectedIndexChanged);
             // 
             // ColumnHeader1
             // 
@@ -275,6 +275,7 @@
             this.textBoxDeviceName.Name = "textBoxDeviceName";
             this.textBoxDeviceName.Size = new System.Drawing.Size(147, 20);
             this.textBoxDeviceName.TabIndex = 34;
+            this.textBoxDeviceName.Text = "Тест";
             // 
             // label5
             // 

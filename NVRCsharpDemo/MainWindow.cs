@@ -31,7 +31,7 @@ namespace NVRCsharpDemo
         private Int32 i = 0;
         private Int32 m_lTree = 0;
         private Timer currentTimeTimer = new Timer();
-        private long iSelIndex = 0;
+        private int DeviceIndex = 0;
         private uint dwAChanTotalNum = 0;
         private uint dwDChanTotalNum = 0;
         public CHCNetSDK.NET_DVR_DEVICEINFO_V30 DeviceInfo;
@@ -40,10 +40,11 @@ namespace NVRCsharpDemo
         public CHCNetSDK.NET_DVR_IPCHANINFO m_struChanInfo;
 
         public string StatusText { get { return StatusServiceLabel.Text; } set { StatusServiceLabel.Text = value; } }
-        Form scheduleForm = new ScheduleForm();
+        
 
         public class DataReg // данные регистратора
         {
+            public string DeviceName { get; set; }
             public string DeviceIP { get; set; }
             public string DevicePort { get; set; }
             public string UserName { get; set; }
@@ -547,14 +548,19 @@ namespace NVRCsharpDemo
 
                     DataRegList.Add(new DataReg
                     {
+                        DeviceName = textBoxDeviceName.Text,
                         DeviceIP = textBoxIP.Text,
                         DevicePort = textBoxPort.Text,
                         UserName = textBoxUserName.Text,
                         Password = textBoxPassword.Text
-                    });
+                    }) ;
 
                     FileOperations.SaveDataReg(DataRegList);
 
+                    DevicesList.Items.Clear();
+                    foreach (DataReg Item in DataRegList)
+                    { DevicesList.Items.Add(new ListViewItem(new string[] { Item.DeviceName, Item.DeviceIP, Item.DevicePort, Item.UserName })); }
+                    m_lUserID = -1;
                 }
 
             }
@@ -582,9 +588,11 @@ namespace NVRCsharpDemo
 
         private void AddIntervalButton_Click(object sender, EventArgs e)
         {
+            Form scheduleForm = new ScheduleForm();
             scheduleForm.Left = this.Left + 560;
             scheduleForm.Top = this.Top + 240;
             scheduleForm.Show();
+            scheduleForm.
         }
 
         private void buttonStartService_Click(object sender, EventArgs e)
@@ -613,5 +621,20 @@ namespace NVRCsharpDemo
         public static bool getStatusService() { return service; }
         public void UpdateStatusServiceLabel(string newText)
         { StatusServiceLabel.Text = newText; }
+
+        public string GetSelectedDeviceName(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            if (DevicesList.SelectedItems.Count > 0)
+            {
+                string deviceName = DevicesList.SelectedItems[0].Text;  //Select the current items
+                return deviceName;
+            }
+            return null;
+        }
+
+        private void DevicesList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
