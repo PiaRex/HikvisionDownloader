@@ -15,7 +15,7 @@ namespace NVRCsharpDemo
     public partial class MainWindow : Form
 
     {
-        private bool service=false;
+        public static bool service = false;
 
         private bool m_bInitSDK = false;
         private uint iLastErr = 0;
@@ -38,6 +38,8 @@ namespace NVRCsharpDemo
         public CHCNetSDK.NET_DVR_IPPARACFG_V40 m_struIpParaCfgV40;
         public CHCNetSDK.NET_DVR_GET_STREAM_UNION m_unionGetStream;
         public CHCNetSDK.NET_DVR_IPCHANINFO m_struChanInfo;
+
+        public string StatusText { get { return StatusServiceLabel.Text; } set { StatusServiceLabel.Text = value; } }
         Form scheduleForm = new ScheduleForm();
 
         public class DataReg // данные регистратора
@@ -52,10 +54,11 @@ namespace NVRCsharpDemo
         public class DataShedule // расписание на скачку
         {
             public string DeviceIP { get; set; }
-            public string Channel1 { get; set; }
-            public string Channel2 { get; set; }
-            public string Channel3 { get; set; }
-            public string Channel4 { get; set; }
+            public string startDownloadTime { get; set; }
+            public int channelNum { get; set; }
+            public DateTime downloadStartInterval { get; set; }
+            public DateTime downloadEndInterval { get; set; }
+
         }
 
         // создание колекции обьектов
@@ -85,11 +88,6 @@ namespace NVRCsharpDemo
                 CHCNetSDK.NET_DVR_SetLogToFile(3, "C:\\SdkLog\\", true);
                 iChannelNum = new int[96];
             }
-        }
-
-        private void btnLogin_Click(object sender, EventArgs e)
-        {
-
         }
 
         public void InfoIPChannel()
@@ -492,7 +490,9 @@ namespace NVRCsharpDemo
 
         private void DelDeviceButton_Click(object sender, EventArgs e)
         {
-
+            DeviceController deviceController = new DeviceController();
+            DateTime now = DateTime.Now;
+            deviceController.DownloadDeviceVideo("178.64.253.11", "8000", "Test", "qwer1234", 2, now,now);
         }
 
         private void LoginButton_Click(object sender, EventArgs e)
@@ -589,21 +589,29 @@ namespace NVRCsharpDemo
 
         private void buttonStartService_Click(object sender, EventArgs e)
         {
-            
+
             if (!service)
             {
+                //Start the service
+                service = true;
+                //todo когда сервис запущен заблочит возможность добавления новых региков и расписания, что-бы каждый раз не читать из файла
+                Monitor.TimeMonitor(StatusServiceLabel);
                 buttonStartService.Text = "СТОП";
                 StatusServiceLabel.ForeColor = Color.Green;
-                StatusServiceLabel.Text = "Статус сервиса: Запущен";
-                service = true;
             }
             else
             {
-                buttonStartService.Text= "СТАРТ";
+                service = false;
+                //todo восстановить возможность редактировать регики и расписание
+                buttonStartService.Text = "СТАРТ";
                 StatusServiceLabel.ForeColor = Color.Black;
                 StatusServiceLabel.Text = "Статус сервиса: Остановлен";
-                service = false;
-            }      
+
+            }
         }
+
+        public static bool getStatusService() { return service; }
+        public void UpdateStatusServiceLabel(string newText)
+        { StatusServiceLabel.Text = newText; }
     }
 }

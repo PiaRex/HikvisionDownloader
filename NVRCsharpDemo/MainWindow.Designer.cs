@@ -463,7 +463,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBoxDeviceName;
         private System.Windows.Forms.Button buttonStartService;
-        private System.Windows.Forms.Label StatusServiceLabel;
+        public System.Windows.Forms.Label StatusServiceLabel;
     }
 }
 
