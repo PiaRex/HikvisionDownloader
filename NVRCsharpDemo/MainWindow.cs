@@ -580,26 +580,6 @@ namespace NVRCsharpDemo
             return;
         }
 
-        private void textBoxIP_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void DevicesList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void AddIntervalButton_Click(object sender, EventArgs e)
         {
             scheduleForm.Left = this.Left + 560;

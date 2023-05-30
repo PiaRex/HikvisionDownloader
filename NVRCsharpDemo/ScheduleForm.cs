@@ -32,10 +32,7 @@ namespace NVRCsharpDemo
         private void CancelButton_Click(object sender, EventArgs e)
         {
             this.Hide();
-            if (mainWindow != null)
-            {
-                mainWindow.Activate();
-            }
+            if (mainWindow != null) mainWindow.Activate();
         }
 
         private void AddIntervalButton_Click(object sender, EventArgs e)

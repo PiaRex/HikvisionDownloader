@@ -25,20 +25,10 @@ namespace NVRCsharpDemo
             this.Top = scheduleForm.Top;
         }
 
-        private void label16_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void CancelButton_Click(object sender, EventArgs e)
         {
             this.Hide();
-            if (scheduleForm != null)
-            {
-
-                scheduleForm.Activate();
-                scheduleForm.Enabled = true;
-            }
+            if (scheduleForm != null) scheduleForm.Activate();
             else MessageBox.Show("mainWindow");
         }
     

@@ -61,7 +61,6 @@
             this.label16.Size = new System.Drawing.Size(100, 13);
             this.label16.TabIndex = 64;
             this.label16.Text = "Начальное время:";
-            this.label16.Click += new System.EventHandler(this.label16_Click);
             // 
             // ChannelsGroupBox
             // 

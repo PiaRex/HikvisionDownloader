@@ -107,7 +107,6 @@
             this.DevicesList.UseCompatibleStateImageBehavior = false;
             this.DevicesList.View = System.Windows.Forms.View.Details;
             this.DevicesList.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listViewIPChannel_ItemSelectionChanged);
-            this.DevicesList.SelectedIndexChanged += new System.EventHandler(this.DevicesList_SelectedIndexChanged);
             // 
             // ColumnHeader1
             // 
@@ -285,7 +284,6 @@
             this.label5.Size = new System.Drawing.Size(89, 13);
             this.label5.TabIndex = 33;
             this.label5.Text = "Имя устройства";
-            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // textBoxPassword
             // 
@@ -320,7 +318,6 @@
             this.textBoxIP.Size = new System.Drawing.Size(94, 20);
             this.textBoxIP.TabIndex = 29;
             this.textBoxIP.Text = "178.64.253.11";
-            this.textBoxIP.TextChanged += new System.EventHandler(this.textBoxIP_TextChanged);
             // 
             // LoginButton
             // 
@@ -362,7 +359,6 @@
             this.label4.Size = new System.Drawing.Size(79, 18);
             this.label4.TabIndex = 26;
             this.label4.Text = "Порт";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // TimeLabel
             // 
