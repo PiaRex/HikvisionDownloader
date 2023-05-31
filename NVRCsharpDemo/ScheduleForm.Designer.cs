@@ -94,7 +94,6 @@
             this.SheduleDeviceTable.TabIndex = 4;
             this.SheduleDeviceTable.UseCompatibleStateImageBehavior = false;
             this.SheduleDeviceTable.View = System.Windows.Forms.View.Details;
-            this.SheduleDeviceTable.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             // 
             // columnHeader1
             // 

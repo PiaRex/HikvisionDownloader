@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CHCNetSDK.cs" />
+    <Compile Include="ConfigurationData.cs" />
     <Compile Include="DeviceController.cs" />
     <Compile Include="FileOperations.cs" />
     <Compile Include="Monitor.cs" />

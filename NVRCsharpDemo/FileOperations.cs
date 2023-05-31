@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;  // требуется NuGet-пакет Newtonsoft.Json
 using System.IO;
 using static NVRCsharpDemo.MainWindow;
+using DATAREG = NVRCsharpDemo.ConfigurationData.DataReg;
+using DATASHEDULE = NVRCsharpDemo.ConfigurationData.DataShedule;
 
 namespace NVRCsharpDemo
 {
     public static class FileOperations
     {
-        public static List<DataReg> LoadDataReg() // чтение данных о регике
+        public static List<DATAREG> LoadDataReg() // чтение данных о регике
         {
             string json;
             // проверка, есть ли файл
@@ -19,53 +21,55 @@ namespace NVRCsharpDemo
             {
                 // загрузка массива объектов из файла
                 json = File.ReadAllText("DataReg.json");
-                List<DataReg> readDataRegList =
-                    JsonConvert.DeserializeObject<List<DataReg>>(json);
+                List<DATAREG> readDataRegList =
+                    JsonConvert.DeserializeObject<List<DATAREG>>(json);
                 return readDataRegList;
             }
-            return new List<DataReg>();
+            return new List<DATAREG>();
         }
 
-        public static void SaveDataReg(List<DataReg> saveDataList) // запись данных о регике
+        public static void SaveDataReg(List<DATAREG> saveDataList) // запись данных о регике
         {
             string json = JsonConvert.SerializeObject(saveDataList, Formatting.Indented);
             File.WriteAllText("DataReg.json", json);
         }
 
-        public static List<DataShedule> LoadDataShedule() // чтение данных расписание
+        public static List<DATASHEDULE> LoadDataShedule() // чтение данных расписание
         {
             string json;
             if (File.Exists("DataShedule.json"))
             {
                 json = File.ReadAllText("DataShedule.json");
-                List<DataShedule> readDataSheduleList =
-                    JsonConvert.DeserializeObject<List<DataShedule>>(json);
+                List<DATASHEDULE> readDataSheduleList =
+                    JsonConvert.DeserializeObject<List<DATASHEDULE>>(json);
                 return readDataSheduleList;
             }
-            return new List<DataShedule>();
+            return new List<DATASHEDULE>();
         }
 
-        public static void SaveDataSchedule(List<DataShedule> saveDataSheduleList) // сохранение данных расписание
+        public static void SaveDataSchedule(List<DATASHEDULE> saveDataSheduleList) // сохранение данных расписание
         {
-            string json = JsonConvert.SerializeObject(saveDataSheduleList);
-            File.WriteAllText("DataShedule", json);
+            int i=0;
+            saveDataSheduleList.ForEach(s => { s.ID = i++; });
+            string json = JsonConvert.SerializeObject(saveDataSheduleList, Formatting.Indented);
+            File.WriteAllText("DataShedule.json", json);
         }
 
         public static void DeleteDevice(string deviceIP)
         {
             string json = File.ReadAllText("DataReg.json");
-            List<DataReg> DataRegList =
-                JsonConvert.DeserializeObject<List<DataReg>>(json);
+            List<DATAREG> DataRegList =
+                JsonConvert.DeserializeObject<List<DATAREG>>(json);
             DataRegList.Remove(DataRegList.FirstOrDefault(x => x.DeviceIP == deviceIP));
             json = JsonConvert.SerializeObject(DataRegList, Formatting.Indented);
             File.WriteAllText("DataReg.json", json);
         }
 
-        public static DataReg GetDeviceReg(string deviceIP) 
+        public static DATAREG GetDeviceReg(string deviceIP) 
         { 
             string json = File.ReadAllText("DataReg.json");
-            List<DataReg> DataRegList =
-                JsonConvert.DeserializeObject<List<DataReg>>(json);
+            List<DATAREG> DataRegList =
+                JsonConvert.DeserializeObject<List<DATAREG>>(json);
             return DataRegList.FirstOrDefault(x => x.DeviceIP == deviceIP);
         }
     }

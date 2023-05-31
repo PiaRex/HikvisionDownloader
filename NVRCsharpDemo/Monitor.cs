@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static NVRCsharpDemo.MainWindow;
+using DATAREG = NVRCsharpDemo.ConfigurationData.DataReg;
+using DATASHEDULE = NVRCsharpDemo.ConfigurationData.DataShedule;
+using CHANNEL = NVRCsharpDemo.ConfigurationData.Channel;
+
 
 namespace NVRCsharpDemo
 {
@@ -22,8 +26,8 @@ namespace NVRCsharpDemo
         private static void ScanTime(Label StatusServiceLabel)
         {
             // Читаем данные из файла
-            List<DataReg> DataRegList = FileOperations.LoadDataReg(); // чтение данных о регике
-            List<DataShedule> DataSheduleList = FileOperations.LoadDataShedule(); // чтение данных расписание  
+            List<DATAREG> DataRegList = FileOperations.LoadDataReg(); // чтение данных о регике
+            List<DATASHEDULE> DataSheduleList = FileOperations.LoadDataShedule(); // чтение данных расписание  
 
             int i = 0;
             while (true)
@@ -33,10 +37,10 @@ namespace NVRCsharpDemo
 
                 // Проверьте текущее время каждую минуту 
 
-                foreach (var item in DataSheduleList)
+           /*     foreach (var item in DataSheduleList)
                 {
 
-                    DataReg currentDataReg = DataRegList.FirstOrDefault(x => x.DeviceIP == item.DeviceIP);
+                    DATAREG currentDataReg = DataRegList.FirstOrDefault(x => x.DeviceIP == item.DeviceIP);
                     DateTime downloadStartTime = item.downloadStartInterval;
                     DateTime now = DateTime.Now;
 
@@ -44,7 +48,7 @@ namespace NVRCsharpDemo
                     {
                         // запустить в отдельном потоке закачку каждого канала
                     }
-                }
+                }*/
 
                 // todo Изменить StatusServiceLabel на MainWindow
                 StatusServiceLabel.Invoke((MethodInvoker)(() => StatusServiceLabel.Text = "сервер запущен: " + " итерация: " + i++));

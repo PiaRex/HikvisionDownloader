@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using DATAREG = NVRCsharpDemo.ConfigurationData.DataReg;
+using DATASHEDULE = NVRCsharpDemo.ConfigurationData.DataShedule;
+using CHANNEL = NVRCsharpDemo.ConfigurationData.Channel;
 
 namespace NVRCsharpDemo
 {
@@ -27,81 +30,33 @@ namespace NVRCsharpDemo
         private uint iDChanNum;
         private byte byStreamType;
         private uint dwSize;
-        public DataReg loginData;
 
         public CHCNetSDK.NET_DVR_DEVICEINFO_V30 DeviceInfo;
         public CHCNetSDK.NET_DVR_IPPARACFG_V40 m_struIpParaCfgV40;
         public CHCNetSDK.NET_DVR_GET_STREAM_UNION m_unionGetStream;
         public CHCNetSDK.NET_DVR_IPCHANINFO m_struChanInfo;
+        List<CHANNEL> listChannel = new List<CHANNEL>();
 
-        public class DataReg // данные регистратора
+        public List<CHANNEL> getDeviceChannel(string deviceIP)
         {
-            public string DeviceName { get; set; }
-            public string DeviceIP { get; set; }
-            public string DevicePort { get; set; }
-            public string UserName { get; set; }
-            public string Password { get; set; }
-        }
 
-        public class Channel
-        {
-            public int ChannelNum { get; set; }
-            public byte IPID { get; set; }
-        }
-
-        public List<Channel> getDeviceChannel(string deviceIP) {
-            
             LoginDevice(FileOperations.GetDeviceReg(deviceIP));
-            List <Channel> listChannel = new List <Channel>();
-            for (int i = 0; i < iDChanNum; i++)
-            {
-                iChannelNum[i + dwAChanTotalNum] = i + (int)m_struIpParaCfgV40.dwStartDChan;
-                //MessageBox.Show(iChannelNum[i].ToString());
-
-                byStreamType = m_struIpParaCfgV40.struStreamMode[i].byGetStreamType;
-                m_unionGetStream = m_struIpParaCfgV40.struStreamMode[i].uGetStream;
-
-                switch (byStreamType)
-                {
-                    //At present NVR just support case 0-one way to get stream from device
-                    case 0:
-                        dwSize = (uint)Marshal.SizeOf(m_unionGetStream);
-                        IntPtr ptrChanInfo = Marshal.AllocHGlobal((Int32)dwSize);
-                        Marshal.StructureToPtr(m_unionGetStream, ptrChanInfo, false);
-                        m_struChanInfo = (CHCNetSDK.NET_DVR_IPCHANINFO)Marshal.PtrToStructure(ptrChanInfo, typeof(CHCNetSDK.NET_DVR_IPCHANINFO));
-
-                        //добавить в массив найденный ип
-                        listChannel.Add(new Channel
-                        {
-                            ChannelNum = i,
-                            IPID = m_struChanInfo.byIPID
-                        });
-                            
-                        MessageBox.Show(i.ToString());
-                        Marshal.FreeHGlobal(ptrChanInfo);
-                        break;
-
-                    default:
-                        break;
-                }
-               
-            }
             return listChannel;
         }
-        
-        public void LoginDevice(DataReg loginData)
+
+        public void LoginDevice(DATAREG loginData)
         {
-            
+
             if (m_lUserID < 0)
             {
                 //Login the device
                 Int16 PortNumber = Int16.Parse(loginData.DevicePort);//Service port of device
                 m_lUserID = CHCNetSDK.NET_DVR_Login_V30
                     (
-                    loginData.DeviceIP, 
-                    PortNumber, 
-                    loginData.UserName, 
-                    loginData.Password, 
+                    loginData.DeviceIP,
+                    PortNumber,
+                    loginData.UserName,
+                    loginData.Password,
                     ref DeviceInfo
                     );
                 if (m_lUserID < 0)
@@ -117,8 +72,8 @@ namespace NVRCsharpDemo
                 {
                     //статус расписания загружен успешно залогинились
                     MessageBox.Show("Login Success!");
-                    DeviceInfo = new CHCNetSDK.NET_DVR_DEVICEINFO_V30();
                     iChannelNum = new int[96];
+                    dwAChanTotalNum = (uint)DeviceInfo.byChanNum;
                     dwDChanTotalNum = (uint)DeviceInfo.byIPChanNum + 256 * (uint)DeviceInfo.byHighDChanNum;
                     InfoIPChannel();
                 }
@@ -127,7 +82,6 @@ namespace NVRCsharpDemo
 
         public void InfoIPChannel()
         {
-            MessageBox.Show("InfoIP");
             dwSize = (uint)Marshal.SizeOf(m_struIpParaCfgV40);
 
             IntPtr ptrIpParaCfgV40 = Marshal.AllocHGlobal((Int32)dwSize);
@@ -146,14 +100,14 @@ namespace NVRCsharpDemo
                 // succ
                 m_struIpParaCfgV40 = (CHCNetSDK.NET_DVR_IPPARACFG_V40)Marshal.PtrToStructure(ptrIpParaCfgV40, typeof(CHCNetSDK.NET_DVR_IPPARACFG_V40));
 
-                
+
                 iDChanNum = 64;
-                totalNumChannels = m_struIpParaCfgV40.dwStartDChan-1;
+                totalNumChannels = m_struIpParaCfgV40.dwStartDChan - 1;
                 if (dwDChanTotalNum < 64)
                 {
                     iDChanNum = dwDChanTotalNum; //If the ip channels of device is less than 64,will get the real channel of device
                 }
-
+                listChannel.Clear();
                 for (int i = 0; i < iDChanNum; i++)
                 {
                     iChannelNum[i + dwAChanTotalNum] = i + (int)m_struIpParaCfgV40.dwStartDChan;
@@ -170,7 +124,12 @@ namespace NVRCsharpDemo
                             Marshal.StructureToPtr(m_unionGetStream, ptrChanInfo, false);
                             m_struChanInfo = (CHCNetSDK.NET_DVR_IPCHANINFO)Marshal.PtrToStructure(ptrChanInfo, typeof(CHCNetSDK.NET_DVR_IPCHANINFO));
 
-                            //List ip channels
+                            //добавить в массив найденный ип                      
+                            listChannel.Add(new CHANNEL
+                            {
+                                ChannelNum = i+1,
+                                IPID = m_struChanInfo.byIPID
+                            });
                             Marshal.FreeHGlobal(ptrChanInfo);
 
                             break;
@@ -212,13 +171,13 @@ namespace NVRCsharpDemo
             // начать закачку с указанным интевалом
             CHCNetSDK.NET_DVR_PLAYCOND struDownPara = new CHCNetSDK.NET_DVR_PLAYCOND();
 
-            struDownPara.dwChannel = totalNumChannels+Channel;  
+            struDownPara.dwChannel = totalNumChannels + Channel;
 
             //Set the starting time
             struDownPara.struStartTime.dwYear = (uint)StartTime.Year;
             struDownPara.struStartTime.dwMonth = (uint)StartTime.Month;
             struDownPara.struStartTime.dwDay = (uint)StartTime.Day;
-            struDownPara.struStartTime.dwHour = (uint)StartTime.Hour-4;
+            struDownPara.struStartTime.dwHour = (uint)StartTime.Hour - 4;
             struDownPara.struStartTime.dwMinute = (uint)StartTime.Minute;
             struDownPara.struStartTime.dwSecond = (uint)StartTime.Second;
 
@@ -226,8 +185,8 @@ namespace NVRCsharpDemo
             struDownPara.struStopTime.dwYear = (uint)StartTime.Year;
             struDownPara.struStopTime.dwMonth = (uint)StartTime.Month;
             struDownPara.struStopTime.dwDay = (uint)StartTime.Day;
-            struDownPara.struStopTime.dwHour = (uint)StartTime.Hour -4;
-            struDownPara.struStopTime.dwMinute = (uint)StartTime.Minute+5;
+            struDownPara.struStopTime.dwHour = (uint)StartTime.Hour - 4;
+            struDownPara.struStopTime.dwMinute = (uint)StartTime.Minute + 5;
             struDownPara.struStopTime.dwSecond = (uint)StartTime.Second;
 
             string sVideoFileName;  //the path and file name to save      

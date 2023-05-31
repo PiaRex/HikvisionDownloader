@@ -41,7 +41,7 @@
             this.OKButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
+            this.StartDownloadTextbox = new System.Windows.Forms.MaskedTextBox();
             this.ChannelsGroupBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -173,7 +173,7 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.maskedTextBox1);
+            this.groupBox2.Controls.Add(this.StartDownloadTextbox);
             this.groupBox2.Location = new System.Drawing.Point(12, 93);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(196, 64);
@@ -181,14 +181,14 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Время начала загрузки";
             // 
-            // maskedTextBox1
+            // StartDownloadTextbox
             // 
-            this.maskedTextBox1.Location = new System.Drawing.Point(18, 29);
-            this.maskedTextBox1.Mask = "00:00";
-            this.maskedTextBox1.Name = "maskedTextBox1";
-            this.maskedTextBox1.Size = new System.Drawing.Size(42, 20);
-            this.maskedTextBox1.TabIndex = 0;
-            this.maskedTextBox1.ValidatingType = typeof(System.DateTime);
+            this.StartDownloadTextbox.Location = new System.Drawing.Point(18, 29);
+            this.StartDownloadTextbox.Mask = "00:00";
+            this.StartDownloadTextbox.Name = "StartDownloadTextbox";
+            this.StartDownloadTextbox.Size = new System.Drawing.Size(42, 20);
+            this.StartDownloadTextbox.TabIndex = 0;
+            this.StartDownloadTextbox.ValidatingType = typeof(System.DateTime);
             // 
             // IntervalForm
             // 
@@ -228,6 +228,6 @@
         private System.Windows.Forms.MaskedTextBox StartTimeText;
         private System.Windows.Forms.MaskedTextBox EndTimeText;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox1;
+        private System.Windows.Forms.MaskedTextBox StartDownloadTextbox;
     }
 }

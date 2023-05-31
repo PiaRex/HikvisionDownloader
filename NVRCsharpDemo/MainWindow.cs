@@ -9,6 +9,9 @@ using System.Windows.Forms;
 using System.IO;
 using System.Runtime.InteropServices;
 using Newtonsoft.Json;
+using DATAREG = NVRCsharpDemo.ConfigurationData.DataReg;
+using DATASHEDULE = NVRCsharpDemo.ConfigurationData.DataShedule;
+
 namespace NVRCsharpDemo
 {
 
@@ -38,32 +41,14 @@ namespace NVRCsharpDemo
         public CHCNetSDK.NET_DVR_IPPARACFG_V40 m_struIpParaCfgV40;
         public CHCNetSDK.NET_DVR_GET_STREAM_UNION m_unionGetStream;
         public CHCNetSDK.NET_DVR_IPCHANINFO m_struChanInfo;
-
         public string StatusText { get { return StatusServiceLabel.Text; } set { StatusServiceLabel.Text = value; } }
 
 
-        public class DataReg // данные регистратора
-        {
-            public string DeviceName { get; set; }
-            public string DeviceIP { get; set; }
-            public string DevicePort { get; set; }
-            public string UserName { get; set; }
-            public string Password { get; set; }
-        }
 
-        public class DataShedule // расписание на скачку
-        {
-            public string DeviceIP { get; set; }
-            public string startDownloadTime { get; set; }
-            public int channelNum { get; set; }
-            public DateTime downloadStartInterval { get; set; }
-            public DateTime downloadEndInterval { get; set; }
-
-        }
 
         // создание колекции обьектов
-        public List<DataReg> DataRegList = new List<DataReg>();
-        public List<DataShedule> DataSheduleList = new List<DataShedule>();
+        public List<DATAREG> DataRegList = new List<DATAREG>();
+        public List<DATASHEDULE> DataSheduleList = new List<DATASHEDULE>();
 
 
         [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = 96, ArraySubType = UnmanagedType.U4)]
@@ -77,8 +62,8 @@ namespace NVRCsharpDemo
             currentTimeTimer.Start();
 
             // забивает табличку с девайсами из файла
-            List<DataReg> DataRegList = FileOperations.LoadDataReg();
-            foreach (DataReg Item in DataRegList)
+            List<DATAREG> DataRegList = FileOperations.LoadDataReg();
+            foreach (DATAREG Item in DataRegList)
             { DevicesList.Items.Add(new ListViewItem(new string[] { Item.DeviceName, Item.DeviceIP, Item.DevicePort, Item.UserName })); }
 
             m_bInitSDK = CHCNetSDK.NET_DVR_Init();
@@ -489,7 +474,6 @@ namespace NVRCsharpDemo
                 CHCNetSDK.NET_DVR_Logout(m_lUserID);
                 m_lUserID = -1;
             }
-
             Application.Exit();
         }
 
@@ -548,9 +532,9 @@ namespace NVRCsharpDemo
                         // MessageBox.Show("This device has no IP channel!");
                     }
 
-                    List<DataReg> DataRegList = FileOperations.LoadDataReg();
+                    List<DATAREG> DataRegList = FileOperations.LoadDataReg();
 
-                    DataRegList.Add(new DataReg
+                    DataRegList.Add(new DATAREG
                     {
                         DeviceName = textBoxDeviceName.Text,
                         DeviceIP = textBoxIP.Text,
@@ -643,7 +627,7 @@ namespace NVRCsharpDemo
         {
             DevicesList.Items.Clear();
             DataRegList = FileOperations.LoadDataReg();
-            foreach (DataReg Item in DataRegList)
+            foreach (DATAREG Item in DataRegList)
             { DevicesList.Items.Add(new ListViewItem(new string[] { Item.DeviceName, Item.DeviceIP, Item.DevicePort, Item.UserName })); }
         }
     }
