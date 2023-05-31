@@ -190,7 +190,7 @@ namespace NVRCsharpDemo
 
             DevicesList.Items.Add(new ListViewItem(new string[] { str1, str2 }));//Add channels to list
         }
-
+/*
         private void listViewIPChannel_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             if (DevicesList.SelectedItems.Count > 0)
@@ -199,7 +199,7 @@ namespace NVRCsharpDemo
             }
         }
 
-
+*/
         /*       private void btnSearch_Click(object sender, EventArgs e)
                {
 
@@ -588,11 +588,11 @@ namespace NVRCsharpDemo
 
         private void AddIntervalButton_Click(object sender, EventArgs e)
         {
-            Form scheduleForm = new ScheduleForm();
+            
+            Form scheduleForm = new ScheduleForm(GetSelectedDeviceIP());
             scheduleForm.Left = this.Left + 560;
             scheduleForm.Top = this.Top + 240;
             scheduleForm.Show();
-            scheduleForm.
         }
 
         private void buttonStartService_Click(object sender, EventArgs e)
@@ -622,12 +622,12 @@ namespace NVRCsharpDemo
         public void UpdateStatusServiceLabel(string newText)
         { StatusServiceLabel.Text = newText; }
 
-        public string GetSelectedDeviceName(object sender, ListViewItemSelectionChangedEventArgs e)
+        public string GetSelectedDeviceIP()
         {
             if (DevicesList.SelectedItems.Count > 0)
             {
-                string deviceName = DevicesList.SelectedItems[0].Text;  //Select the current items
-                return deviceName;
+                string deviceIP = DevicesList.SelectedItems[1].Text;  //Select the current items
+                return deviceIP;
             }
             return null;
         }

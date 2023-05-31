@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static NVRCsharpDemo.MainWindow;
 
 namespace NVRCsharpDemo
 {
@@ -14,9 +15,14 @@ namespace NVRCsharpDemo
     {
         Form mainWindow;
         Form IntervalForm = new IntervalForm();
-        public ScheduleForm()
+        public string selectedDeviceIP;
+        public ScheduleForm(string deviceIP)
         {
             InitializeComponent();
+            selectedDeviceIP = deviceIP;
+            List<DataReg> dataRegList = FileOperations.LoadDataReg();
+            DataReg selectedDevice = dataRegList.FirstOrDefault(x => x.DeviceIP == deviceIP);
+            DeviceNameLavel.Text = selectedDevice.DeviceName;
         }
         private void ScheduleForm_Load(object sender, EventArgs e)
         {
