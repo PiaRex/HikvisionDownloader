@@ -61,10 +61,8 @@ namespace NVRCsharpDemo
             currentTimeTimer.Tick += Timer_Tick;
             currentTimeTimer.Start();
 
-            // забивает табличку с девайсами из файла
-            List<DATAREG> DataRegList = FileOperations.LoadDataReg();
-            foreach (DATAREG Item in DataRegList)
-            { DevicesList.Items.Add(new ListViewItem(new string[] { Item.DeviceName, Item.DeviceIP, Item.DevicePort, Item.UserName })); }
+            RefreshDeviceTable();
+            RefreshSheduleTable();
 
             m_bInitSDK = CHCNetSDK.NET_DVR_Init();
             if (m_bInitSDK == false)
@@ -179,268 +177,14 @@ namespace NVRCsharpDemo
 
             DevicesList.Items.Add(new ListViewItem(new string[] { str1, str2 }));//Add channels to list
         }
-        /*
-                private void listViewIPChannel_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
-                {
-                    if (DevicesList.SelectedItems.Count > 0)
-                    {
-                        iSelIndex = DevicesList.SelectedItems[0].Index;  //Select the current items
-                    }
-                }
-
-        */
-        /*       private void btnSearch_Click(object sender, EventArgs e)
-               {
-
-                   listViewFile.Items.Clear();//Clear item files
-
-                   CHCNetSDK.NET_DVR_FILECOND_V40 struFileCond_V40 = new CHCNetSDK.NET_DVR_FILECOND_V40();
-
-                   struFileCond_V40.lChannel = iChannelNum[(int)iSelIndex]; //Channel number
-                   struFileCond_V40.dwFileType = 0xff; //0xff-All，0-Timing record，1-Motion detection，2-Alarm trigger，...
-                   struFileCond_V40.dwIsLocked = 0xff; //0-unfixed file，1-fixed file，0xff means all files（including fixed and unfixed files）
-
-                   //Set the starting time to search video files
-                   struFileCond_V40.struStartTime.dwYear   = (uint)dateTimeStart.Value.Year;
-                   struFileCond_V40.struStartTime.dwMonth  = (uint)dateTimeStart.Value.Month;
-                   struFileCond_V40.struStartTime.dwDay    = (uint)dateTimeStart.Value.Day;
-                   struFileCond_V40.struStartTime.dwHour   = (uint)dateTimeStart.Value.Hour;
-                   struFileCond_V40.struStartTime.dwMinute = (uint)dateTimeStart.Value.Minute;
-                   struFileCond_V40.struStartTime.dwSecond = (uint)dateTimeStart.Value.Second;
-
-                   //Set the stopping time to search video files
-                   struFileCond_V40.struStopTime.dwYear   = (uint)dateTimeEnd.Value.Year;
-                   struFileCond_V40.struStopTime.dwMonth  = (uint)dateTimeEnd.Value.Month;
-                   struFileCond_V40.struStopTime.dwDay    = (uint)dateTimeEnd.Value.Day;
-                   struFileCond_V40.struStopTime.dwHour   = (uint)dateTimeEnd.Value.Hour;
-                   struFileCond_V40.struStopTime.dwMinute = (uint)dateTimeEnd.Value.Minute;
-                   struFileCond_V40.struStopTime.dwSecond = (uint)dateTimeEnd.Value.Second;
-
-                   //Start to search video files 
-                   m_lFindHandle = CHCNetSDK.NET_DVR_FindFile_V40(m_lUserID, ref struFileCond_V40);
-
-                   if (m_lFindHandle < 0)
-                   {
-                       iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                       str = "NET_DVR_FindFile_V40 failed, error code= " + iLastErr; //find files failed，print error code
-                       MessageBox.Show(str);
-                       return;
-                   }
-                   else
-                   {
-                       CHCNetSDK.NET_DVR_FINDDATA_V30 struFileData = new CHCNetSDK.NET_DVR_FINDDATA_V30(); ;
-                       while(true)
-                       {
-                           //Get file information one by one.
-                           int result = CHCNetSDK.NET_DVR_FindNextFile_V30(m_lFindHandle, ref struFileData);
-
-                           if (result == CHCNetSDK.NET_DVR_ISFINDING)  //Searching, please wait
-                           {
-                               continue;
-                           }
-                           else if (result == CHCNetSDK.NET_DVR_FILE_SUCCESS) //Get the file information successfully
-                           {
-                               str1 = struFileData.sFileName;
-
-                               str2= Convert.ToString(struFileData.struStartTime.dwYear) + "-" +
-                                   Convert.ToString(struFileData.struStartTime.dwMonth) + "-" +
-                                   Convert.ToString(struFileData.struStartTime.dwDay) + " " +
-                                   Convert.ToString(struFileData.struStartTime.dwHour) + ":" +
-                                   Convert.ToString(struFileData.struStartTime.dwMinute) + ":" +
-                                   Convert.ToString(struFileData.struStartTime.dwSecond);
-
-                               str3 = Convert.ToString(struFileData.struStopTime.dwYear) + "-" +
-                                   Convert.ToString(struFileData.struStopTime.dwMonth) + "-" +
-                                   Convert.ToString(struFileData.struStopTime.dwDay) + " " +
-                                   Convert.ToString(struFileData.struStopTime.dwHour) + ":" +
-                                   Convert.ToString(struFileData.struStopTime.dwMinute) + ":" +
-                                   Convert.ToString(struFileData.struStopTime.dwSecond);
-
-                               listViewFile.Items.Add(new ListViewItem(new string[] { str1, str2, str3}));//Add the founed files to the list
-
-                           }
-                           else if (result == CHCNetSDK.NET_DVR_FILE_NOFIND || result == CHCNetSDK.NET_DVR_NOMOREFILE) 
-                           {
-                               break; //No file found or no more file found, searching is finished 
-                           }
-                           else
-                           {                      
-                               break;
-                           }
-                       }               
-
-                   }
-
-               }*/
 
         private void listViewFile_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (listViewFile.SelectedItems.Count > 0)
+            if (SheduleTable.SelectedItems.Count > 0)
             {
-                sPlayBackFileName = listViewFile.FocusedItem.SubItems[0].Text;
+                sPlayBackFileName = SheduleTable.FocusedItem.SubItems[0].Text;
             }
         }
-
-        /*        private void btnDownloadTime_Click(object sender, EventArgs e)
-                {
-                    if (m_lDownHandle >= 0)
-                    {
-                        MessageBox.Show("Downloading, please stop firstly!");//Please stop downloading
-                        return;
-                    }
-
-                    CHCNetSDK.NET_DVR_PLAYCOND struDownPara = new CHCNetSDK.NET_DVR_PLAYCOND();
-                    struDownPara.dwChannel = (uint)iChannelNum[(int)iSelIndex]; //Channel number  
-
-                    //Set the starting time
-                    struDownPara.struStartTime.dwYear = (uint)dateTimeStart.Value.Year;
-                    struDownPara.struStartTime.dwMonth = (uint)dateTimeStart.Value.Month;
-                    struDownPara.struStartTime.dwDay = (uint)dateTimeStart.Value.Day;
-                    struDownPara.struStartTime.dwHour = (uint)dateTimeStart.Value.Hour;
-                    struDownPara.struStartTime.dwMinute = (uint)dateTimeStart.Value.Minute;
-                    struDownPara.struStartTime.dwSecond = (uint)dateTimeStart.Value.Second;
-
-                    //Set the stopping time
-                    struDownPara.struStopTime.dwYear = (uint)dateTimeEnd.Value.Year;
-                    struDownPara.struStopTime.dwMonth = (uint)dateTimeEnd.Value.Month;
-                    struDownPara.struStopTime.dwDay = (uint)dateTimeEnd.Value.Day;
-                    struDownPara.struStopTime.dwHour = (uint)dateTimeEnd.Value.Hour;
-                    struDownPara.struStopTime.dwMinute = (uint)dateTimeEnd.Value.Minute;
-                    struDownPara.struStopTime.dwSecond = (uint)dateTimeEnd.Value.Second;
-
-                    string sVideoFileName;  //the path and file name to save      
-                    sVideoFileName = "D:\\Downtest_Channel"+struDownPara.dwChannel+".mp4";
-
-                    //Download by time
-                    m_lDownHandle = CHCNetSDK.NET_DVR_GetFileByTime_V40(m_lUserID, sVideoFileName, ref struDownPara);
-                    if (m_lDownHandle < 0)
-                    {
-                        iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                        str = "NET_DVR_GetFileByTime_V40 failed, error code= " + iLastErr;
-                        MessageBox.Show(str);
-                        return;
-                    }
-
-                    uint iOutValue = 0;
-                    if (!CHCNetSDK.NET_DVR_PlayBackControl_V40(m_lDownHandle, CHCNetSDK.NET_DVR_PLAYSTART, IntPtr.Zero, 0, IntPtr.Zero, ref iOutValue))
-                    {
-                        iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                        str = "NET_DVR_PLAYSTART failed, error code= " + iLastErr; //Download controlling failed,print error code
-                        MessageBox.Show(str);
-                        return;
-                    }
-
-                    timerDownload.Interval = 1000;
-                    timerDownload.Enabled = true;
-                    btnStopDownload.Enabled = true;
-                }
-
-                private void btnDownloadName_Click(object sender, EventArgs e)
-                {
-                    if (m_lDownHandle >= 0)
-                    {
-                        MessageBox.Show("Downloading, please stop firstly!");//Please stop downloading
-                        return;
-                    }
-
-                    string sVideoFileName;  //the path and file name to save      
-                    sVideoFileName = "Downtest_"+sPlayBackFileName+".mp4";
-
-                    //Download by file name
-                    m_lDownHandle = CHCNetSDK.NET_DVR_GetFileByName(m_lUserID, sPlayBackFileName, sVideoFileName);
-                    if (m_lDownHandle < 0)
-                    {
-                        iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                        str = "NET_DVR_GetFileByName failed, error code= " + iLastErr;
-                        MessageBox.Show(str);
-                        return;
-                    }
-
-                    uint iOutValue = 0;
-
-                    //Set format of transfer package.
-                    //UInt32 iInValue = 5;
-                    //IntPtr lpInValue = Marshal.AllocHGlobal(4);
-                    //Marshal.StructureToPtr(iInValue, lpInValue, false);
-
-                    //if (!CHCNetSDK.NET_DVR_PlayBackControl_V40(m_lDownHandle, CHCNetSDK.NET_DVR_SET_TRANS_TYPE, lpInValue, 4, IntPtr.Zero, ref iOutValue))
-                    //{
-                    //    iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                    //    str = "NET_DVR_PLAYSTART failed, error code= " + iLastErr; //Download controlling failed,print error code
-                    //    MessageBox.Show(str);
-                    //    return;
-                    //}
-
-                    if (!CHCNetSDK.NET_DVR_PlayBackControl_V40(m_lDownHandle, CHCNetSDK.NET_DVR_PLAYSTART, IntPtr.Zero, 0, IntPtr.Zero, ref iOutValue))
-                    {
-                        iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                        str = "NET_DVR_PLAYSTART failed, error code= " + iLastErr; //Download controlling failed,print error code
-                        MessageBox.Show(str);
-                        return;
-                    }
-                    timerDownload.Interval = 1000;
-                    timerDownload.Enabled = true;
-                    btnStopDownload.Enabled = true;
-                }
-
-                private void btnStopDownload_Click(object sender, EventArgs e)
-                {
-                    if(m_lDownHandle<0)
-                    {
-                        return;            
-                    }
-
-                    if (!CHCNetSDK.NET_DVR_StopGetFile(m_lDownHandle))
-                    {
-                        iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                        str = "NET_DVR_StopGetFile failed, error code= " + iLastErr; //Download controlling failed,print error code
-                        MessageBox.Show(str);
-                        return;
-                    }
-
-                    timerDownload.Stop(); 
-
-                    MessageBox.Show("The downloading has been stopped succesfully!");
-                    m_lDownHandle = -1;
-                    DownloadProgressBar.Value = 0;
-                    btnStopDownload.Enabled = true;
-                }
-
-                private void timerProgress_Tick(object sender, EventArgs e)
-                {
-                    DownloadProgressBar.Maximum = 100;
-                    DownloadProgressBar.Minimum = 0;
-
-                    int iPos = 0;
-
-                    //Get downloading process
-                    iPos = CHCNetSDK.NET_DVR_GetDownloadPos(m_lDownHandle);
-
-                    if ((iPos > DownloadProgressBar.Minimum) && (iPos < DownloadProgressBar.Maximum))
-                    {
-                        DownloadProgressBar.Value = iPos;            
-                    }
-
-                    if (iPos == 100)  //Finish downloading
-                    {
-                        DownloadProgressBar.Value = iPos;
-                        if (!CHCNetSDK.NET_DVR_StopGetFile(m_lDownHandle))
-                        {
-                            iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                            str = "NET_DVR_StopGetFile failed, error code= " + iLastErr; //Download controlling failed,print error code
-                            MessageBox.Show(str);
-                            return;
-                        }
-                        m_lDownHandle = -1;
-                        timerDownload.Stop(); 
-                    }
-
-                    if (iPos == 200) //Network abnormal,download failed
-                    {
-                        MessageBox.Show("The downloading is abnormal for the abnormal network!");
-                        timerDownload.Stop();
-                    }
-                }*/
         private void Timer_Tick(object sender, EventArgs e)
         {
             //Show current time
@@ -479,7 +223,7 @@ namespace NVRCsharpDemo
 
         private void DelDeviceButton_Click(object sender, EventArgs e)
         {
-            string selectedDeviceIP=GetSelectedDeviceIP();
+            string selectedDeviceIP = GetSelectedDeviceIP();
             FileOperations.DeleteDevice(selectedDeviceIP);
             RefreshDeviceTable();
         }
@@ -629,6 +373,43 @@ namespace NVRCsharpDemo
             DataRegList = FileOperations.LoadDataReg();
             foreach (DATAREG Item in DataRegList)
             { DevicesList.Items.Add(new ListViewItem(new string[] { Item.DeviceName, Item.DeviceIP, Item.DevicePort, Item.UserName })); }
+        }
+
+        private void RefreshSheduleTable()
+        {
+            SheduleTable.Items.Clear();
+            DataRegList = FileOperations.LoadDataReg();
+            DataSheduleList = FileOperations.LoadDataShedule();
+            foreach (DATASHEDULE Item in DataSheduleList)
+            {
+                SheduleTable.Items.Add(new ListViewItem(new string[]
+                {
+                    Item.ID.ToString(),
+                    DataRegList.Find(x => x.DeviceIP == Item.DeviceIP).DeviceName,
+                    Item.DeviceIP,
+                    Item.channelNum.ToString(),
+                    Item.startDownloadTime,
+                    Item.downloadStartInterval,
+                    Item.downloadEndInterval
+                }));
+            }
+        }
+
+        private void DelScheduleButton_Click(object sender, EventArgs e)
+        {
+            string selectedSheduleID = GetSelectedSheduleID();
+            FileOperations.DeleteShedule(selectedSheduleID);
+            RefreshSheduleTable();
+        }
+
+        private string GetSelectedSheduleID()
+        {
+            if (SheduleTable.SelectedItems.Count > 0)
+            {
+                string sheduleID = SheduleTable.SelectedItems[0].SubItems[0].Text;  //Select the current items
+                return sheduleID;
+            }
+            return null;
         }
     }
 }

@@ -72,8 +72,6 @@ namespace NVRCsharpDemo
             }
             this.Close();
             scheduleForm.Refresh();
-
-
         }
 
         private void addNewShedule(int channel)

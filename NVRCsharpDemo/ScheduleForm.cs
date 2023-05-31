@@ -27,20 +27,8 @@ namespace NVRCsharpDemo
             DATAREG selectedDevice = dataRegList.FirstOrDefault(x => x.DeviceIP == deviceIP);
             DeviceNameLavel.Text = selectedDevice.DeviceName;
 
-            //запоняем список расписания на указанный девайс
-            List<DATASHEDULE> dataShedules = FileOperations.LoadDataShedule();
-            List<DATASHEDULE> deviceShedule = dataShedules.FindAll(x => x.DeviceIP == deviceIP);
-            foreach (DATASHEDULE Item in deviceShedule)
-            {
-                SheduleDeviceTable.Items.Add(new ListViewItem(new string[]
-                {
-                Item.channelNum.ToString(),
-                Item.startDownloadTime,
-                Item.downloadStartInterval.ToString(),
-                Item.downloadEndInterval.ToString()
-                }
-                ));
-            }
+            // вызвать обновление табл
+            RefreshSheduleTable();
         }
         private void ScheduleForm_Load(object sender, EventArgs e)
         {
@@ -56,7 +44,19 @@ namespace NVRCsharpDemo
 
         private void DelIntervalButton_Click(object sender, EventArgs e)
         {
+            string selectedSheduleID = GetSelectedSheduleID();
+            FileOperations.DeleteShedule(selectedSheduleID);
+            RefreshSheduleTable();
+        }
 
+        public string GetSelectedSheduleID()
+        {
+            if (SheduleDeviceTable.SelectedItems.Count > 0)
+            {
+                string sheduleID = SheduleDeviceTable.SelectedItems[0].SubItems[0].Text;  //Select the current items
+                return sheduleID;
+            }
+            return null;
         }
 
         private void CancelButton_Click(object sender, EventArgs e)
@@ -76,10 +76,22 @@ namespace NVRCsharpDemo
 
         public void RefreshSheduleTable()
         {
-            SheduleDeviceTable.Items.Clear();
+            //запоняем список расписания на указанный девайс
             List<DATASHEDULE> dataShedules = FileOperations.LoadDataShedule();
-            foreach (DATASHEDULE Item in dataShedules)
-            { SheduleDeviceTable.Items.Add(new ListViewItem(new string[] { Item.channelNum.ToString(), Item.startDownloadTime, Item.downloadStartInterval, Item.downloadEndInterval })); }
+            List<DATASHEDULE> deviceShedule = dataShedules.FindAll(x => x.DeviceIP == selectedDeviceIP);
+            SheduleDeviceTable.Items.Clear();
+            foreach (DATASHEDULE Item in deviceShedule)
+            {
+                SheduleDeviceTable.Items.Add(new ListViewItem(new string[]
+                {
+                Item.ID.ToString(),
+                Item.channelNum.ToString(),
+                Item.startDownloadTime,
+                Item.downloadStartInterval.ToString(),
+                Item.downloadEndInterval.ToString()
+                }
+                ));
+            }
         }
     }
 }

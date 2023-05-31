@@ -55,13 +55,13 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.DelScheduleButton = new System.Windows.Forms.Button();
             this.EditScheduleButton = new System.Windows.Forms.Button();
-            this.listViewFile = new System.Windows.Forms.ListView();
-            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader11 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.SheduleTable = new System.Windows.Forms.ListView();
+            this.DeviceName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.IP = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.channel = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Start_Interval = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.End_Interval = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.status = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.timerDownload = new System.Windows.Forms.Timer(this.components);
             this.timerPlayback = new System.Windows.Forms.Timer(this.components);
             this.btn_Exit = new System.Windows.Forms.Button();
@@ -84,6 +84,8 @@
             this.DateTimeLabel = new System.Windows.Forms.Label();
             this.buttonStartService = new System.Windows.Forms.Button();
             this.StatusServiceLabel = new System.Windows.Forms.Label();
+            this.ID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.StartDownload = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -132,10 +134,10 @@
             // 
             this.groupBox4.Controls.Add(this.DelScheduleButton);
             this.groupBox4.Controls.Add(this.EditScheduleButton);
-            this.groupBox4.Controls.Add(this.listViewFile);
+            this.groupBox4.Controls.Add(this.SheduleTable);
             this.groupBox4.Location = new System.Drawing.Point(558, 35);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(748, 667);
+            this.groupBox4.Size = new System.Drawing.Size(845, 667);
             this.groupBox4.TabIndex = 42;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Расписание";
@@ -148,6 +150,7 @@
             this.DelScheduleButton.TabIndex = 51;
             this.DelScheduleButton.Text = "Удалить";
             this.DelScheduleButton.UseVisualStyleBackColor = true;
+            this.DelScheduleButton.Click += new System.EventHandler(this.DelScheduleButton_Click);
             // 
             // EditScheduleButton
             // 
@@ -158,59 +161,61 @@
             this.EditScheduleButton.Text = "Редактировать";
             this.EditScheduleButton.UseVisualStyleBackColor = true;
             // 
-            // listViewFile
+            // SheduleTable
             // 
-            this.listViewFile.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader3,
-            this.columnHeader4,
-            this.columnHeader5,
-            this.columnHeader9,
-            this.columnHeader10,
-            this.columnHeader11});
-            this.listViewFile.FullRowSelect = true;
-            this.listViewFile.GridLines = true;
-            this.listViewFile.HideSelection = false;
-            this.listViewFile.Location = new System.Drawing.Point(17, 63);
-            this.listViewFile.Name = "listViewFile";
-            this.listViewFile.Size = new System.Drawing.Size(703, 590);
-            this.listViewFile.TabIndex = 49;
-            this.listViewFile.UseCompatibleStateImageBehavior = false;
-            this.listViewFile.View = System.Windows.Forms.View.Details;
-            this.listViewFile.SelectedIndexChanged += new System.EventHandler(this.listViewFile_SelectedIndexChanged);
+            this.SheduleTable.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.ID,
+            this.DeviceName,
+            this.IP,
+            this.channel,
+            this.StartDownload,
+            this.Start_Interval,
+            this.End_Interval,
+            this.status});
+            this.SheduleTable.FullRowSelect = true;
+            this.SheduleTable.GridLines = true;
+            this.SheduleTable.HideSelection = false;
+            this.SheduleTable.Location = new System.Drawing.Point(17, 71);
+            this.SheduleTable.Name = "SheduleTable";
+            this.SheduleTable.Size = new System.Drawing.Size(828, 590);
+            this.SheduleTable.TabIndex = 49;
+            this.SheduleTable.UseCompatibleStateImageBehavior = false;
+            this.SheduleTable.View = System.Windows.Forms.View.Details;
+            this.SheduleTable.SelectedIndexChanged += new System.EventHandler(this.listViewFile_SelectedIndexChanged);
             // 
-            // columnHeader3
+            // DeviceName
             // 
-            this.columnHeader3.Text = "Имя устройства";
-            this.columnHeader3.Width = 133;
+            this.DeviceName.Text = "Имя устройства";
+            this.DeviceName.Width = 133;
             // 
-            // columnHeader4
+            // IP
             // 
-            this.columnHeader4.Text = "IP-адрес";
-            this.columnHeader4.Width = 96;
+            this.IP.Text = "IP-адрес";
+            this.IP.Width = 96;
             // 
-            // columnHeader5
+            // channel
             // 
-            this.columnHeader5.Text = "Канал";
-            this.columnHeader5.Width = 55;
+            this.channel.Text = "Канал";
+            this.channel.Width = 55;
             // 
-            // columnHeader9
+            // Start_Interval
             // 
-            this.columnHeader9.Text = "Начальное время";
-            this.columnHeader9.Width = 112;
+            this.Start_Interval.Text = "Начальное время";
+            this.Start_Interval.Width = 112;
             // 
-            // columnHeader10
+            // End_Interval
             // 
-            this.columnHeader10.Text = "Конечное время";
-            this.columnHeader10.Width = 105;
+            this.End_Interval.Text = "Конечное время";
+            this.End_Interval.Width = 105;
             // 
-            // columnHeader11
+            // status
             // 
-            this.columnHeader11.Text = "Статус загрузки";
-            this.columnHeader11.Width = 197;
+            this.status.Text = "Статус загрузки";
+            this.status.Width = 197;
             // 
             // btn_Exit
             // 
-            this.btn_Exit.Location = new System.Drawing.Point(1179, 708);
+            this.btn_Exit.Location = new System.Drawing.Point(1303, 708);
             this.btn_Exit.Name = "btn_Exit";
             this.btn_Exit.Size = new System.Drawing.Size(127, 32);
             this.btn_Exit.TabIndex = 44;
@@ -394,18 +399,28 @@
             this.StatusServiceLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.StatusServiceLabel.AutoSize = true;
             this.StatusServiceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.StatusServiceLabel.Location = new System.Drawing.Point(571, 5);
+            this.StatusServiceLabel.Location = new System.Drawing.Point(692, 5);
             this.StatusServiceLabel.Name = "StatusServiceLabel";
             this.StatusServiceLabel.Size = new System.Drawing.Size(297, 24);
             this.StatusServiceLabel.TabIndex = 49;
             this.StatusServiceLabel.Text = "Статус сервиса: Остановлен";
             this.StatusServiceLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // ID
+            // 
+            this.ID.Text = "ID";
+            this.ID.Width = 26;
+            // 
+            // StartDownload
+            // 
+            this.StartDownload.Text = "Начало загрузки";
+            this.StartDownload.Width = 98;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1321, 752);
+            this.ClientSize = new System.Drawing.Size(1442, 752);
             this.Controls.Add(this.StatusServiceLabel);
             this.Controls.Add(this.buttonStartService);
             this.Controls.Add(this.DateTimeLabel);
@@ -432,10 +447,10 @@
         private System.Windows.Forms.ColumnHeader ColumnHeader1;
         private System.Windows.Forms.ColumnHeader ColumnHeader2;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.ListView listViewFile;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
-        private System.Windows.Forms.ColumnHeader columnHeader4;
-        private System.Windows.Forms.ColumnHeader columnHeader5;
+        private System.Windows.Forms.ListView SheduleTable;
+        private System.Windows.Forms.ColumnHeader DeviceName;
+        private System.Windows.Forms.ColumnHeader IP;
+        private System.Windows.Forms.ColumnHeader channel;
         private System.Windows.Forms.Timer timerDownload;
         private System.Windows.Forms.Timer timerPlayback;
         private System.Windows.Forms.Button btn_Exit;
@@ -454,9 +469,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ColumnHeader columnHeader9;
-        private System.Windows.Forms.ColumnHeader columnHeader10;
-        private System.Windows.Forms.ColumnHeader columnHeader11;
+        private System.Windows.Forms.ColumnHeader Start_Interval;
+        private System.Windows.Forms.ColumnHeader End_Interval;
+        private System.Windows.Forms.ColumnHeader status;
         private System.Windows.Forms.Button EditScheduleButton;
         private System.Windows.Forms.Button DelScheduleButton;
         private System.Windows.Forms.Label TimeLabel;
@@ -465,6 +480,8 @@
         private System.Windows.Forms.TextBox textBoxDeviceName;
         private System.Windows.Forms.Button buttonStartService;
         public System.Windows.Forms.Label StatusServiceLabel;
+        private System.Windows.Forms.ColumnHeader ID;
+        private System.Windows.Forms.ColumnHeader StartDownload;
     }
 }
 

@@ -39,6 +39,7 @@
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CancelButton = new System.Windows.Forms.Button();
             this.OKButton = new System.Windows.Forms.Button();
+            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // label1
@@ -82,6 +83,7 @@
             // SheduleDeviceTable
             // 
             this.SheduleDeviceTable.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader5,
             this.columnHeader1,
             this.columnHeader4,
             this.columnHeader2,
@@ -90,10 +92,11 @@
             this.SheduleDeviceTable.HideSelection = false;
             this.SheduleDeviceTable.Location = new System.Drawing.Point(15, 73);
             this.SheduleDeviceTable.Name = "SheduleDeviceTable";
-            this.SheduleDeviceTable.Size = new System.Drawing.Size(378, 329);
+            this.SheduleDeviceTable.Size = new System.Drawing.Size(411, 329);
             this.SheduleDeviceTable.TabIndex = 4;
             this.SheduleDeviceTable.UseCompatibleStateImageBehavior = false;
             this.SheduleDeviceTable.View = System.Windows.Forms.View.Details;
+            this.SheduleDeviceTable.FullRowSelect = true;
             // 
             // columnHeader1
             // 
@@ -133,11 +136,16 @@
             this.OKButton.Text = "OK";
             this.OKButton.UseVisualStyleBackColor = true;
             // 
+            // columnHeader5
+            // 
+            this.columnHeader5.Text = "ID";
+            this.columnHeader5.Width = 32;
+            // 
             // ScheduleForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(409, 450);
+            this.ClientSize = new System.Drawing.Size(442, 450);
             this.Controls.Add(this.OKButton);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.SheduleDeviceTable);
@@ -148,6 +156,7 @@
             this.Name = "ScheduleForm";
             this.Text = "Расписание устройства";
             this.TopMost = true;
+            this.Activated += new System.EventHandler(this.ScheduleForm_Activated);
             this.Load += new System.EventHandler(this.ScheduleForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -167,5 +176,6 @@
         private System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.Button OKButton;
         private System.Windows.Forms.ColumnHeader columnHeader4;
+        private System.Windows.Forms.ColumnHeader columnHeader5;
     }
 }
