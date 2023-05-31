@@ -32,8 +32,9 @@
             this.DeviceNameLavel = new System.Windows.Forms.Label();
             this.AddIntervalButton = new System.Windows.Forms.Button();
             this.DelIntervalButton = new System.Windows.Forms.Button();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.SheduleDeviceTable = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CancelButton = new System.Windows.Forms.Button();
@@ -78,38 +79,45 @@
             this.DelIntervalButton.UseVisualStyleBackColor = true;
             this.DelIntervalButton.Click += new System.EventHandler(this.DelIntervalButton_Click);
             // 
-            // listView1
+            // SheduleDeviceTable
             // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.SheduleDeviceTable.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
+            this.columnHeader4,
             this.columnHeader2,
             this.columnHeader3});
-            this.listView1.GridLines = true;
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(15, 73);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(276, 329);
-            this.listView1.TabIndex = 4;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
+            this.SheduleDeviceTable.GridLines = true;
+            this.SheduleDeviceTable.HideSelection = false;
+            this.SheduleDeviceTable.Location = new System.Drawing.Point(15, 73);
+            this.SheduleDeviceTable.Name = "SheduleDeviceTable";
+            this.SheduleDeviceTable.Size = new System.Drawing.Size(378, 329);
+            this.SheduleDeviceTable.TabIndex = 4;
+            this.SheduleDeviceTable.UseCompatibleStateImageBehavior = false;
+            this.SheduleDeviceTable.View = System.Windows.Forms.View.Details;
+            this.SheduleDeviceTable.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             // 
             // columnHeader1
             // 
             this.columnHeader1.Text = "Канал";
             // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "Начало загрузки";
+            this.columnHeader4.Width = 100;
+            // 
             // columnHeader2
             // 
-            this.columnHeader2.Text = "Начальное время";
+            this.columnHeader2.Text = "Начальный интервал";
             this.columnHeader2.Width = 110;
             // 
             // columnHeader3
             // 
-            this.columnHeader3.Text = "Конечное время";
+            this.columnHeader3.Text = "Конечный интервал";
             this.columnHeader3.Width = 102;
             // 
             // CancelButton
             // 
-            this.CancelButton.Location = new System.Drawing.Point(216, 408);
+            this.CancelButton.Location = new System.Drawing.Point(318, 408);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(75, 23);
             this.CancelButton.TabIndex = 5;
@@ -119,7 +127,7 @@
             // 
             // OKButton
             // 
-            this.OKButton.Location = new System.Drawing.Point(135, 408);
+            this.OKButton.Location = new System.Drawing.Point(229, 408);
             this.OKButton.Name = "OKButton";
             this.OKButton.Size = new System.Drawing.Size(75, 23);
             this.OKButton.TabIndex = 5;
@@ -130,10 +138,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(314, 450);
+            this.ClientSize = new System.Drawing.Size(409, 450);
             this.Controls.Add(this.OKButton);
             this.Controls.Add(this.CancelButton);
-            this.Controls.Add(this.listView1);
+            this.Controls.Add(this.SheduleDeviceTable);
             this.Controls.Add(this.DelIntervalButton);
             this.Controls.Add(this.AddIntervalButton);
             this.Controls.Add(this.DeviceNameLavel);
@@ -153,11 +161,12 @@
         private System.Windows.Forms.Label DeviceNameLavel;
         private System.Windows.Forms.Button AddIntervalButton;
         private System.Windows.Forms.Button DelIntervalButton;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView SheduleDeviceTable;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.Button OKButton;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
     }
 }

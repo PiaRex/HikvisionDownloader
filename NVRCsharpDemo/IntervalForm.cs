@@ -13,9 +13,13 @@ namespace NVRCsharpDemo
     public partial class IntervalForm : Form
     {
         Form scheduleForm;
-        public IntervalForm()
+        DeviceController deviceController = new DeviceController();
+
+        public string selectedDeviceIP;
+        public IntervalForm(string deviceIP)
         {
             InitializeComponent();
+            selectedDeviceIP = deviceIP;
         }
 
         private void IntervalForm_Load(object sender, EventArgs e)
@@ -23,6 +27,8 @@ namespace NVRCsharpDemo
             scheduleForm = Application.OpenForms.OfType<ScheduleForm>().FirstOrDefault();
             this.Left = scheduleForm.Left + 320;
             this.Top = scheduleForm.Top;
+
+            deviceController.getDeviceChannel(selectedDeviceIP);
         }
 
         private void CancelButton_Click(object sender, EventArgs e)
@@ -31,6 +37,10 @@ namespace NVRCsharpDemo
             if (scheduleForm != null) scheduleForm.Activate();
             else MessageBox.Show("mainWindow");
         }
-    
+
+        private void OKButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

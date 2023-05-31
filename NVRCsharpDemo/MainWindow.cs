@@ -40,7 +40,7 @@ namespace NVRCsharpDemo
         public CHCNetSDK.NET_DVR_IPCHANINFO m_struChanInfo;
 
         public string StatusText { get { return StatusServiceLabel.Text; } set { StatusServiceLabel.Text = value; } }
-        
+
 
         public class DataReg // данные регистратора
         {
@@ -49,7 +49,6 @@ namespace NVRCsharpDemo
             public string DevicePort { get; set; }
             public string UserName { get; set; }
             public string Password { get; set; }
-
         }
 
         public class DataShedule // расписание на скачку
@@ -76,6 +75,11 @@ namespace NVRCsharpDemo
             currentTimeTimer.Interval = 1000;
             currentTimeTimer.Tick += Timer_Tick;
             currentTimeTimer.Start();
+
+            // забивает табличку с девайсами из файла
+            List<DataReg> DataRegList = FileOperations.LoadDataReg();
+            foreach (DataReg Item in DataRegList)
+            { DevicesList.Items.Add(new ListViewItem(new string[] { Item.DeviceName, Item.DeviceIP, Item.DevicePort, Item.UserName })); }
 
             m_bInitSDK = CHCNetSDK.NET_DVR_Init();
             if (m_bInitSDK == false)
@@ -190,16 +194,16 @@ namespace NVRCsharpDemo
 
             DevicesList.Items.Add(new ListViewItem(new string[] { str1, str2 }));//Add channels to list
         }
-/*
-        private void listViewIPChannel_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
-        {
-            if (DevicesList.SelectedItems.Count > 0)
-            {
-                iSelIndex = DevicesList.SelectedItems[0].Index;  //Select the current items
-            }
-        }
+        /*
+                private void listViewIPChannel_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+                {
+                    if (DevicesList.SelectedItems.Count > 0)
+                    {
+                        iSelIndex = DevicesList.SelectedItems[0].Index;  //Select the current items
+                    }
+                }
 
-*/
+        */
         /*       private void btnSearch_Click(object sender, EventArgs e)
                {
 
@@ -491,9 +495,9 @@ namespace NVRCsharpDemo
 
         private void DelDeviceButton_Click(object sender, EventArgs e)
         {
-            DeviceController deviceController = new DeviceController();
-            DateTime now = DateTime.Now;
-            deviceController.DownloadDeviceVideo("178.64.253.11", "8000", "Test", "qwer1234", 2, now,now);
+            string selectedDeviceIP=GetSelectedDeviceIP();
+            FileOperations.DeleteDevice(selectedDeviceIP);
+            RefreshDeviceTable();
         }
 
         private void LoginButton_Click(object sender, EventArgs e)
@@ -553,13 +557,11 @@ namespace NVRCsharpDemo
                         DevicePort = textBoxPort.Text,
                         UserName = textBoxUserName.Text,
                         Password = textBoxPassword.Text
-                    }) ;
+                    });
 
                     FileOperations.SaveDataReg(DataRegList);
 
-                    DevicesList.Items.Clear();
-                    foreach (DataReg Item in DataRegList)
-                    { DevicesList.Items.Add(new ListViewItem(new string[] { Item.DeviceName, Item.DeviceIP, Item.DevicePort, Item.UserName })); }
+                    RefreshDeviceTable();
                     m_lUserID = -1;
                 }
 
@@ -588,7 +590,7 @@ namespace NVRCsharpDemo
 
         private void AddIntervalButton_Click(object sender, EventArgs e)
         {
-            
+
             Form scheduleForm = new ScheduleForm(GetSelectedDeviceIP());
             scheduleForm.Left = this.Left + 560;
             scheduleForm.Top = this.Top + 240;
@@ -626,7 +628,7 @@ namespace NVRCsharpDemo
         {
             if (DevicesList.SelectedItems.Count > 0)
             {
-                string deviceIP = DevicesList.SelectedItems[1].Text;  //Select the current items
+                string deviceIP = DevicesList.SelectedItems[0].SubItems[1].Text;  //Select the current items
                 return deviceIP;
             }
             return null;
@@ -635,6 +637,14 @@ namespace NVRCsharpDemo
         private void DevicesList_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void RefreshDeviceTable()
+        {
+            DevicesList.Items.Clear();
+            DataRegList = FileOperations.LoadDataReg();
+            foreach (DataReg Item in DataRegList)
+            { DevicesList.Items.Add(new ListViewItem(new string[] { Item.DeviceName, Item.DeviceIP, Item.DevicePort, Item.UserName })); }
         }
     }
 }

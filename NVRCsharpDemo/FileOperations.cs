@@ -51,6 +51,22 @@ namespace NVRCsharpDemo
             File.WriteAllText("DataShedule", json);
         }
 
+        public static void DeleteDevice(string deviceIP)
+        {
+            string json = File.ReadAllText("DataReg.json");
+            List<DataReg> DataRegList =
+                JsonConvert.DeserializeObject<List<DataReg>>(json);
+            DataRegList.Remove(DataRegList.FirstOrDefault(x => x.DeviceIP == deviceIP));
+            json = JsonConvert.SerializeObject(DataRegList, Formatting.Indented);
+            File.WriteAllText("DataReg.json", json);
+        }
 
+        public static DataReg GetDeviceReg(string deviceIP) 
+        { 
+            string json = File.ReadAllText("DataReg.json");
+            List<DataReg> DataRegList =
+                JsonConvert.DeserializeObject<List<DataReg>>(json);
+            return DataRegList.FirstOrDefault(x => x.DeviceIP == deviceIP);
+        }
     }
 }
