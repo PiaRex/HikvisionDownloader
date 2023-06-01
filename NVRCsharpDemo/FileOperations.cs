@@ -8,6 +8,7 @@ using System.IO;
 using static NVRCsharpDemo.MainWindow;
 using DATAREG = NVRCsharpDemo.ConfigurationData.DataReg;
 using DATASHEDULE = NVRCsharpDemo.ConfigurationData.DataShedule;
+using System.Dynamic;
 
 namespace NVRCsharpDemo
 {
@@ -83,6 +84,23 @@ namespace NVRCsharpDemo
             List<DATAREG> DataRegList =
                 JsonConvert.DeserializeObject<List<DATAREG>>(json);
             return DataRegList.FirstOrDefault(x => x.DeviceIP == deviceIP);
+        }
+
+        public static void CreateDeviceFolder (string DeviceName)
+        {
+            if (!Directory.Exists(DeviceName))
+            {
+                string folderPath = "C:\\";
+                Directory.CreateDirectory(folderPath+DeviceName);
+            }
+        }
+        public static void CreateChannelFolder(string Channel, string DeviceName)
+        {
+            string folderPath = "C:\\"+ DeviceName+ "\\";
+            if (!Directory.Exists(Channel))
+            {
+                Directory.CreateDirectory(folderPath+Channel);
+            }
         }
     }
 }

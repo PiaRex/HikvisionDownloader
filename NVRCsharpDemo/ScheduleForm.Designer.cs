@@ -33,13 +33,13 @@
             this.AddIntervalButton = new System.Windows.Forms.Button();
             this.DelIntervalButton = new System.Windows.Forms.Button();
             this.SheduleDeviceTable = new System.Windows.Forms.ListView();
+            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CancelButton = new System.Windows.Forms.Button();
             this.OKButton = new System.Windows.Forms.Button();
-            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // label1
@@ -88,6 +88,7 @@
             this.columnHeader4,
             this.columnHeader2,
             this.columnHeader3});
+            this.SheduleDeviceTable.FullRowSelect = true;
             this.SheduleDeviceTable.GridLines = true;
             this.SheduleDeviceTable.HideSelection = false;
             this.SheduleDeviceTable.Location = new System.Drawing.Point(15, 73);
@@ -96,7 +97,11 @@
             this.SheduleDeviceTable.TabIndex = 4;
             this.SheduleDeviceTable.UseCompatibleStateImageBehavior = false;
             this.SheduleDeviceTable.View = System.Windows.Forms.View.Details;
-            this.SheduleDeviceTable.FullRowSelect = true;
+            // 
+            // columnHeader5
+            // 
+            this.columnHeader5.Text = "ID";
+            this.columnHeader5.Width = 32;
             // 
             // columnHeader1
             // 
@@ -135,11 +140,7 @@
             this.OKButton.TabIndex = 5;
             this.OKButton.Text = "OK";
             this.OKButton.UseVisualStyleBackColor = true;
-            // 
-            // columnHeader5
-            // 
-            this.columnHeader5.Text = "ID";
-            this.columnHeader5.Width = 32;
+            this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
             // 
             // ScheduleForm
             // 

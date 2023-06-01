@@ -56,9 +56,11 @@
             this.DelScheduleButton = new System.Windows.Forms.Button();
             this.EditScheduleButton = new System.Windows.Forms.Button();
             this.SheduleTable = new System.Windows.Forms.ListView();
+            this.ID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.DeviceName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.IP = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.channel = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.StartDownload = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Start_Interval = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.End_Interval = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.status = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -75,7 +77,7 @@
             this.textBoxUserName = new System.Windows.Forms.TextBox();
             this.textBoxPort = new System.Windows.Forms.TextBox();
             this.textBoxIP = new System.Windows.Forms.TextBox();
-            this.LoginButton = new System.Windows.Forms.Button();
+            this.AddDeviceButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -84,8 +86,7 @@
             this.DateTimeLabel = new System.Windows.Forms.Label();
             this.buttonStartService = new System.Windows.Forms.Button();
             this.StatusServiceLabel = new System.Windows.Forms.Label();
-            this.ID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.StartDownload = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -132,6 +133,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.button1);
             this.groupBox4.Controls.Add(this.DelScheduleButton);
             this.groupBox4.Controls.Add(this.EditScheduleButton);
             this.groupBox4.Controls.Add(this.SheduleTable);
@@ -160,6 +162,7 @@
             this.EditScheduleButton.TabIndex = 50;
             this.EditScheduleButton.Text = "Редактировать";
             this.EditScheduleButton.UseVisualStyleBackColor = true;
+            this.EditScheduleButton.Click += new System.EventHandler(this.EditScheduleButton_Click);
             // 
             // SheduleTable
             // 
@@ -183,6 +186,11 @@
             this.SheduleTable.View = System.Windows.Forms.View.Details;
             this.SheduleTable.SelectedIndexChanged += new System.EventHandler(this.listViewFile_SelectedIndexChanged);
             // 
+            // ID
+            // 
+            this.ID.Text = "ID";
+            this.ID.Width = 26;
+            // 
             // DeviceName
             // 
             this.DeviceName.Text = "Имя устройства";
@@ -197,6 +205,11 @@
             // 
             this.channel.Text = "Канал";
             this.channel.Width = 55;
+            // 
+            // StartDownload
+            // 
+            this.StartDownload.Text = "Начало загрузки";
+            this.StartDownload.Width = 98;
             // 
             // Start_Interval
             // 
@@ -263,7 +276,7 @@
             this.groupBox3.Controls.Add(this.textBoxUserName);
             this.groupBox3.Controls.Add(this.textBoxPort);
             this.groupBox3.Controls.Add(this.textBoxIP);
-            this.groupBox3.Controls.Add(this.LoginButton);
+            this.groupBox3.Controls.Add(this.AddDeviceButton);
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.label3);
@@ -325,14 +338,14 @@
             this.textBoxIP.TabIndex = 29;
             this.textBoxIP.Text = "178.64.253.11";
             // 
-            // LoginButton
+            // AddDeviceButton
             // 
-            this.LoginButton.Location = new System.Drawing.Point(435, 62);
-            this.LoginButton.Name = "LoginButton";
-            this.LoginButton.Size = new System.Drawing.Size(90, 54);
-            this.LoginButton.TabIndex = 28;
-            this.LoginButton.Text = "Добавить устройство";
-            this.LoginButton.Click += new System.EventHandler(this.LoginButton_Click);
+            this.AddDeviceButton.Location = new System.Drawing.Point(435, 62);
+            this.AddDeviceButton.Name = "AddDeviceButton";
+            this.AddDeviceButton.Size = new System.Drawing.Size(90, 54);
+            this.AddDeviceButton.TabIndex = 28;
+            this.AddDeviceButton.Text = "Добавить устройство";
+            this.AddDeviceButton.Click += new System.EventHandler(this.AddDeviceButton_Click);
             // 
             // label1
             // 
@@ -406,15 +419,15 @@
             this.StatusServiceLabel.Text = "Статус сервиса: Остановлен";
             this.StatusServiceLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // ID
+            // button1
             // 
-            this.ID.Text = "ID";
-            this.ID.Width = 26;
-            // 
-            // StartDownload
-            // 
-            this.StartDownload.Text = "Начало загрузки";
-            this.StartDownload.Width = 98;
+            this.button1.Location = new System.Drawing.Point(204, 30);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 52;
+            this.button1.Text = "Загрузить";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // MainWindow
             // 
@@ -431,8 +444,9 @@
             this.Controls.Add(this.groupBox4);
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "HikVision Downloader v0.1";
+            this.Text = "HikVision Downloader v0.7";
             this.Load += new System.EventHandler(this.MainWindow_Load);
+            this.Activated += new System.EventHandler(this.MainWindow_Activated);
             this.groupBox4.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
@@ -464,7 +478,7 @@
         private System.Windows.Forms.TextBox textBoxUserName;
         private System.Windows.Forms.TextBox textBoxPort;
         private System.Windows.Forms.TextBox textBoxIP;
-        private System.Windows.Forms.Button LoginButton;
+        private System.Windows.Forms.Button AddDeviceButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -482,6 +496,7 @@
         public System.Windows.Forms.Label StatusServiceLabel;
         private System.Windows.Forms.ColumnHeader ID;
         private System.Windows.Forms.ColumnHeader StartDownload;
+        private System.Windows.Forms.Button button1;
     }
 }
 

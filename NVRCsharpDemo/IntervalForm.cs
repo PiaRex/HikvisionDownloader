@@ -83,7 +83,7 @@ namespace NVRCsharpDemo
                 channelNum = channel,
                 startDownloadTime = StartDownloadTextbox.Text,
                 downloadStartInterval = StartTimeText.Text,
-                downloadEndInterval = StartTimeText.Text
+                downloadEndInterval = EndTimeText.Text
             });
             FileOperations.SaveDataSchedule(dataSheduleList);
         }

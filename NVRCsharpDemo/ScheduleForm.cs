@@ -93,5 +93,10 @@ namespace NVRCsharpDemo
                 ));
             }
         }
+
+        private void OKButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
