@@ -4,30 +4,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static NVRCsharpDemo.MainWindow;
+
 using DATAREG = NVRCsharpDemo.ConfigurationData.DataReg;
 using DATASHEDULE = NVRCsharpDemo.ConfigurationData.DataShedule;
 using CHANNEL = NVRCsharpDemo.ConfigurationData.Channel;
-
+using System.Threading;
 
 namespace NVRCsharpDemo
 {
     internal class Monitor
     {
+        Form mainWindowForm = Application.OpenForms.OfType<MainWindow>().FirstOrDefault();
+        DeviceController deviceController;
+        MainWindow mainWindowFormDesign;
 
-        public static void TimeMonitor(Label StatusServiceLabel)
+        List<DATAREG> DataRegList;
+        List<DATASHEDULE> DataSheduleList;
+
+        public void TimeMonitor(MainWindow mainWindow)
         {
-            // Запустите таймер в отдельном потоке 
-            var timerThread = new System.Threading.Thread(() => ScanTime(StatusServiceLabel));
+            mainWindowFormDesign = mainWindow;
+
+            // Запустите таймер в отдельном потоке     
+            var timerThread = new Thread(() => ScanTime());
             timerThread.Start();
-            StatusServiceLabel.Text = "Таймер запущен";
         }
 
-        private static void ScanTime(Label StatusServiceLabel)
+        private void ScanTime()
         {
             // Читаем данные из файла
-            List<DATAREG> DataRegList = FileOperations.LoadDataReg(); // чтение данных о регике
-            List<DATASHEDULE> DataSheduleList = FileOperations.LoadDataShedule(); // чтение данных расписание  
+            DataRegList = FileOperations.LoadDataReg(); // чтение данных о регике
+            DataSheduleList = FileOperations.LoadDataShedule(); // чтение данных расписание  
 
             int i = 0;
             while (true)
@@ -37,23 +44,34 @@ namespace NVRCsharpDemo
 
                 // Проверьте текущее время каждую минуту 
 
-           /*     foreach (var item in DataSheduleList)
+                foreach (var item in DataSheduleList)
                 {
 
                     DATAREG currentDataReg = DataRegList.FirstOrDefault(x => x.DeviceIP == item.DeviceIP);
-                    DateTime downloadStartTime = item.downloadStartInterval;
+                    DATASHEDULE currentDataShedule = item;
                     DateTime now = DateTime.Now;
 
-                    if (now.Hour == downloadStartTime.Hour && now.Minute == downloadStartTime.Minute)
+                    if (now.Hour == uint.Parse(item.startDownloadTime.Split(':')[0]) &&
+                         now.Minute == uint.Parse(item.startDownloadTime.Split(':')[1]))
                     {
                         // запустить в отдельном потоке закачку каждого канала
-                    }
-                }*/
+                        deviceController = new DeviceController();
+                        deviceController.DownloadDeviceVideo(mainWindowFormDesign, currentDataReg, currentDataShedule);
 
-                // todo Изменить StatusServiceLabel на MainWindow
-                StatusServiceLabel.Invoke((MethodInvoker)(() => StatusServiceLabel.Text = "сервер запущен: " + " итерация: " + i++));
+                        // проверить статус закачки
+                        bool status;
+                        do
+                        {
+                            System.Threading.Thread.Sleep(10000);
+                            status = deviceController.GetDownloadStatus();
+                            mainWindowForm.Invoke((MethodInvoker)(() => mainWindowForm.Activate()));
+                            
+                        } while (status);
+                    }
+                }
+
                 // Приостановите поток на одну минуту 
-                System.Threading.Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(60000);
             }
         }
 

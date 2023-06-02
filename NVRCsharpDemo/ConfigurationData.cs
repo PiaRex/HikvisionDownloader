@@ -25,6 +25,7 @@ namespace NVRCsharpDemo
             public int channelNum { get; set; }
             public string downloadStartInterval { get; set; }
             public string downloadEndInterval { get; set; }
+            public string status { get; set; }
 
         }
         public class Channel // каналы регистратора

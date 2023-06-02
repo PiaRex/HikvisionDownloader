@@ -76,52 +76,6 @@ namespace NVRCsharpDemo
             }
         }
 
-/*        public void InfoIPChannel()
-        {
-            uint dwSize = (uint)Marshal.SizeOf(m_struIpParaCfgV40);
-
-            IntPtr ptrIpParaCfgV40 = Marshal.AllocHGlobal((Int32)dwSize);
-            Marshal.StructureToPtr(m_struIpParaCfgV40, ptrIpParaCfgV40, false);
-
-            uint dwReturn = 0;
-            int iGroupNo = 0; //The demo just acquire 64 channels of first group.If ip channels of device is more than 64,you should call NET_DVR_GET_IPPARACFG_V40 times to acquire more according to group 0~i
-            if (!CHCNetSDK.NET_DVR_GetDVRConfig(m_lUserID, CHCNetSDK.NET_DVR_GET_IPPARACFG_V40, iGroupNo, ptrIpParaCfgV40, dwSize, ref dwReturn))
-            {
-                iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                str1 = "NET_DVR_GET_IPPARACFG_V40 failed, error code= " + iLastErr; //Get IP parameter of configuration failed,print error code.
-                MessageBox.Show(str1);
-            }
-            else
-            {
-                m_struIpParaCfgV40 = (CHCNetSDK.NET_DVR_IPPARACFG_V40)Marshal.PtrToStructure(ptrIpParaCfgV40, typeof(CHCNetSDK.NET_DVR_IPPARACFG_V40));
-                byte byStreamType;
-
-
-                for (i = 0; i < iDChanNum; i++)
-                {
-                    iChannelNum[i + dwAChanTotalNum] = i + (int)m_struIpParaCfgV40.dwStartDChan;
-
-                    byStreamType = m_struIpParaCfgV40.struStreamMode[i].byGetStreamType;
-                    m_unionGetStream = m_struIpParaCfgV40.struStreamMode[i].uGetStream;
-
-                    switch (byStreamType)
-                    {
-                        case 0:
-                            dwSize = (uint)Marshal.SizeOf(m_unionGetStream);
-                            IntPtr ptrChanInfo = Marshal.AllocHGlobal((Int32)dwSize);
-                            Marshal.StructureToPtr(m_unionGetStream, ptrChanInfo, false);
-                            m_struChanInfo = (CHCNetSDK.NET_DVR_IPCHANINFO)Marshal.PtrToStructure(ptrChanInfo, typeof(CHCNetSDK.NET_DVR_IPCHANINFO));
-                            Marshal.FreeHGlobal(ptrChanInfo);
-                            break;
-
-                        default:
-                            break;
-                    }
-                }
-            }
-            Marshal.FreeHGlobal(ptrIpParaCfgV40);
-        }*/
-
         private void listViewFile_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (SheduleTable.SelectedItems.Count > 0)
@@ -139,6 +93,7 @@ namespace NVRCsharpDemo
             //Initialize current time
             DateTimeLabel.Text = DateTime.Now.ToLongTimeString();
         }
+
 
         private void btn_Exit_Click(object sender, EventArgs e)
         {
@@ -252,7 +207,8 @@ namespace NVRCsharpDemo
                 //Start the service
                 service = true;
                 //todo когда сервис запущен заблочит возможность добавления новых региков и расписания, что-бы каждый раз не читать из файла
-                Monitor.TimeMonitor(StatusServiceLabel);
+                Monitor monitor = new Monitor();
+                monitor.TimeMonitor(this);
                 buttonStartService.Text = "СТОП";
                 StatusServiceLabel.ForeColor = Color.Green;
             }
@@ -309,7 +265,8 @@ namespace NVRCsharpDemo
                     Item.channelNum.ToString(),
                     Item.startDownloadTime,
                     Item.downloadStartInterval,
-                    Item.downloadEndInterval
+                    Item.downloadEndInterval,
+                    Item.status
                 }));
             }
         }
@@ -337,7 +294,7 @@ namespace NVRCsharpDemo
             string selectedSheduleID = GetSelectedSheduleID();
             DATASHEDULE selectedShedule = DataSheduleList.FirstOrDefault(x => x.ID.ToString() == selectedSheduleID);
             DATAREG selectedDevice = DataRegList.FirstOrDefault(x => x.DeviceIP == selectedShedule.DeviceIP);
-            deviceController.DownloadDeviceVideo(selectedDevice, selectedShedule);
+            deviceController.DownloadDeviceVideo(this, selectedDevice, selectedShedule);
         }
 
         private void EditScheduleButton_Click(object sender, EventArgs e)

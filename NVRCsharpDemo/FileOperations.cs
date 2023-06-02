@@ -50,7 +50,7 @@ namespace NVRCsharpDemo
 
         public static void SaveDataSchedule(List<DATASHEDULE> saveDataSheduleList) // сохранение данных расписание
         {
-            int i=0;
+            int i = 0;
             saveDataSheduleList.ForEach(s => { s.ID = i++; });
             string json = JsonConvert.SerializeObject(saveDataSheduleList, Formatting.Indented);
             File.WriteAllText("DataShedule.json", json);
@@ -78,29 +78,41 @@ namespace NVRCsharpDemo
             File.WriteAllText("DataShedule.json", json);
         }
 
-        public static DATAREG GetDeviceReg(string deviceIP) 
-        { 
+        public static DATAREG GetDeviceReg(string deviceIP)
+        {
             string json = File.ReadAllText("DataReg.json");
             List<DATAREG> DataRegList =
                 JsonConvert.DeserializeObject<List<DATAREG>>(json);
             return DataRegList.FirstOrDefault(x => x.DeviceIP == deviceIP);
         }
 
-        public static void CreateDeviceFolder (string DeviceName)
+        public static void CreateDeviceFolder(string DeviceName)
         {
             if (!Directory.Exists(DeviceName))
             {
                 string folderPath = "C:\\";
-                Directory.CreateDirectory(folderPath+DeviceName);
+                Directory.CreateDirectory(folderPath + DeviceName);
             }
         }
         public static void CreateChannelFolder(string Channel, string DeviceName)
         {
-            string folderPath = "C:\\"+ DeviceName+ "\\";
+            string folderPath = "C:\\" + DeviceName + "\\";
             if (!Directory.Exists(Channel))
             {
-                Directory.CreateDirectory(folderPath+Channel);
+                Directory.CreateDirectory(folderPath + Channel);
             }
+        }
+
+        public static void SetSheduleStatus(int ID, string status)
+        {
+            string json = File.ReadAllText("DataShedule.json");
+            List<DATASHEDULE> DataSheduleList =
+                JsonConvert.DeserializeObject<List<DATASHEDULE>>(json);
+
+            DataSheduleList.FirstOrDefault(x => x.ID == ID).status = status;
+
+            json = JsonConvert.SerializeObject(DataSheduleList, Formatting.Indented);
+            File.WriteAllText("DataShedule.json", json);
         }
     }
 }

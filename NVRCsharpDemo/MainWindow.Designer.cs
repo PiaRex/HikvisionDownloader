@@ -53,6 +53,7 @@
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.DelScheduleButton = new System.Windows.Forms.Button();
             this.EditScheduleButton = new System.Windows.Forms.Button();
             this.SheduleTable = new System.Windows.Forms.ListView();
@@ -86,7 +87,6 @@
             this.DateTimeLabel = new System.Windows.Forms.Label();
             this.buttonStartService = new System.Windows.Forms.Button();
             this.StatusServiceLabel = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -143,6 +143,16 @@
             this.groupBox4.TabIndex = 42;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Расписание";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(204, 30);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 52;
+            this.button1.Text = "Загрузить";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // DelScheduleButton
             // 
@@ -419,16 +429,6 @@
             this.StatusServiceLabel.Text = "Статус сервиса: Остановлен";
             this.StatusServiceLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(204, 30);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 52;
-            this.button1.Text = "Загрузить";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -445,8 +445,8 @@
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "HikVision Downloader v0.7";
-            this.Load += new System.EventHandler(this.MainWindow_Load);
             this.Activated += new System.EventHandler(this.MainWindow_Activated);
+            this.Load += new System.EventHandler(this.MainWindow_Load);
             this.groupBox4.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
@@ -461,7 +461,7 @@
         private System.Windows.Forms.ColumnHeader ColumnHeader1;
         private System.Windows.Forms.ColumnHeader ColumnHeader2;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.ListView SheduleTable;
+        public System.Windows.Forms.ListView SheduleTable;
         private System.Windows.Forms.ColumnHeader DeviceName;
         private System.Windows.Forms.ColumnHeader IP;
         private System.Windows.Forms.ColumnHeader channel;

@@ -15,8 +15,14 @@ using CHANNEL = NVRCsharpDemo.ConfigurationData.Channel;
 
 namespace NVRCsharpDemo
 {
+
     public class DeviceController
     {
+        Form mainWindowForm = Application.OpenForms.OfType<MainWindow>().FirstOrDefault();
+        MainWindow mainWindowFormDesign;
+
+        DATASHEDULE sheduleData;
+
         private string str;
         private Int32 m_lDownHandle = -1;
         private Int32 m_lUserID = -1;
@@ -117,7 +123,7 @@ namespace NVRCsharpDemo
                             //добавить в массив найденный ип                      
                             listChannel.Add(new CHANNEL
                             {
-                                ChannelNum = i+1,
+                                ChannelNum = i + 1,
                                 IPID = m_struChanInfo.byIPID
                             });
                             Marshal.FreeHGlobal(ptrChanInfo);
@@ -131,10 +137,12 @@ namespace NVRCsharpDemo
             }
             Marshal.FreeHGlobal(ptrIpParaCfgV40);
         }
-        public void DownloadDeviceVideo(DATAREG loginData, DATASHEDULE sheduleData)
+        public void DownloadDeviceVideo(MainWindow window, DATAREG loginData, DATASHEDULE shedule)
         {
+            sheduleData = shedule;
+            mainWindowFormDesign = window;
             LoginDevice(loginData);
-            
+
             // начать закачку с указанным интевалом
             CHCNetSDK.NET_DVR_PLAYCOND struDownPara = new CHCNetSDK.NET_DVR_PLAYCOND();
             DateTime now = DateTime.Now;
@@ -155,8 +163,8 @@ namespace NVRCsharpDemo
             struDownPara.struStopTime.dwYear = (uint)now.Year;
             struDownPara.struStopTime.dwMonth = (uint)now.Month;
             struDownPara.struStopTime.dwDay = (uint)now.Day;
-            struDownPara.struStopTime.dwHour = (uint)startTimeHour +1;
-            struDownPara.struStopTime.dwMinute = (uint)startTimeMinute;
+            struDownPara.struStopTime.dwHour = (uint)startTimeHour;
+            struDownPara.struStopTime.dwMinute = (uint)startTimeMinute + 5;
             struDownPara.struStopTime.dwSecond = 0;
 
             string sVideoFileName;  //the path and file name to save
@@ -166,6 +174,9 @@ namespace NVRCsharpDemo
 
             //Download by time
             m_lDownHandle = CHCNetSDK.NET_DVR_GetFileByTime_V40(m_lUserID, sVideoFileName, ref struDownPara);
+
+
+            // Ошиюка при загрузке
             if (m_lDownHandle < 0)
             {
 
@@ -178,9 +189,53 @@ namespace NVRCsharpDemo
 
             // timerDownload.Interval = 1000;
             // timerDownload.Enabled = true;
-            //todo добавить в статус проценты загрузки или загрузка...
+            //todo добавить в статус проценты загрузки или загрузка..
+            
+            FileOperations.SetSheduleStatus(sheduleData.ID,"Загрузка...");
+            
         }
-        // return;
+
+        public bool GetDownloadStatus()
+        {
+
+            int iPos = 0;
+
+            //Get downloading process
+            iPos = CHCNetSDK.NET_DVR_GetDownloadPos(m_lDownHandle);
+
+            if ((iPos > 0) && (iPos < 100))
+            {
+                // вернуть статус проценты
+                FileOperations.SetSheduleStatus(sheduleData.ID, "Загрузка: " + iPos + "%");
+                return false;
+            }
+
+            if (iPos == 100)  //Finish downloading
+            {
+                // вернуть статус финиш
+              
+                if (!CHCNetSDK.NET_DVR_StopGetFile(m_lDownHandle))
+                {
+                    iLastErr = CHCNetSDK.NET_DVR_GetLastError();
+                    str = "err:= " + iLastErr; //Download controlling failed,print error code
+                    // вернуть статус ошибка
+                    FileOperations.SetSheduleStatus(sheduleData.ID, str);
+                    return true;
+                }
+                m_lDownHandle = -1;
+                FileOperations.SetSheduleStatus(sheduleData.ID, "Финиш: " + iPos + "%");
+                return true;
+            }
+
+            if (iPos == 200) //Network abnormal,download failed
+            {
+                // вернуть статус abnormal
+                FileOperations.SetSheduleStatus(sheduleData.ID, "Abnormal: " + iPos + "%");
+                return true;
+            }
+            FileOperations.SetSheduleStatus(sheduleData.ID, "!!!!!!!!!!!!: " + iPos + "%");
+            return true;
+        }
     }
 }
 
