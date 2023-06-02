@@ -87,6 +87,10 @@
             this.DateTimeLabel = new System.Windows.Forms.Label();
             this.buttonStartService = new System.Windows.Forms.Button();
             this.StatusServiceLabel = new System.Windows.Forms.Label();
+            this.StatusLabel = new System.Windows.Forms.Label();
+            this.dateTimeStart = new System.Windows.Forms.DateTimePicker();
+            this.dateTimeEnd = new System.Windows.Forms.DateTimePicker();
+            this.btnSearch = new System.Windows.Forms.Button();
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -133,6 +137,10 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.btnSearch);
+            this.groupBox4.Controls.Add(this.dateTimeEnd);
+            this.groupBox4.Controls.Add(this.dateTimeStart);
+            this.groupBox4.Controls.Add(this.StatusLabel);
             this.groupBox4.Controls.Add(this.button1);
             this.groupBox4.Controls.Add(this.DelScheduleButton);
             this.groupBox4.Controls.Add(this.EditScheduleButton);
@@ -429,6 +437,45 @@
             this.StatusServiceLabel.Text = "Статус сервиса: Остановлен";
             this.StatusServiceLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // StatusLabel
+            // 
+            this.StatusLabel.AutoSize = true;
+            this.StatusLabel.Location = new System.Drawing.Point(313, 38);
+            this.StatusLabel.Name = "StatusLabel";
+            this.StatusLabel.Size = new System.Drawing.Size(35, 13);
+            this.StatusLabel.TabIndex = 53;
+            this.StatusLabel.Text = "label6";
+            // 
+            // dateTimeStart
+            // 
+            this.dateTimeStart.CustomFormat = "yyyy-MM-dd HH:mm:ss";
+            this.dateTimeStart.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimeStart.Location = new System.Drawing.Point(410, 19);
+            this.dateTimeStart.Name = "dateTimeStart";
+            this.dateTimeStart.Size = new System.Drawing.Size(158, 20);
+            this.dateTimeStart.TabIndex = 54;
+            this.dateTimeStart.UseWaitCursor = true;
+            this.dateTimeStart.Value = new System.DateTime(2014, 2, 28, 14, 43, 28, 0);
+            // 
+            // dateTimeEnd
+            // 
+            this.dateTimeEnd.CustomFormat = "yyyy-MM-dd HH:mm:ss";
+            this.dateTimeEnd.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimeEnd.Location = new System.Drawing.Point(410, 45);
+            this.dateTimeEnd.Name = "dateTimeEnd";
+            this.dateTimeEnd.Size = new System.Drawing.Size(156, 20);
+            this.dateTimeEnd.TabIndex = 55;
+            this.dateTimeEnd.Value = new System.DateTime(2014, 2, 28, 14, 40, 31, 0);
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.Location = new System.Drawing.Point(574, 18);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(125, 35);
+            this.btnSearch.TabIndex = 56;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.UseVisualStyleBackColor = true;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -448,6 +495,7 @@
             this.Activated += new System.EventHandler(this.MainWindow_Activated);
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
@@ -497,6 +545,10 @@
         private System.Windows.Forms.ColumnHeader ID;
         private System.Windows.Forms.ColumnHeader StartDownload;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label StatusLabel;
+        private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.DateTimePicker dateTimeEnd;
+        private System.Windows.Forms.DateTimePicker dateTimeStart;
     }
 }
 

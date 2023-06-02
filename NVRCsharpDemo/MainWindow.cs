@@ -39,9 +39,7 @@ namespace NVRCsharpDemo
         private uint dwDChanTotalNum = 0;
 
         public CHCNetSDK.NET_DVR_DEVICEINFO_V30 DeviceInfo;
-        public CHCNetSDK.NET_DVR_IPPARACFG_V40 m_struIpParaCfgV40;
-        public CHCNetSDK.NET_DVR_GET_STREAM_UNION m_unionGetStream;
-        public CHCNetSDK.NET_DVR_IPCHANINFO m_struChanInfo;
+
         public string StatusText { get { return StatusServiceLabel.Text; } set { StatusServiceLabel.Text = value; } }
 
 
@@ -49,19 +47,9 @@ namespace NVRCsharpDemo
         public List<DATAREG> DataRegList = new List<DATAREG>();
         public List<DATASHEDULE> DataSheduleList = new List<DATASHEDULE>();
 
-        [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = 96, ArraySubType = UnmanagedType.U4)]
-        private int[] iChannelNum;
-
         public MainWindow()
         {
             InitializeComponent();
-            currentTimeTimer.Interval = 1000;
-            currentTimeTimer.Tick += Timer_Tick;
-            currentTimeTimer.Start();
-
-            RefreshDeviceTable();
-            RefreshSheduleTable();
-
             m_bInitSDK = CHCNetSDK.NET_DVR_Init();
             if (m_bInitSDK == false)
             {
@@ -72,8 +60,14 @@ namespace NVRCsharpDemo
             {
                 //Save log of SDK
                 CHCNetSDK.NET_DVR_SetLogToFile(3, "C:\\SdkLog\\", true);
-                iChannelNum = new int[96];
             }
+
+            currentTimeTimer.Interval = 1000;
+            currentTimeTimer.Tick += Timer_Tick;
+            currentTimeTimer.Start();
+
+            RefreshDeviceTable();
+            RefreshSheduleTable();
         }
 
         private void listViewFile_SelectedIndexChanged(object sender, EventArgs e)
@@ -151,14 +145,14 @@ namespace NVRCsharpDemo
                     //Login successsfully
                     MessageBox.Show("Login Success!");
 
-/*                    dwAChanTotalNum = (uint)DeviceInfo.byChanNum;
+                    dwAChanTotalNum = (uint)DeviceInfo.byChanNum;
                     dwDChanTotalNum = (uint)DeviceInfo.byIPChanNum + 256 * (uint)DeviceInfo.byHighDChanNum;
                     uint iDChanNum = 64;
 
                     if (dwDChanTotalNum < 64 & dwDChanTotalNum > 0)
                     {
                         iDChanNum = dwDChanTotalNum; //If the ip channels of device is less than 64,will get the real channel of device
-                    }*/
+                    }
 
                     List<DATAREG> DataRegList = FileOperations.LoadDataReg();
 
@@ -170,24 +164,10 @@ namespace NVRCsharpDemo
                         UserName = textBoxUserName.Text,
                         Password = textBoxPassword.Text
                     });
-
                     FileOperations.SaveDataReg(DataRegList);
-
                     RefreshDeviceTable();
                 }
 
-            }
-            else
-            {
-                //Logout the device
-                if (!CHCNetSDK.NET_DVR_Logout(m_lUserID))
-                {
-                    iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                    str1 = "NET_DVR_Logout failed, error code= " + iLastErr;
-                    MessageBox.Show(str1);
-                    return;
-                }
-                DevicesList.Items.Clear();//Clear channel list
             }
             return;
         }
@@ -305,7 +285,8 @@ namespace NVRCsharpDemo
 
         private void MainWindow_Activated(object sender, EventArgs e)
         {
-            RefreshSheduleTable();
+           RefreshSheduleTable();
         }
+
     }
 }
