@@ -137,10 +137,9 @@ namespace NVRCsharpDemo
             }
             Marshal.FreeHGlobal(ptrIpParaCfgV40);
         }
-        public void DownloadDeviceVideo(MainWindow window, DATAREG loginData, DATASHEDULE shedule)
+        public void DownloadDeviceVideo(DATAREG loginData, DATASHEDULE shedule)
         {
             sheduleData = shedule;
-            mainWindowFormDesign = window;
             LoginDevice(loginData);
 
             // начать закачку с указанным интевалом
@@ -164,14 +163,14 @@ namespace NVRCsharpDemo
             struDownPara.struStopTime.dwMonth = (uint)now.Month;
             struDownPara.struStopTime.dwDay = (uint)now.Day;
             struDownPara.struStopTime.dwHour = (uint)startTimeHour;
-            struDownPara.struStopTime.dwMinute = (uint)startTimeMinute + 5;
+            struDownPara.struStopTime.dwMinute = (uint)startTimeMinute + 1;
             struDownPara.struStopTime.dwSecond = 0;
 
+            MessageBox.Show(m_lUserID.ToString() + " "+ struDownPara.dwChannel.ToString() + " " + struDownPara.struStartTime.dwDay.ToString() + " " + struDownPara.struStartTime.dwMonth.ToString() + " " + struDownPara.struStartTime.dwYear.ToString() + " " +struDownPara.struStartTime.dwHour.ToString() + " " + struDownPara.struStartTime.dwMinute.ToString() + " " + struDownPara.struStopTime.dwHour.ToString() + " " + struDownPara.struStopTime.dwMinute.ToString());
             string sVideoFileName;  //the path and file name to save
             FileOperations.CreateDeviceFolder(loginData.DeviceName);
             FileOperations.CreateChannelFolder("Channel " + sheduleData.channelNum, loginData.DeviceName);
             sVideoFileName = $"C:\\{loginData.DeviceName}\\Channel {sheduleData.channelNum}\\{startTimeHour}-{startTimeMinute}_{startTimeHour + 1}-{startTimeMinute}.mp4";
-
             //Download by time
             m_lDownHandle = CHCNetSDK.NET_DVR_GetFileByTime_V40(m_lUserID, sVideoFileName, ref struDownPara);
 
@@ -191,7 +190,7 @@ namespace NVRCsharpDemo
             // timerDownload.Enabled = true;
             //todo добавить в статус проценты загрузки или загрузка..
             
-            FileOperations.SetSheduleStatus(sheduleData.ID,"Загрузка...");
+           // FileOperations.SetSheduleStatus(sheduleData.ID,"Загрузка...");
             
         }
 
@@ -203,7 +202,7 @@ namespace NVRCsharpDemo
             //Get downloading process
             iPos = CHCNetSDK.NET_DVR_GetDownloadPos(m_lDownHandle);
 
-            if ((iPos > 0) && (iPos < 100))
+            if ((iPos >= 0) && (iPos < 100))
             {
                 // вернуть статус проценты
                 FileOperations.SetSheduleStatus(sheduleData.ID, "Загрузка: " + iPos + "%");
@@ -230,9 +229,11 @@ namespace NVRCsharpDemo
             if (iPos == 200) //Network abnormal,download failed
             {
                 // вернуть статус abnormal
+                m_lDownHandle = -1;
                 FileOperations.SetSheduleStatus(sheduleData.ID, "Abnormal: " + iPos + "%");
                 return true;
             }
+            m_lDownHandle = -1;
             FileOperations.SetSheduleStatus(sheduleData.ID, "!!!!!!!!!!!!: " + iPos + "%");
             return true;
         }

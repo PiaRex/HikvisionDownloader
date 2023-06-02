@@ -56,7 +56,7 @@ namespace NVRCsharpDemo
                     {
                         // запустить в отдельном потоке закачку каждого канала
                         deviceController = new DeviceController();
-                        deviceController.DownloadDeviceVideo(mainWindowFormDesign, currentDataReg, currentDataShedule);
+                        deviceController.DownloadDeviceVideo(currentDataReg, currentDataShedule);
 
                         // проверить статус закачки
                         bool status;
@@ -66,7 +66,7 @@ namespace NVRCsharpDemo
                             status = deviceController.GetDownloadStatus();
                             mainWindowForm.Invoke((MethodInvoker)(() => mainWindowForm.Activate()));
                             
-                        } while (status);
+                        } while (!status);
                     }
                 }
 

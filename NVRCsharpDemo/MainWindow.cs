@@ -294,7 +294,7 @@ namespace NVRCsharpDemo
             string selectedSheduleID = GetSelectedSheduleID();
             DATASHEDULE selectedShedule = DataSheduleList.FirstOrDefault(x => x.ID.ToString() == selectedSheduleID);
             DATAREG selectedDevice = DataRegList.FirstOrDefault(x => x.DeviceIP == selectedShedule.DeviceIP);
-            deviceController.DownloadDeviceVideo(this, selectedDevice, selectedShedule);
+            deviceController.DownloadDeviceVideo(selectedDevice, selectedShedule);
         }
 
         private void EditScheduleButton_Click(object sender, EventArgs e)
