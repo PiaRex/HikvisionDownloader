@@ -1,4 +1,7 @@
-﻿namespace NVRCsharpDemo
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace NVRCsharpDemo
 {
     partial class IntervalForm
     {
@@ -46,6 +49,15 @@
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
+
+            StartDownloadTextbox.Validating += new CancelEventHandler(StartDownloadTextbox_Validating);
+            StartDownloadTextbox.Tag = StartDownloadTextbox.Text;
+
+            StartTimeText.Validating += new CancelEventHandler(StartTimeText_Validating);
+            StartTimeText.Tag = StartTimeText.Text;
+
+            EndTimeText.Validating += new CancelEventHandler(EndTimeText_Validating);
+            EndTimeText.Tag = EndTimeText.Text;
             // 
             // label17
             // 

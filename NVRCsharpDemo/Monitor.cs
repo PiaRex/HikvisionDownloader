@@ -35,6 +35,7 @@ namespace NVRCsharpDemo
             // Читаем данные из файла
             DataRegList = FileOperations.LoadDataReg(); // чтение данных о регике
             DataSheduleList = FileOperations.LoadDataShedule(); // чтение данных расписание  
+            setStatusLabel("Статус сервиса: запущен");
 
             int i = 0;
             while (true)
@@ -56,17 +57,15 @@ namespace NVRCsharpDemo
                     {
                         // запустить в отдельном потоке закачку каждого канала
                         deviceController = new DeviceController();
-                        deviceController.DownloadDeviceVideo(currentDataReg, currentDataShedule);
+                        deviceController.DownloadIntervalDeviceVideo(currentDataReg, currentDataShedule);
 
                         // проверить статус закачки
-                        bool status;
-                        do
-                        {
-                            System.Threading.Thread.Sleep(10000);
-                            status = deviceController.GetDownloadStatus();
-                            mainWindowForm.Invoke((MethodInvoker)(() => mainWindowForm.Activate()));
-                            
-                        } while (!status);
+                       // bool status;
+                       // do
+                       // {
+                        //    System.Threading.Thread.Sleep(1000);
+                       //     status = deviceController.GetDownloadStatus(); 
+                       // } while (!status);
                     }
                 }
 
@@ -75,6 +74,13 @@ namespace NVRCsharpDemo
             }
         }
 
+        private void setStatusLabel(string text)
+        {
+            mainWindowForm.Invoke(new Action(() =>
+            {
+                mainWindowFormDesign.StatusServiceLabel.Text = text;
+            }));
+        }
         private void Downloader()
         {
             //

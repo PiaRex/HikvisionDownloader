@@ -101,6 +101,7 @@
     <Compile Include="EditForm.Designer.cs">
       <DependentUpon>EditForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers.cs" />
     <Compile Include="Monitor.cs" />
     <Compile Include="ScheduleForm.cs">
       <SubType>Form</SubType>

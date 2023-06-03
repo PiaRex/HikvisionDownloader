@@ -11,6 +11,7 @@ using static NVRCsharpDemo.ConfigurationData;
 using DATAREG = NVRCsharpDemo.ConfigurationData.DataReg;
 using DATASHEDULE = NVRCsharpDemo.ConfigurationData.DataShedule;
 using CHANNEL = NVRCsharpDemo.ConfigurationData.Channel;
+using System.Globalization;
 
 namespace NVRCsharpDemo
 {
@@ -55,6 +56,30 @@ namespace NVRCsharpDemo
             mainWindow = Application.OpenForms.OfType<MainWindow>().FirstOrDefault();
             this.Left = mainWindow.Width/2+80;
             this.Top = mainWindow.Top + 140;
+        }
+
+        private void StartDownloadText_Validating(object sender, CancelEventArgs e) { ValidateTextBox(StartDownloadText); }
+
+        private void StartTimeText_Validating(object sender, CancelEventArgs e) { ValidateTextBox(StartTimeText); }
+
+        private void EndTimeText_Validating(object sender, CancelEventArgs e) { ValidateTextBox(EndTimeText); }
+
+        private void ValidateTextBox(MaskedTextBox textBox)
+        {
+            // Проверяем, что значение в maskedTextBox соответствует формату времени HH:mm
+            DateTime dt;
+            if (!DateTime.TryParseExact(textBox.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
+            {
+                // Если значение не соответствует формату, то сбросить на предыдущее корректное
+                MessageBox.Show("Введите время в формате HH:mm");
+                // e.Cancel = true;
+                textBox.Text = textBox.Tag.ToString();
+            }
+            else
+            {
+                // Запоминаем текущее корректное значение в Tag для использования в следующий раз
+                textBox.Tag = textBox.Text;
+            }
         }
     }
 }

@@ -11,6 +11,7 @@ using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 using DATAREG = NVRCsharpDemo.ConfigurationData.DataReg;
 using DATASHEDULE = NVRCsharpDemo.ConfigurationData.DataShedule;
+using System.Threading;
 
 namespace NVRCsharpDemo
 {
@@ -33,7 +34,7 @@ namespace NVRCsharpDemo
         private string sPlayBackFileName = null;
         private Int32 i = 0;
         private Int32 m_lTree = 0;
-        private Timer currentTimeTimer = new Timer();
+        private System.Windows.Forms.Timer currentTimeTimer = new System.Windows.Forms.Timer();
         private int DeviceIndex = 0;
         private uint dwAChanTotalNum = 0;
         private uint dwDChanTotalNum = 0;
@@ -50,6 +51,7 @@ namespace NVRCsharpDemo
         public MainWindow()
         {
             InitializeComponent();
+            
             m_bInitSDK = CHCNetSDK.NET_DVR_Init();
             if (m_bInitSDK == false)
             {
@@ -81,6 +83,7 @@ namespace NVRCsharpDemo
         {
             //Show current time
             DateTimeLabel.Text = DateTime.Now.ToLongTimeString();
+            RefreshDeviceTable();
         }
         private void MainWindow_Load(object sender, EventArgs e)
         {
@@ -174,9 +177,13 @@ namespace NVRCsharpDemo
 
         private void AddIntervalButton_Click(object sender, EventArgs e)
         {
+            string selectedDeviceIP = GetSelectedDeviceIP();
+            if (selectedDeviceIP != null)
+            {
+                Form scheduleForm = new ScheduleForm(GetSelectedDeviceIP());
+                scheduleForm.Show();
+            }
 
-            Form scheduleForm = new ScheduleForm(GetSelectedDeviceIP());
-            scheduleForm.Show();
         }
 
         private void buttonStartService_Click(object sender, EventArgs e)
@@ -213,7 +220,12 @@ namespace NVRCsharpDemo
             {
                 string deviceIP = DevicesList.SelectedItems[0].SubItems[1].Text;  //Select the current items
                 return deviceIP;
+            } 
+            else
+            {
+                MessageBox.Show("Выберите устройство из списка");
             }
+
             return null;
         }
 
@@ -253,9 +265,12 @@ namespace NVRCsharpDemo
 
         private void DelScheduleButton_Click(object sender, EventArgs e)
         {
-            string selectedSheduleID = GetSelectedSheduleID();
-            FileOperations.DeleteShedule(selectedSheduleID);
-            RefreshSheduleTable();
+            if (GetSelectedSheduleID() != null)
+            {
+                string selectedSheduleID = GetSelectedSheduleID();
+                FileOperations.DeleteShedule(selectedSheduleID);
+                RefreshSheduleTable();
+            }
         }
 
         private string GetSelectedSheduleID()
@@ -265,22 +280,34 @@ namespace NVRCsharpDemo
                 string sheduleID = SheduleTable.SelectedItems[0].SubItems[0].Text;  //Select the current items
                 return sheduleID;
             }
+            MessageBox.Show("Выберите задачу из списка");
             return null;
         }
 
         private void button1_Click(object sender, EventArgs e)
-        { 
-            DeviceController deviceController = new DeviceController();
-            string selectedSheduleID = GetSelectedSheduleID();
-            DATASHEDULE selectedShedule = DataSheduleList.FirstOrDefault(x => x.ID.ToString() == selectedSheduleID);
-            DATAREG selectedDevice = DataRegList.FirstOrDefault(x => x.DeviceIP == selectedShedule.DeviceIP);
-            deviceController.DownloadDeviceVideo(selectedDevice, selectedShedule);
+        {
+            
+            if (GetSelectedSheduleID() != null)
+            {
+                DeviceController deviceController = new DeviceController();
+                string selectedSheduleID = GetSelectedSheduleID();
+                DATASHEDULE selectedShedule = DataSheduleList.FirstOrDefault(x => x.ID.ToString() == selectedSheduleID);
+                DATAREG selectedDevice = DataRegList.FirstOrDefault(x => x.DeviceIP == selectedShedule.DeviceIP);
+                var downloadThread = new Thread(() => deviceController.DownloadIntervalDeviceVideo(selectedDevice, selectedShedule));
+                downloadThread.Start();
+                FileOperations.AddLog("MainForm", "Нажата кнопка загрузка выбрано: " + selectedShedule.DeviceIP);
+            }
+            
         }
 
         private void EditScheduleButton_Click(object sender, EventArgs e)
         {
-            Form EditForm = new EditForm(GetSelectedSheduleID());
-            EditForm.Show();
+            if (GetSelectedSheduleID() != null)
+            {
+                Form EditForm = new EditForm(GetSelectedSheduleID());
+                EditForm.Show();
+            }
+
         }
 
         private void MainWindow_Activated(object sender, EventArgs e)
@@ -288,5 +315,23 @@ namespace NVRCsharpDemo
            RefreshSheduleTable();
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+            DateTime firstDate = DateTime.Today.AddHours(5); ; // первое время (можно использовать любое время, не обязательно текущее)
+            DateTime secondDate = DateTime.Today.AddHours(22); // второе время (можно использовать любое время, не обязательно текущее)
+
+            if (secondDate < firstDate) // если второе время меньше первого
+            {
+                secondDate = secondDate.AddDays(1); // прибавляем день ко второму времени
+            }
+
+            TimeSpan timeDifference = secondDate - firstDate; // вычисление разницы времени
+
+            int hoursDifference = (int)Math.Round(timeDifference.TotalHours); // перевод разницы времени в количество часов
+
+            MessageBox.Show($"Для загрузки необходимо {hoursDifference} часов"); // вывод результата
+
+        }
     }
 }

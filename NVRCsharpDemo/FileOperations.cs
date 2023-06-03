@@ -8,6 +8,7 @@ using System.IO;
 using static NVRCsharpDemo.MainWindow;
 using DATAREG = NVRCsharpDemo.ConfigurationData.DataReg;
 using DATASHEDULE = NVRCsharpDemo.ConfigurationData.DataShedule;
+using DATALOG = NVRCsharpDemo.ConfigurationData.LogData;
 using System.Dynamic;
 
 namespace NVRCsharpDemo
@@ -114,5 +115,25 @@ namespace NVRCsharpDemo
             json = JsonConvert.SerializeObject(DataSheduleList, Formatting.Indented);
             File.WriteAllText("DataShedule.json", json);
         }
+
+
+        public static void AddLog(string location, string message)
+        {
+            DateTime now = DateTime.Now;
+
+            string filePath = @"Log.txt";
+
+            string logEntry = $"[{now.ToString()}] {location}: {message}{Environment.NewLine}";
+
+            using (StreamWriter writer = File.AppendText(filePath))
+            {
+                writer.Write(logEntry);
+            }
+
+        }
+
+
+
+
     }
 }

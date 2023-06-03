@@ -11,6 +11,7 @@ using DATAREG = NVRCsharpDemo.ConfigurationData.DataReg;
 using DATASHEDULE = NVRCsharpDemo.ConfigurationData.DataShedule;
 using CHANNEL = NVRCsharpDemo.ConfigurationData.Channel;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Globalization;
 
 namespace NVRCsharpDemo
 {
@@ -23,6 +24,7 @@ namespace NVRCsharpDemo
         public IntervalForm(string deviceIP)
         {
             InitializeComponent();
+
             selectedDeviceIP = deviceIP;
             List<CHANNEL> channelList = deviceController.getDeviceChannel(selectedDeviceIP);
             foreach (CHANNEL Item in channelList)
@@ -87,5 +89,30 @@ namespace NVRCsharpDemo
             });
             FileOperations.SaveDataSchedule(dataSheduleList);
         }
+
+        private void StartDownloadTextbox_Validating(object sender, CancelEventArgs e) { ValidateTextBox(StartDownloadTextbox); }
+
+        private void StartTimeText_Validating(object sender, CancelEventArgs e) {  ValidateTextBox(StartTimeText); }
+
+        private void EndTimeText_Validating(object sender, CancelEventArgs e) {  ValidateTextBox(EndTimeText);}
+
+        private void ValidateTextBox(MaskedTextBox textBox)
+        {
+            // Проверяем, что значение в maskedTextBox соответствует формату времени HH:mm
+            DateTime dt;
+            if (!DateTime.TryParseExact(textBox.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
+            {
+                // Если значение не соответствует формату, то сбросить на предыдущее корректное
+                MessageBox.Show("Введите время в формате HH:mm");
+               // e.Cancel = true;
+                textBox.Text = textBox.Tag.ToString();
+            }
+            else
+            {
+                // Запоминаем текущее корректное значение в Tag для использования в следующий раз
+                textBox.Tag = textBox.Text;
+            }
+        }
+
     }
 }

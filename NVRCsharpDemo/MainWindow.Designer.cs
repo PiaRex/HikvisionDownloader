@@ -1,4 +1,6 @@
-﻿namespace NVRCsharpDemo
+﻿using System.ComponentModel;
+
+namespace NVRCsharpDemo
 {
     partial class MainWindow
     {
@@ -87,10 +89,7 @@
             this.DateTimeLabel = new System.Windows.Forms.Label();
             this.buttonStartService = new System.Windows.Forms.Button();
             this.StatusServiceLabel = new System.Windows.Forms.Label();
-            this.StatusLabel = new System.Windows.Forms.Label();
-            this.dateTimeStart = new System.Windows.Forms.DateTimePicker();
-            this.dateTimeEnd = new System.Windows.Forms.DateTimePicker();
-            this.btnSearch = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -137,10 +136,7 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.btnSearch);
-            this.groupBox4.Controls.Add(this.dateTimeEnd);
-            this.groupBox4.Controls.Add(this.dateTimeStart);
-            this.groupBox4.Controls.Add(this.StatusLabel);
+            this.groupBox4.Controls.Add(this.button2);
             this.groupBox4.Controls.Add(this.button1);
             this.groupBox4.Controls.Add(this.DelScheduleButton);
             this.groupBox4.Controls.Add(this.EditScheduleButton);
@@ -154,9 +150,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(204, 30);
+            this.button1.Location = new System.Drawing.Point(204, 26);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(86, 31);
             this.button1.TabIndex = 52;
             this.button1.Text = "Загрузить";
             this.button1.UseVisualStyleBackColor = true;
@@ -417,9 +413,9 @@
             // 
             // buttonStartService
             // 
-            this.buttonStartService.Location = new System.Drawing.Point(282, 3);
+            this.buttonStartService.Location = new System.Drawing.Point(397, 5);
             this.buttonStartService.Name = "buttonStartService";
-            this.buttonStartService.Size = new System.Drawing.Size(116, 33);
+            this.buttonStartService.Size = new System.Drawing.Size(155, 33);
             this.buttonStartService.TabIndex = 35;
             this.buttonStartService.Text = "СТАРТ";
             this.buttonStartService.UseVisualStyleBackColor = true;
@@ -430,51 +426,22 @@
             this.StatusServiceLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.StatusServiceLabel.AutoSize = true;
             this.StatusServiceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.StatusServiceLabel.Location = new System.Drawing.Point(692, 5);
+            this.StatusServiceLabel.Location = new System.Drawing.Point(564, 9);
             this.StatusServiceLabel.Name = "StatusServiceLabel";
             this.StatusServiceLabel.Size = new System.Drawing.Size(297, 24);
             this.StatusServiceLabel.TabIndex = 49;
             this.StatusServiceLabel.Text = "Статус сервиса: Остановлен";
             this.StatusServiceLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // StatusLabel
+            // button2
             // 
-            this.StatusLabel.AutoSize = true;
-            this.StatusLabel.Location = new System.Drawing.Point(313, 38);
-            this.StatusLabel.Name = "StatusLabel";
-            this.StatusLabel.Size = new System.Drawing.Size(35, 13);
-            this.StatusLabel.TabIndex = 53;
-            this.StatusLabel.Text = "label6";
-            // 
-            // dateTimeStart
-            // 
-            this.dateTimeStart.CustomFormat = "yyyy-MM-dd HH:mm:ss";
-            this.dateTimeStart.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimeStart.Location = new System.Drawing.Point(410, 19);
-            this.dateTimeStart.Name = "dateTimeStart";
-            this.dateTimeStart.Size = new System.Drawing.Size(158, 20);
-            this.dateTimeStart.TabIndex = 54;
-            this.dateTimeStart.UseWaitCursor = true;
-            this.dateTimeStart.Value = new System.DateTime(2014, 2, 28, 14, 43, 28, 0);
-            // 
-            // dateTimeEnd
-            // 
-            this.dateTimeEnd.CustomFormat = "yyyy-MM-dd HH:mm:ss";
-            this.dateTimeEnd.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimeEnd.Location = new System.Drawing.Point(410, 45);
-            this.dateTimeEnd.Name = "dateTimeEnd";
-            this.dateTimeEnd.Size = new System.Drawing.Size(156, 20);
-            this.dateTimeEnd.TabIndex = 55;
-            this.dateTimeEnd.Value = new System.DateTime(2014, 2, 28, 14, 40, 31, 0);
-            // 
-            // btnSearch
-            // 
-            this.btnSearch.Location = new System.Drawing.Point(574, 18);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(125, 35);
-            this.btnSearch.TabIndex = 56;
-            this.btnSearch.Text = "Search";
-            this.btnSearch.UseVisualStyleBackColor = true;
+            this.button2.Location = new System.Drawing.Point(297, 27);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(78, 30);
+            this.button2.TabIndex = 53;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // MainWindow
             // 
@@ -495,7 +462,6 @@
             this.Activated += new System.EventHandler(this.MainWindow_Activated);
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
@@ -545,10 +511,7 @@
         private System.Windows.Forms.ColumnHeader ID;
         private System.Windows.Forms.ColumnHeader StartDownload;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label StatusLabel;
-        private System.Windows.Forms.Button btnSearch;
-        private System.Windows.Forms.DateTimePicker dateTimeEnd;
-        private System.Windows.Forms.DateTimePicker dateTimeStart;
+        private System.Windows.Forms.Button button2;
     }
 }
 

@@ -1,4 +1,6 @@
-﻿namespace NVRCsharpDemo
+﻿using System.ComponentModel;
+
+namespace NVRCsharpDemo
 {
     partial class EditForm
     {
@@ -172,6 +174,16 @@
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
+
+
+            StartDownloadText.Validating += new CancelEventHandler(StartDownloadText_Validating);
+            StartDownloadText.Tag = StartDownloadText.Text;
+
+            StartTimeText.Validating += new CancelEventHandler(StartTimeText_Validating);
+            StartTimeText.Tag = StartTimeText.Text;
+
+            EndTimeText.Validating += new CancelEventHandler(EndTimeText_Validating);
+            EndTimeText.Tag = EndTimeText.Text;
 
         }
 

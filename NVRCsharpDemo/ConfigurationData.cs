@@ -33,5 +33,19 @@ namespace NVRCsharpDemo
             public int ChannelNum { get; set; }
             public byte IPID { get; set; }
         }
+
+        public class LogData
+        {
+            public string date { get; set; }
+            public string location { get; set; }
+            public string message { get; set; }
+        }
+
+        public class DownloadStatus
+        {
+            public bool status { get; set; }
+            public string value { get; set; }
+        }
+
     }
 }
