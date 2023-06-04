@@ -97,34 +97,28 @@ namespace NVRCsharpDemo
             {
                 Directory.CreateDirectory(folderPath + "\\" + DeviceName);
                 folderPath = folderPath + "\\" + DeviceName;
-                MessageBox.Show("Папка создается "+folderPath);
             }
             else
             {
                 folderPath = folderPath + "\\" + DeviceName+ "\\";
-                MessageBox.Show("Папка найдена " + folderPath);
             }
             if (!Directory.Exists(folderPath + Channel))
             {
                 Directory.CreateDirectory(folderPath + "\\" + Channel);
                 folderPath = folderPath + "\\" + Channel;
-                MessageBox.Show("Папка создается " + folderPath);
             }
             else
             {
                 folderPath = folderPath + "\\" + Channel + "\\";
-                MessageBox.Show("Папка найдена " + folderPath);
             }
             if (!Directory.Exists(folderPath + currentDate))
             {
                 Directory.CreateDirectory(folderPath + "\\" + currentDate);
                 folderPath = folderPath + "\\" + currentDate;
-                MessageBox.Show("Папка создается " + folderPath);
             }
             else
             {
                 folderPath = folderPath + "\\" + currentDate + "\\";
-                MessageBox.Show("Папка найдена " + folderPath);
             } 
             return folderPath + "\\";
         }

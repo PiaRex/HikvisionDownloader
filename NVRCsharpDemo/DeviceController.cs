@@ -208,7 +208,6 @@ namespace NVRCsharpDemo
 
             string sVideoFileName;  //the path and file name to save
             currentFolder = FileOperations.SetDestinationFolder(loginData.DeviceName, shedule.channelNum.ToString());
-            MessageBox.Show("Конечная папка" +currentFolder);
             sVideoFileName = $"{currentFolder}" +
                 $"{startDownloadDateTime.Hour}-" +
                 $"{startDownloadDateTime.Minute}_" +
