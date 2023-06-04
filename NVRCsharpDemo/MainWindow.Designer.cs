@@ -55,6 +55,7 @@ namespace NVRCsharpDemo
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.DelScheduleButton = new System.Windows.Forms.Button();
             this.EditScheduleButton = new System.Windows.Forms.Button();
@@ -89,7 +90,10 @@ namespace NVRCsharpDemo
             this.DateTimeLabel = new System.Windows.Forms.Label();
             this.buttonStartService = new System.Windows.Forms.Button();
             this.StatusServiceLabel = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
+            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.ChooseFolderButton = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.CurrentFolderLabel = new System.Windows.Forms.Label();
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -136,7 +140,9 @@ namespace NVRCsharpDemo
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.button2);
+            this.groupBox4.Controls.Add(this.CurrentFolderLabel);
+            this.groupBox4.Controls.Add(this.label6);
+            this.groupBox4.Controls.Add(this.ChooseFolderButton);
             this.groupBox4.Controls.Add(this.button1);
             this.groupBox4.Controls.Add(this.DelScheduleButton);
             this.groupBox4.Controls.Add(this.EditScheduleButton);
@@ -148,13 +154,23 @@ namespace NVRCsharpDemo
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Расписание";
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(447, 17);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(78, 30);
+            this.button2.TabIndex = 53;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(204, 26);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(86, 31);
+            this.button1.Size = new System.Drawing.Size(112, 31);
             this.button1.TabIndex = 52;
-            this.button1.Text = "Загрузить";
+            this.button1.Text = "Загрузить вручную";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -286,6 +302,7 @@ namespace NVRCsharpDemo
             // 
             this.groupBox3.Controls.Add(this.textBoxDeviceName);
             this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Controls.Add(this.button2);
             this.groupBox3.Controls.Add(this.textBoxPassword);
             this.groupBox3.Controls.Add(this.textBoxUserName);
             this.groupBox3.Controls.Add(this.textBoxPort);
@@ -396,7 +413,7 @@ namespace NVRCsharpDemo
             // TimeLabel
             // 
             this.TimeLabel.AutoSize = true;
-            this.TimeLabel.Location = new System.Drawing.Point(9, 9);
+            this.TimeLabel.Location = new System.Drawing.Point(1260, 16);
             this.TimeLabel.Name = "TimeLabel";
             this.TimeLabel.Size = new System.Drawing.Size(90, 13);
             this.TimeLabel.TabIndex = 47;
@@ -405,7 +422,7 @@ namespace NVRCsharpDemo
             // DateTimeLabel
             // 
             this.DateTimeLabel.AutoSize = true;
-            this.DateTimeLabel.Location = new System.Drawing.Point(96, 9);
+            this.DateTimeLabel.Location = new System.Drawing.Point(1347, 16);
             this.DateTimeLabel.Name = "DateTimeLabel";
             this.DateTimeLabel.Size = new System.Drawing.Size(56, 13);
             this.DateTimeLabel.TabIndex = 48;
@@ -413,9 +430,10 @@ namespace NVRCsharpDemo
             // 
             // buttonStartService
             // 
-            this.buttonStartService.Location = new System.Drawing.Point(397, 5);
+            this.buttonStartService.Font = new System.Drawing.Font("Franklin Gothic Medium Cond", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonStartService.Location = new System.Drawing.Point(12, 4);
             this.buttonStartService.Name = "buttonStartService";
-            this.buttonStartService.Size = new System.Drawing.Size(155, 33);
+            this.buttonStartService.Size = new System.Drawing.Size(116, 33);
             this.buttonStartService.TabIndex = 35;
             this.buttonStartService.Text = "СТАРТ";
             this.buttonStartService.UseVisualStyleBackColor = true;
@@ -425,23 +443,45 @@ namespace NVRCsharpDemo
             // 
             this.StatusServiceLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.StatusServiceLabel.AutoSize = true;
-            this.StatusServiceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.StatusServiceLabel.Location = new System.Drawing.Point(564, 9);
+            this.StatusServiceLabel.Font = new System.Drawing.Font("Haettenschweiler", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.StatusServiceLabel.Location = new System.Drawing.Point(134, 10);
             this.StatusServiceLabel.Name = "StatusServiceLabel";
-            this.StatusServiceLabel.Size = new System.Drawing.Size(297, 24);
+            this.StatusServiceLabel.Size = new System.Drawing.Size(193, 22);
             this.StatusServiceLabel.TabIndex = 49;
             this.StatusServiceLabel.Text = "Статус сервиса: Остановлен";
             this.StatusServiceLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // button2
+            // ChooseFolderButton
             // 
-            this.button2.Location = new System.Drawing.Point(297, 27);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(78, 30);
-            this.button2.TabIndex = 53;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.ChooseFolderButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ChooseFolderButton.CausesValidation = false;
+            this.ChooseFolderButton.Image = global::NVRCsharpDemo.Properties.Resources._3767084123;
+            this.ChooseFolderButton.Location = new System.Drawing.Point(322, 27);
+            this.ChooseFolderButton.Name = "ChooseFolderButton";
+            this.ChooseFolderButton.Size = new System.Drawing.Size(33, 30);
+            this.ChooseFolderButton.TabIndex = 54;
+            this.ChooseFolderButton.UseVisualStyleBackColor = true;
+            this.ChooseFolderButton.Click += new System.EventHandler(this.ChooseFolderButton_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label6.Location = new System.Drawing.Point(361, 34);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(142, 13);
+            this.label6.TabIndex = 55;
+            this.label6.Text = "Текущий путь сохранения:";
+            // 
+            // CurrentFolderLabel
+            // 
+            this.CurrentFolderLabel.AutoSize = true;
+            this.CurrentFolderLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.CurrentFolderLabel.Location = new System.Drawing.Point(500, 34);
+            this.CurrentFolderLabel.Name = "CurrentFolderLabel";
+            this.CurrentFolderLabel.Size = new System.Drawing.Size(114, 13);
+            this.CurrentFolderLabel.TabIndex = 56;
+            this.CurrentFolderLabel.Text = "CurrentFolderLabel";
             // 
             // MainWindow
             // 
@@ -462,6 +502,7 @@ namespace NVRCsharpDemo
             this.Activated += new System.EventHandler(this.MainWindow_Activated);
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
@@ -512,6 +553,10 @@ namespace NVRCsharpDemo
         private System.Windows.Forms.ColumnHeader StartDownload;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button ChooseFolderButton;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label CurrentFolderLabel;
     }
 }
 

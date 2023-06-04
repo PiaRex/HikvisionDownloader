@@ -40,7 +40,7 @@ namespace NVRCsharpDemo
         public CHCNetSDK.NET_DVR_IPPARACFG_V40 m_struIpParaCfgV40;
         public CHCNetSDK.NET_DVR_GET_STREAM_UNION m_unionGetStream;
         public CHCNetSDK.NET_DVR_IPCHANINFO m_struChanInfo;
-
+        public string currentFolder;
         List<CHANNEL> listChannel = new List<CHANNEL>();
 
         public List<CHANNEL> getDeviceChannel(string deviceIP)
@@ -69,13 +69,13 @@ namespace NVRCsharpDemo
                     // todo вывести ошибку в статус расписания
                     iLastErr = CHCNetSDK.NET_DVR_GetLastError();
                     str1 = "NET_DVR_Login_V30 failed, error code= " + iLastErr; //Login failed,print error code
-                    FileOperations.AddLog("DeviceController.LoginDevice", "Ошибка логина: " + str1);
+                    FileOperations.AddLog("DeviceController.LoginDevice", "Ошибка логина: " + str1, currentFolder);
                     return;
                 }
                 else
                 {
                     //статус расписания загружен успешно залогинились
-                    FileOperations.AddLog("DeviceController.LoginDevice", "Успешно логинимся к:" + loginData.DeviceIP);
+                    FileOperations.AddLog("DeviceController.LoginDevice", "Успешно логинимся к:" + loginData.DeviceIP, currentFolder);
                     dwDChanTotalNum = (uint)DeviceInfo.byIPChanNum + 256 * (uint)DeviceInfo.byHighDChanNum;
                     GetIPChannels();
                 }
@@ -94,7 +94,7 @@ namespace NVRCsharpDemo
             {
                 iLastErr = CHCNetSDK.NET_DVR_GetLastError();
                 str1 = "NET_DVR_GET_IPPARACFG_V40 failed, error code= " + iLastErr; //Get IP parameter of configuration failed,print error code.
-                FileOperations.AddLog("DeviceController.GetIPChannels", "Ошибка: " + str1);
+                FileOperations.AddLog("DeviceController.GetIPChannels", "Ошибка: " + str1, currentFolder);
             }
             else
             {
@@ -144,10 +144,10 @@ namespace NVRCsharpDemo
             int countHour = Helpers.GetHourCountDownload(shedule);
             int successDownload = 0;
             int failDownload = 0;
-            FileOperations.AddLog("DeviceController", "запущена скачка файлов количество: " + countHour);
+            FileOperations.AddLog("DeviceController", "запущена скачка файлов количество: " + countHour, currentFolder);
             for (int i = 0; i < countHour; i++)
             {
-                FileOperations.AddLog("DeviceController", "запуск скачки: " + i + " из " + countHour);
+                FileOperations.AddLog("DeviceController", "запуск скачки: " + i + " из " + countHour, currentFolder);
                 DownloadDeviceVideo(loginData, shedule, i); // запускаем закачку с параметрами час = i}
                 // бесконечный цикл который ждёт когда видос скачается или закрашится
                 DOWNLOADSTATUS status;
@@ -161,7 +161,7 @@ namespace NVRCsharpDemo
                 if (status.value.Contains("Err")) failDownload++;
             }
             // вывести таблицу закачано из общкол (3/10)
-            FileOperations.AddLog("DeviceController", "закачки закончились, успешно: " + successDownload + " из " + countHour);
+            FileOperations.AddLog("DeviceController", "закачки закончились, успешно: " + successDownload + " из " + countHour, currentFolder);
             FileOperations.SetSheduleStatus(shedule.ID, "успешно: " + successDownload + " из " + countHour + " с ошибкой: " + failDownload);
         }
 
@@ -207,10 +207,9 @@ namespace NVRCsharpDemo
             struDownPara.struStopTime.dwSecond = 0;
 
             string sVideoFileName;  //the path and file name to save
-            FileOperations.CreateDeviceFolder(loginData.DeviceName);
-            FileOperations.CreateChannelFolder("Channel " + shedule.channelNum, loginData.DeviceName);
-            sVideoFileName = $"C:\\{loginData.DeviceName}" +
-                $"\\Channel {shedule.channelNum}\\" +
+            currentFolder = FileOperations.SetDestinationFolder(loginData.DeviceName, shedule.channelNum.ToString());
+            MessageBox.Show("Конечная папка" +currentFolder);
+            sVideoFileName = $"{currentFolder}" +
                 $"{startDownloadDateTime.Hour}-" +
                 $"{startDownloadDateTime.Minute}_" +
                 $"{endDownloadDateTime.Hour}-" +
@@ -221,7 +220,7 @@ namespace NVRCsharpDemo
             {
                 iLastErr = CHCNetSDK.NET_DVR_GetLastError();
                 str = "NET_DVR_GetFileByTime_V40 failed, error code= " + iLastErr;
-                FileOperations.AddLog("DeviceController.DownloadDeviceVideo", "Ошибка: " + str);
+                FileOperations.AddLog("DeviceController.DownloadDeviceVideo", "Ошибка: " + str, currentFolder);
                 return;
             }
             uint iOutValue = 0;
@@ -229,10 +228,10 @@ namespace NVRCsharpDemo
             {
                 iLastErr = CHCNetSDK.NET_DVR_GetLastError();
                 str = "NET_DVR_PLAYSTART failed, error code= " + iLastErr; //Download controlling failed,print error code
-                FileOperations.AddLog("DeviceController.DownloadDeviceVideo", "Ошибка: " + str);
+                FileOperations.AddLog("DeviceController.DownloadDeviceVideo", "Ошибка: " + str, currentFolder);
                 return;
             }
-            FileOperations.AddLog("DeviceController.DownloadDeviceVideo", "Загрузка: " + shedule.ID + ": " + sVideoFileName);
+            FileOperations.AddLog("DeviceController.DownloadDeviceVideo", "Загрузка: " + shedule.ID + ": " + sVideoFileName, currentFolder);
             FileOperations.SetSheduleStatus(shedule.ID, "Загрузка...");
         }
 
@@ -248,7 +247,7 @@ namespace NVRCsharpDemo
             if ((iPos >= 0) && (iPos < 100))
             {
                 // вернуть статус проценты
-                FileOperations.AddLog("DeviceController.GetDownloadStatus", "Загрузка: " + shedule.ID + ": " + m_lDownHandle + " (" + iPos + "%)");
+                FileOperations.AddLog("DeviceController.GetDownloadStatus", "Загрузка: " + shedule.ID + ": " + m_lDownHandle + " (" + iPos + "%)", currentFolder);
                 FileOperations.SetSheduleStatus(shedule.ID, "Загрузка: " + iPos + "%");
                 status.status = false;
                 status.value = iPos.ToString();
@@ -264,14 +263,14 @@ namespace NVRCsharpDemo
                     iLastErr = CHCNetSDK.NET_DVR_GetLastError();
                     str = "err:= " + iLastErr; //Download controlling failed,print error code
                                                // вернуть статус ошибка
-                    FileOperations.AddLog("DeviceController.GetDownloadStatus", "Ошибка загрузки: " + shedule.ID + ": " + str);
+                    FileOperations.AddLog("DeviceController.GetDownloadStatus", "Ошибка загрузки: " + shedule.ID + ": " + str, currentFolder);
                     FileOperations.SetSheduleStatus(shedule.ID, str);
                     status.status = true;
                     status.value = str;
                     return status;
                 }
                 m_lDownHandle = -1;
-                FileOperations.AddLog("DeviceController.GetDownloadStatus", shedule.ID + " Финиш");
+                FileOperations.AddLog("DeviceController.GetDownloadStatus", shedule.ID + " Финиш", currentFolder);
                 FileOperations.SetSheduleStatus(shedule.ID, "Финиш: " + iPos + "%");
                 status.status = true;
                 status.value = "Finish";
@@ -282,7 +281,7 @@ namespace NVRCsharpDemo
             {
                 // вернуть статус abnormal
                 m_lDownHandle = -1;
-                FileOperations.AddLog("DeviceController.GetDownloadStatus", "Ошибка загрузки: Abnormal" + shedule.ID + ": " + iPos);
+                FileOperations.AddLog("DeviceController.GetDownloadStatus", "Ошибка загрузки: Abnormal" + shedule.ID + ": " + iPos, currentFolder);
                 FileOperations.SetSheduleStatus(sheduleData.ID, "Abnormal Err: " + iPos + "%");
                 status.status = true;
                 status.value = "Abnormal: Err" + iPos.ToString();

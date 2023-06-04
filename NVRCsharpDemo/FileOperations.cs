@@ -10,6 +10,8 @@ using DATAREG = NVRCsharpDemo.ConfigurationData.DataReg;
 using DATASHEDULE = NVRCsharpDemo.ConfigurationData.DataShedule;
 using DATALOG = NVRCsharpDemo.ConfigurationData.LogData;
 using System.Dynamic;
+using static NVRCsharpDemo.ConfigurationData;
+using System.Windows.Forms;
 
 namespace NVRCsharpDemo
 {
@@ -87,22 +89,46 @@ namespace NVRCsharpDemo
             return DataRegList.FirstOrDefault(x => x.DeviceIP == deviceIP);
         }
 
-        public static void CreateDeviceFolder(string DeviceName)
+        public static string SetDestinationFolder(string DeviceName, string Channel)
         {
-            if (!Directory.Exists(DeviceName))
+            string folderPath = FileOperations.CurrentFolder;
+            string currentDate = DateTime.Today.ToShortDateString();
+            if (!Directory.Exists(folderPath + "\\" + DeviceName))
             {
-                string folderPath = "C:\\";
-                Directory.CreateDirectory(folderPath + DeviceName);
+                Directory.CreateDirectory(folderPath + "\\" + DeviceName);
+                folderPath = folderPath + "\\" + DeviceName;
+                MessageBox.Show("Папка создается "+folderPath);
             }
-        }
-        public static void CreateChannelFolder(string Channel, string DeviceName)
-        {
-            string folderPath = "C:\\" + DeviceName + "\\";
-            if (!Directory.Exists(Channel))
+            else
             {
-                Directory.CreateDirectory(folderPath + Channel);
+                folderPath = folderPath + "\\" + DeviceName+ "\\";
+                MessageBox.Show("Папка найдена " + folderPath);
             }
+            if (!Directory.Exists(folderPath + Channel))
+            {
+                Directory.CreateDirectory(folderPath + "\\" + Channel);
+                folderPath = folderPath + "\\" + Channel;
+                MessageBox.Show("Папка создается " + folderPath);
+            }
+            else
+            {
+                folderPath = folderPath + "\\" + Channel + "\\";
+                MessageBox.Show("Папка найдена " + folderPath);
+            }
+            if (!Directory.Exists(folderPath + currentDate))
+            {
+                Directory.CreateDirectory(folderPath + "\\" + currentDate);
+                folderPath = folderPath + "\\" + currentDate;
+                MessageBox.Show("Папка создается " + folderPath);
+            }
+            else
+            {
+                folderPath = folderPath + "\\" + currentDate + "\\";
+                MessageBox.Show("Папка найдена " + folderPath);
+            } 
+            return folderPath + "\\";
         }
+
 
         public static void SetSheduleStatus(int ID, string status)
         {
@@ -117,11 +143,11 @@ namespace NVRCsharpDemo
         }
 
 
-        public static void AddLog(string location, string message)
+        public static void AddLog(string location, string message, string currentFolder)
         {
             DateTime now = DateTime.Now;
 
-            string filePath = @"Log.txt";
+            string filePath = currentFolder + "Log.txt";
 
             string logEntry = $"[{now.ToString()}] {location}: {message}{Environment.NewLine}";
 
@@ -132,7 +158,24 @@ namespace NVRCsharpDemo
 
         }
 
+        public static string CurrentFolder
+        {
+            get
+            {
+                if (File.Exists("CurrentFolder.json"))
+                {
+                    string json = File.ReadAllText("CurrentFolder.json");
+                    return JsonConvert.DeserializeObject<string>(json);
+                }
 
+                return null;
+            }
+            set
+            {
+                string json = JsonConvert.SerializeObject(value);
+                File.WriteAllText("CurrentFolder.json", json);
+            }
+        }
 
 
     }

@@ -67,7 +67,7 @@ namespace NVRCsharpDemo
             currentTimeTimer.Interval = 1000;
             currentTimeTimer.Tick += Timer_Tick;
             currentTimeTimer.Start();
-
+            CurrentFolderLabel.Text = FileOperations.CurrentFolder;
             RefreshDeviceTable();
             RefreshSheduleTable();
         }
@@ -83,7 +83,6 @@ namespace NVRCsharpDemo
         {
             //Show current time
             DateTimeLabel.Text = DateTime.Now.ToLongTimeString();
-            RefreshDeviceTable();
         }
         private void MainWindow_Load(object sender, EventArgs e)
         {
@@ -295,7 +294,6 @@ namespace NVRCsharpDemo
                 DATAREG selectedDevice = DataRegList.FirstOrDefault(x => x.DeviceIP == selectedShedule.DeviceIP);
                 var downloadThread = new Thread(() => deviceController.DownloadIntervalDeviceVideo(selectedDevice, selectedShedule));
                 downloadThread.Start();
-                FileOperations.AddLog("MainForm", "Нажата кнопка загрузка выбрано: " + selectedShedule.DeviceIP);
             }
             
         }
@@ -332,6 +330,13 @@ namespace NVRCsharpDemo
 
             MessageBox.Show($"Для загрузки необходимо {hoursDifference} часов"); // вывод результата
 
+        }
+
+        private void ChooseFolderButton_Click(object sender, EventArgs e)
+        {
+            folderBrowserDialog.ShowDialog();
+            FileOperations.CurrentFolder = folderBrowserDialog.SelectedPath;
+            CurrentFolderLabel.Text = FileOperations.CurrentFolder;
         }
     }
 }
