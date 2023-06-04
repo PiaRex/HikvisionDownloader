@@ -18,14 +18,15 @@ namespace NVRCsharpDemo
     public partial class EditForm : Form
     {
         string selectedSheduleID;
-        Form mainWindow;
+        MainWindow mainWindow;
         List<DATAREG> dataRegList;
         List<DATASHEDULE> dataSheduleList;
         DATASHEDULE selectedShedule;
         DATAREG selectedDevice;
-        public EditForm(string SheduleID)
+        public EditForm(string SheduleID,MainWindow window)
         {
             InitializeComponent();
+            mainWindow = window;
             selectedSheduleID = SheduleID;
             dataRegList = FileOperations.LoadDataReg();
             dataSheduleList = FileOperations.LoadDataShedule();
@@ -43,6 +44,7 @@ namespace NVRCsharpDemo
             dataSheduleList.FirstOrDefault(x => x.ID.ToString() == selectedSheduleID).downloadStartInterval = StartTimeText.Text;
             dataSheduleList.FirstOrDefault(x => x.ID.ToString() == selectedSheduleID).downloadEndInterval = EndTimeText.Text;
             FileOperations.SaveDataSchedule(dataSheduleList);
+            mainWindow.RefreshSheduleTable();
             this.Close();
         }
 

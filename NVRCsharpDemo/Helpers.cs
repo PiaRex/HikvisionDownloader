@@ -30,5 +30,19 @@ namespace NVRCsharpDemo
 
             return hoursDifference; // вывод результата
         }
+
+        public static int GetDayOffset(DATASHEDULE shedule)
+        {
+            int startTimeHour = int.Parse(shedule.downloadStartInterval.Split(':')[0]);
+            int endTimeHour = int.Parse(shedule.downloadEndInterval.Split(':')[0]);
+            int downloadTime = int.Parse(shedule.startDownloadTime.Split(':')[0]);
+            DateTime startTimeDate = DateTime.Today.AddHours(startTimeHour); ; // время старта
+            DateTime EndTimeDate = DateTime.Today.AddHours(endTimeHour); // время финиша
+
+            if (downloadTime>endTimeHour) return 0; 
+            if (endTimeHour>startTimeHour) return -1;
+            else return -2;
+
+        }
     }
 }

@@ -16,12 +16,13 @@ namespace NVRCsharpDemo
 {
     public partial class ScheduleForm : Form
     {
-        Form mainWindow;
+        MainWindow mainWindow;
 
         public string selectedDeviceIP;
-        public ScheduleForm(string deviceIP)
+        public ScheduleForm(string deviceIP, MainWindow form)
         {
             InitializeComponent();
+            mainWindow = form;  
             selectedDeviceIP = deviceIP;
             List<DATAREG> dataRegList = FileOperations.LoadDataReg();
             DATAREG selectedDevice = dataRegList.FirstOrDefault(x => x.DeviceIP == deviceIP);
@@ -67,7 +68,7 @@ namespace NVRCsharpDemo
 
         private void AddIntervalButton_Click(object sender, EventArgs e)
         {
-            Form IntervalForm = new IntervalForm(selectedDeviceIP); // TODO: пробросить параметры
+            Form IntervalForm = new IntervalForm(selectedDeviceIP, mainWindow); // TODO: пробросить параметры
             IntervalForm.Left = this.Left + 560;
             IntervalForm.Top = this.Top + 240;
             this.TopMost = false;

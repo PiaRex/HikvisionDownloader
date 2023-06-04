@@ -89,43 +89,63 @@ namespace NVRCsharpDemo
             return DataRegList.FirstOrDefault(x => x.DeviceIP == deviceIP);
         }
 
-        public static string SetDestinationFolder(string DeviceName, string Channel)
+        public static string SetDownloadDestinationFolder(string DeviceName, string Channel, DateTime Date)
         {
             string folderPath = FileOperations.CurrentFolder;
-            string currentDate = DateTime.Today.ToShortDateString();
+            string currentDate = Date.ToShortDateString();
             if (!Directory.Exists(folderPath + "\\" + DeviceName))
             {
                 Directory.CreateDirectory(folderPath + "\\" + DeviceName);
                 folderPath = folderPath + "\\" + DeviceName;
-                MessageBox.Show("Папка создается "+folderPath);
             }
             else
             {
                 folderPath = folderPath + "\\" + DeviceName+ "\\";
-                MessageBox.Show("Папка найдена " + folderPath);
             }
             if (!Directory.Exists(folderPath + Channel))
             {
                 Directory.CreateDirectory(folderPath + "\\" + Channel);
                 folderPath = folderPath + "\\" + Channel;
-                MessageBox.Show("Папка создается " + folderPath);
             }
             else
             {
                 folderPath = folderPath + "\\" + Channel + "\\";
-                MessageBox.Show("Папка найдена " + folderPath);
             }
             if (!Directory.Exists(folderPath + currentDate))
             {
                 Directory.CreateDirectory(folderPath + "\\" + currentDate);
                 folderPath = folderPath + "\\" + currentDate;
-                MessageBox.Show("Папка создается " + folderPath);
             }
             else
             {
                 folderPath = folderPath + "\\" + currentDate + "\\";
-                MessageBox.Show("Папка найдена " + folderPath);
             } 
+            return folderPath + "\\";
+        }
+
+        public static string SetDeviceDestinationFolder(string DeviceName, string Channel)
+        {
+            string folderPath = FileOperations.CurrentFolder;
+           
+            if (!Directory.Exists(folderPath + "\\" + DeviceName))
+            {
+                Directory.CreateDirectory(folderPath + "\\" + DeviceName);
+                folderPath = folderPath + "\\" + DeviceName;
+            }
+            else
+            {
+                folderPath = folderPath + "\\" + DeviceName + "\\";
+            }
+            if (!Directory.Exists(folderPath + Channel))
+            {
+                Directory.CreateDirectory(folderPath + "\\" + Channel);
+                folderPath = folderPath + "\\" + Channel;
+            }
+            else
+            {
+                folderPath = folderPath + "\\" + Channel + "\\";
+            }
+
             return folderPath + "\\";
         }
 

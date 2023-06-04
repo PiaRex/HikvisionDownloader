@@ -57,16 +57,8 @@ namespace NVRCsharpDemo
                     {
                         // запустить в отдельном потоке закачку каждого канала
                         deviceController = new DeviceController();
-                        var downloadThread = new Thread(() => deviceController.DownloadIntervalDeviceVideo(currentDataReg, currentDataShedule));
+                        var downloadThread = new Thread(() => deviceController.DownloadIntervalDeviceVideo(currentDataReg, currentDataShedule, mainWindowFormDesign));
                         downloadThread.Start();
-
-                        // проверить статус закачки
-                       // bool status;
-                       // do
-                       // {
-                        //    System.Threading.Thread.Sleep(1000);
-                       //     status = deviceController.GetDownloadStatus(); 
-                       // } while (!status);
                     }
                 }
 

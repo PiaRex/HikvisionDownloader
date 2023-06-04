@@ -179,7 +179,7 @@ namespace NVRCsharpDemo
             string selectedDeviceIP = GetSelectedDeviceIP();
             if (selectedDeviceIP != null)
             {
-                Form scheduleForm = new ScheduleForm(GetSelectedDeviceIP());
+                Form scheduleForm = new ScheduleForm(GetSelectedDeviceIP(),this);
                 scheduleForm.Show();
             }
 
@@ -241,7 +241,7 @@ namespace NVRCsharpDemo
             { DevicesList.Items.Add(new ListViewItem(new string[] { Item.DeviceName, Item.DeviceIP, Item.DevicePort, Item.UserName })); }
         }
 
-        private void RefreshSheduleTable()
+        public void RefreshSheduleTable()
         {
             SheduleTable.Items.Clear();
             DataRegList = FileOperations.LoadDataReg();
@@ -292,7 +292,7 @@ namespace NVRCsharpDemo
                 string selectedSheduleID = GetSelectedSheduleID();
                 DATASHEDULE selectedShedule = DataSheduleList.FirstOrDefault(x => x.ID.ToString() == selectedSheduleID);
                 DATAREG selectedDevice = DataRegList.FirstOrDefault(x => x.DeviceIP == selectedShedule.DeviceIP);
-                var downloadThread = new Thread(() => deviceController.DownloadIntervalDeviceVideo(selectedDevice, selectedShedule));
+                var downloadThread = new Thread(() => deviceController.DownloadIntervalDeviceVideo(selectedDevice, selectedShedule, this));
                 downloadThread.Start();
             }
             
@@ -302,7 +302,7 @@ namespace NVRCsharpDemo
         {
             if (GetSelectedSheduleID() != null)
             {
-                Form EditForm = new EditForm(GetSelectedSheduleID());
+                Form EditForm = new EditForm(GetSelectedSheduleID(),this);
                 EditForm.Show();
             }
 
@@ -310,7 +310,7 @@ namespace NVRCsharpDemo
 
         private void MainWindow_Activated(object sender, EventArgs e)
         {
-           RefreshSheduleTable();
+           
         }
 
         private void button2_Click(object sender, EventArgs e)
