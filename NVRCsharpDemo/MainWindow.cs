@@ -106,6 +106,7 @@ namespace NVRCsharpDemo
                 CHCNetSDK.NET_DVR_Logout(m_lUserID);
                 m_lUserID = -1;
             }
+            service = false;
             Application.Exit();
         }
 
@@ -122,6 +123,12 @@ namespace NVRCsharpDemo
                 textBoxUserName.Text == "" || textBoxPassword.Text == "")
             {
                 MessageBox.Show("Для добавления нового устройства введите его имя, IP-адрес, порт, логин и пароль");
+                return;
+            }
+            DATAREG datareg = DataRegList.FirstOrDefault(x => x.DeviceIP == textBoxIP.Text);
+            if ((datareg !=null))
+            {
+                MessageBox.Show("Устройство с этим IP-адресом уже добавлено!");
                 return;
             }
             if (m_lUserID < 0)
@@ -305,30 +312,6 @@ namespace NVRCsharpDemo
                 Form EditForm = new EditForm(GetSelectedSheduleID(),this);
                 EditForm.Show();
             }
-
-        }
-
-        private void MainWindow_Activated(object sender, EventArgs e)
-        {
-           
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-            DateTime firstDate = DateTime.Today.AddHours(5); ; // первое время (можно использовать любое время, не обязательно текущее)
-            DateTime secondDate = DateTime.Today.AddHours(22); // второе время (можно использовать любое время, не обязательно текущее)
-
-            if (secondDate < firstDate) // если второе время меньше первого
-            {
-                secondDate = secondDate.AddDays(1); // прибавляем день ко второму времени
-            }
-
-            TimeSpan timeDifference = secondDate - firstDate; // вычисление разницы времени
-
-            int hoursDifference = (int)Math.Round(timeDifference.TotalHours); // перевод разницы времени в количество часов
-
-            MessageBox.Show($"Для загрузки необходимо {hoursDifference} часов"); // вывод результата
 
         }
 

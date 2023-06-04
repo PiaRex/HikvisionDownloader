@@ -56,8 +56,8 @@ namespace NVRCsharpDemo
         private void EditForm_Load(object sender, EventArgs e)
         {
             mainWindow = Application.OpenForms.OfType<MainWindow>().FirstOrDefault();
-            this.Left = mainWindow.Width/2+80;
-            this.Top = mainWindow.Top + 140;
+            this.Left = mainWindow.Width/2;
+            this.Top = mainWindow.Top + 130;
         }
 
         private void StartDownloadText_Validating(object sender, CancelEventArgs e) { ValidateTextBox(StartDownloadText); }

@@ -71,7 +71,6 @@ namespace NVRCsharpDemo
             this.Start_Interval = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.End_Interval = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.status = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.button2 = new System.Windows.Forms.Button();
             this.timerDownload = new System.Windows.Forms.Timer(this.components);
             this.timerPlayback = new System.Windows.Forms.Timer(this.components);
             this.btn_Exit = new System.Windows.Forms.Button();
@@ -110,10 +109,10 @@ namespace NVRCsharpDemo
             this.DevicesList.FullRowSelect = true;
             this.DevicesList.GridLines = true;
             this.DevicesList.HideSelection = false;
-            this.DevicesList.Location = new System.Drawing.Point(9, 19);
+            this.DevicesList.Location = new System.Drawing.Point(9, 75);
             this.DevicesList.MultiSelect = false;
             this.DevicesList.Name = "DevicesList";
-            this.DevicesList.Size = new System.Drawing.Size(370, 476);
+            this.DevicesList.Size = new System.Drawing.Size(370, 410);
             this.DevicesList.TabIndex = 32;
             this.DevicesList.UseCompatibleStateImageBehavior = false;
             this.DevicesList.View = System.Windows.Forms.View.Details;
@@ -148,9 +147,9 @@ namespace NVRCsharpDemo
             this.groupBox4.Controls.Add(this.DelScheduleButton);
             this.groupBox4.Controls.Add(this.EditScheduleButton);
             this.groupBox4.Controls.Add(this.SheduleTable);
-            this.groupBox4.Location = new System.Drawing.Point(558, 35);
+            this.groupBox4.Location = new System.Drawing.Point(412, 35);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(845, 667);
+            this.groupBox4.Size = new System.Drawing.Size(1040, 667);
             this.groupBox4.TabIndex = 42;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Расписание";
@@ -231,9 +230,9 @@ namespace NVRCsharpDemo
             this.SheduleTable.FullRowSelect = true;
             this.SheduleTable.GridLines = true;
             this.SheduleTable.HideSelection = false;
-            this.SheduleTable.Location = new System.Drawing.Point(17, 71);
+            this.SheduleTable.Location = new System.Drawing.Point(17, 63);
             this.SheduleTable.Name = "SheduleTable";
-            this.SheduleTable.Size = new System.Drawing.Size(828, 590);
+            this.SheduleTable.Size = new System.Drawing.Size(1009, 590);
             this.SheduleTable.TabIndex = 49;
             this.SheduleTable.UseCompatibleStateImageBehavior = false;
             this.SheduleTable.View = System.Windows.Forms.View.Details;
@@ -257,7 +256,7 @@ namespace NVRCsharpDemo
             // channel
             // 
             this.channel.Text = "Канал";
-            this.channel.Width = 55;
+            this.channel.Width = 46;
             // 
             // StartDownload
             // 
@@ -266,32 +265,22 @@ namespace NVRCsharpDemo
             // 
             // Start_Interval
             // 
-            this.Start_Interval.Text = "Начальное время";
-            this.Start_Interval.Width = 112;
+            this.Start_Interval.Text = "Начальное \n время";
+            this.Start_Interval.Width = 107;
             // 
             // End_Interval
             // 
-            this.End_Interval.Text = "Конечное время";
-            this.End_Interval.Width = 105;
+            this.End_Interval.Text = "Конечное \n время";
+            this.End_Interval.Width = 101;
             // 
             // status
             // 
-            this.status.Text = "Статус загрузки";
-            this.status.Width = 197;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(447, 17);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(78, 30);
-            this.button2.TabIndex = 53;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.status.Text = "Статус последней загрузки";
+            this.status.Width = 394;
             // 
             // btn_Exit
             // 
-            this.btn_Exit.Location = new System.Drawing.Point(1303, 708);
+            this.btn_Exit.Location = new System.Drawing.Point(1311, 708);
             this.btn_Exit.Name = "btn_Exit";
             this.btn_Exit.Size = new System.Drawing.Size(127, 32);
             this.btn_Exit.TabIndex = 44;
@@ -304,18 +293,18 @@ namespace NVRCsharpDemo
             this.groupBox1.Controls.Add(this.DelDeviceButton);
             this.groupBox1.Controls.Add(this.AddIntervalButton);
             this.groupBox1.Controls.Add(this.DevicesList);
-            this.groupBox1.Location = new System.Drawing.Point(12, 193);
+            this.groupBox1.Location = new System.Drawing.Point(12, 203);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(540, 509);
+            this.groupBox1.Size = new System.Drawing.Size(394, 499);
             this.groupBox1.TabIndex = 45;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Устройства";
             // 
             // DelDeviceButton
             // 
-            this.DelDeviceButton.Location = new System.Drawing.Point(385, 60);
+            this.DelDeviceButton.Location = new System.Drawing.Point(235, 34);
             this.DelDeviceButton.Name = "DelDeviceButton";
-            this.DelDeviceButton.Size = new System.Drawing.Size(149, 35);
+            this.DelDeviceButton.Size = new System.Drawing.Size(144, 35);
             this.DelDeviceButton.TabIndex = 34;
             this.DelDeviceButton.Text = "Удалить устройство";
             this.DelDeviceButton.UseVisualStyleBackColor = true;
@@ -323,9 +312,9 @@ namespace NVRCsharpDemo
             // 
             // AddIntervalButton
             // 
-            this.AddIntervalButton.Location = new System.Drawing.Point(385, 19);
+            this.AddIntervalButton.Location = new System.Drawing.Point(9, 34);
             this.AddIntervalButton.Name = "AddIntervalButton";
-            this.AddIntervalButton.Size = new System.Drawing.Size(149, 35);
+            this.AddIntervalButton.Size = new System.Drawing.Size(144, 35);
             this.AddIntervalButton.TabIndex = 33;
             this.AddIntervalButton.Text = "Добавить в расписание";
             this.AddIntervalButton.UseVisualStyleBackColor = true;
@@ -335,7 +324,6 @@ namespace NVRCsharpDemo
             // 
             this.groupBox3.Controls.Add(this.textBoxDeviceName);
             this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Controls.Add(this.button2);
             this.groupBox3.Controls.Add(this.textBoxPassword);
             this.groupBox3.Controls.Add(this.textBoxUserName);
             this.groupBox3.Controls.Add(this.textBoxPort);
@@ -347,7 +335,7 @@ namespace NVRCsharpDemo
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Location = new System.Drawing.Point(12, 35);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(540, 159);
+            this.groupBox3.Size = new System.Drawing.Size(394, 162);
             this.groupBox3.TabIndex = 46;
             this.groupBox3.TabStop = false;
             // 
@@ -355,7 +343,7 @@ namespace NVRCsharpDemo
             // 
             this.textBoxDeviceName.Location = new System.Drawing.Point(113, 23);
             this.textBoxDeviceName.Name = "textBoxDeviceName";
-            this.textBoxDeviceName.Size = new System.Drawing.Size(147, 20);
+            this.textBoxDeviceName.Size = new System.Drawing.Size(130, 20);
             this.textBoxDeviceName.TabIndex = 34;
             this.textBoxDeviceName.Text = "Тест";
             // 
@@ -371,40 +359,40 @@ namespace NVRCsharpDemo
             // textBoxPassword
             // 
             this.textBoxPassword.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.textBoxPassword.Location = new System.Drawing.Point(279, 98);
+            this.textBoxPassword.Location = new System.Drawing.Point(113, 127);
             this.textBoxPassword.Name = "textBoxPassword";
             this.textBoxPassword.PasswordChar = '*';
-            this.textBoxPassword.Size = new System.Drawing.Size(112, 20);
+            this.textBoxPassword.Size = new System.Drawing.Size(130, 20);
             this.textBoxPassword.TabIndex = 32;
             this.textBoxPassword.Text = "qwer1234";
             // 
             // textBoxUserName
             // 
-            this.textBoxUserName.Location = new System.Drawing.Point(102, 99);
+            this.textBoxUserName.Location = new System.Drawing.Point(113, 101);
             this.textBoxUserName.Name = "textBoxUserName";
-            this.textBoxUserName.Size = new System.Drawing.Size(94, 20);
+            this.textBoxUserName.Size = new System.Drawing.Size(130, 20);
             this.textBoxUserName.TabIndex = 31;
             this.textBoxUserName.Text = "Test";
             // 
             // textBoxPort
             // 
-            this.textBoxPort.Location = new System.Drawing.Point(279, 58);
+            this.textBoxPort.Location = new System.Drawing.Point(113, 75);
             this.textBoxPort.Name = "textBoxPort";
-            this.textBoxPort.Size = new System.Drawing.Size(112, 20);
+            this.textBoxPort.Size = new System.Drawing.Size(130, 20);
             this.textBoxPort.TabIndex = 30;
             this.textBoxPort.Text = "8000";
             // 
             // textBoxIP
             // 
-            this.textBoxIP.Location = new System.Drawing.Point(102, 59);
+            this.textBoxIP.Location = new System.Drawing.Point(113, 49);
             this.textBoxIP.Name = "textBoxIP";
-            this.textBoxIP.Size = new System.Drawing.Size(94, 20);
+            this.textBoxIP.Size = new System.Drawing.Size(130, 20);
             this.textBoxIP.TabIndex = 29;
             this.textBoxIP.Text = "178.64.253.11";
             // 
             // AddDeviceButton
             // 
-            this.AddDeviceButton.Location = new System.Drawing.Point(435, 62);
+            this.AddDeviceButton.Location = new System.Drawing.Point(289, 93);
             this.AddDeviceButton.Name = "AddDeviceButton";
             this.AddDeviceButton.Size = new System.Drawing.Size(90, 54);
             this.AddDeviceButton.TabIndex = 28;
@@ -413,7 +401,7 @@ namespace NVRCsharpDemo
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(6, 62);
+            this.label1.Location = new System.Drawing.Point(6, 49);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(74, 20);
             this.label1.TabIndex = 25;
@@ -421,7 +409,7 @@ namespace NVRCsharpDemo
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(6, 99);
+            this.label2.Location = new System.Drawing.Point(6, 101);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(94, 19);
             this.label2.TabIndex = 24;
@@ -429,7 +417,7 @@ namespace NVRCsharpDemo
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(219, 99);
+            this.label3.Location = new System.Drawing.Point(6, 127);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(63, 17);
             this.label3.TabIndex = 27;
@@ -437,7 +425,7 @@ namespace NVRCsharpDemo
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(219, 61);
+            this.label4.Location = new System.Drawing.Point(6, 75);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(79, 18);
             this.label4.TabIndex = 26;
@@ -446,7 +434,7 @@ namespace NVRCsharpDemo
             // TimeLabel
             // 
             this.TimeLabel.AutoSize = true;
-            this.TimeLabel.Location = new System.Drawing.Point(1260, 16);
+            this.TimeLabel.Location = new System.Drawing.Point(1296, 16);
             this.TimeLabel.Name = "TimeLabel";
             this.TimeLabel.Size = new System.Drawing.Size(90, 13);
             this.TimeLabel.TabIndex = 47;
@@ -455,7 +443,7 @@ namespace NVRCsharpDemo
             // DateTimeLabel
             // 
             this.DateTimeLabel.AutoSize = true;
-            this.DateTimeLabel.Location = new System.Drawing.Point(1347, 16);
+            this.DateTimeLabel.Location = new System.Drawing.Point(1382, 16);
             this.DateTimeLabel.Name = "DateTimeLabel";
             this.DateTimeLabel.Size = new System.Drawing.Size(56, 13);
             this.DateTimeLabel.TabIndex = 48;
@@ -477,7 +465,7 @@ namespace NVRCsharpDemo
             this.StatusServiceLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.StatusServiceLabel.AutoSize = true;
             this.StatusServiceLabel.Font = new System.Drawing.Font("Haettenschweiler", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.StatusServiceLabel.Location = new System.Drawing.Point(134, 10);
+            this.StatusServiceLabel.Location = new System.Drawing.Point(149, 10);
             this.StatusServiceLabel.Name = "StatusServiceLabel";
             this.StatusServiceLabel.Size = new System.Drawing.Size(193, 22);
             this.StatusServiceLabel.TabIndex = 49;
@@ -488,7 +476,7 @@ namespace NVRCsharpDemo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1442, 752);
+            this.ClientSize = new System.Drawing.Size(1457, 752);
             this.Controls.Add(this.StatusServiceLabel);
             this.Controls.Add(this.buttonStartService);
             this.Controls.Add(this.DateTimeLabel);
@@ -499,8 +487,7 @@ namespace NVRCsharpDemo
             this.Controls.Add(this.groupBox4);
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "HikVision Downloader v0.7";
-            this.Activated += new System.EventHandler(this.MainWindow_Activated);
+            this.Text = "HikVision Downloader v0.9";
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
@@ -553,7 +540,6 @@ namespace NVRCsharpDemo
         private System.Windows.Forms.ColumnHeader ID;
         private System.Windows.Forms.ColumnHeader StartDownload;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button ChooseFolderButton;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
         private System.Windows.Forms.Label label6;

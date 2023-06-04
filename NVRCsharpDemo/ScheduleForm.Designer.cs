@@ -39,7 +39,6 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CancelButton = new System.Windows.Forms.Button();
-            this.OKButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -93,7 +92,7 @@
             this.SheduleDeviceTable.HideSelection = false;
             this.SheduleDeviceTable.Location = new System.Drawing.Point(15, 73);
             this.SheduleDeviceTable.Name = "SheduleDeviceTable";
-            this.SheduleDeviceTable.Size = new System.Drawing.Size(411, 329);
+            this.SheduleDeviceTable.Size = new System.Drawing.Size(422, 329);
             this.SheduleDeviceTable.TabIndex = 4;
             this.SheduleDeviceTable.UseCompatibleStateImageBehavior = false;
             this.SheduleDeviceTable.View = System.Windows.Forms.View.Details;
@@ -101,11 +100,12 @@
             // columnHeader5
             // 
             this.columnHeader5.Text = "ID";
-            this.columnHeader5.Width = 32;
+            this.columnHeader5.Width = 26;
             // 
             // columnHeader1
             // 
             this.columnHeader1.Text = "Канал";
+            this.columnHeader1.Width = 47;
             // 
             // columnHeader4
             // 
@@ -115,39 +115,28 @@
             // columnHeader2
             // 
             this.columnHeader2.Text = "Начальный интервал";
-            this.columnHeader2.Width = 110;
+            this.columnHeader2.Width = 123;
             // 
             // columnHeader3
             // 
             this.columnHeader3.Text = "Конечный интервал";
-            this.columnHeader3.Width = 102;
+            this.columnHeader3.Width = 118;
             // 
             // CancelButton
             // 
-            this.CancelButton.Location = new System.Drawing.Point(318, 408);
+            this.CancelButton.Location = new System.Drawing.Point(372, 408);
             this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(75, 23);
+            this.CancelButton.Size = new System.Drawing.Size(65, 23);
             this.CancelButton.TabIndex = 5;
-            this.CancelButton.Text = "Отмена";
+            this.CancelButton.Text = "ОК";
             this.CancelButton.UseVisualStyleBackColor = true;
             this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
-            // 
-            // OKButton
-            // 
-            this.OKButton.Location = new System.Drawing.Point(229, 408);
-            this.OKButton.Name = "OKButton";
-            this.OKButton.Size = new System.Drawing.Size(75, 23);
-            this.OKButton.TabIndex = 5;
-            this.OKButton.Text = "OK";
-            this.OKButton.UseVisualStyleBackColor = true;
-            this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
             // 
             // ScheduleForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(442, 450);
-            this.Controls.Add(this.OKButton);
+            this.ClientSize = new System.Drawing.Size(447, 439);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.SheduleDeviceTable);
             this.Controls.Add(this.DelIntervalButton);
@@ -175,7 +164,6 @@
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.Button CancelButton;
-        private System.Windows.Forms.Button OKButton;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ColumnHeader columnHeader5;
     }

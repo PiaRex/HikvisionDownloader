@@ -34,8 +34,8 @@ namespace NVRCsharpDemo
         private void ScheduleForm_Load(object sender, EventArgs e)
         {
             mainWindow = Application.OpenForms.OfType<MainWindow>().FirstOrDefault();
-            this.Left = mainWindow.Left + 560;
-            this.Top = mainWindow.Top + 240;
+            this.Left = mainWindow.Left + 170;
+            this.Top = mainWindow.Top + 270;
         }
 
         private void ScheduleForm_Activated(object sender, EventArgs e)
@@ -95,9 +95,5 @@ namespace NVRCsharpDemo
             }
         }
 
-        private void OKButton_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
