@@ -49,13 +49,16 @@ namespace NVRCsharpDemo
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.DevicesList = new System.Windows.Forms.ListView();
             this.ColumnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ColumnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.button2 = new System.Windows.Forms.Button();
+            this.CurrentFolderLabel = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.ChooseFolderButton = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.DelScheduleButton = new System.Windows.Forms.Button();
             this.EditScheduleButton = new System.Windows.Forms.Button();
@@ -68,6 +71,7 @@ namespace NVRCsharpDemo
             this.Start_Interval = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.End_Interval = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.status = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.button2 = new System.Windows.Forms.Button();
             this.timerDownload = new System.Windows.Forms.Timer(this.components);
             this.timerPlayback = new System.Windows.Forms.Timer(this.components);
             this.btn_Exit = new System.Windows.Forms.Button();
@@ -91,9 +95,6 @@ namespace NVRCsharpDemo
             this.buttonStartService = new System.Windows.Forms.Button();
             this.StatusServiceLabel = new System.Windows.Forms.Label();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.ChooseFolderButton = new System.Windows.Forms.Button();
-            this.label6 = new System.Windows.Forms.Label();
-            this.CurrentFolderLabel = new System.Windows.Forms.Label();
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -154,15 +155,37 @@ namespace NVRCsharpDemo
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Расписание";
             // 
-            // button2
+            // CurrentFolderLabel
             // 
-            this.button2.Location = new System.Drawing.Point(447, 17);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(78, 30);
-            this.button2.TabIndex = 53;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.CurrentFolderLabel.AutoSize = true;
+            this.CurrentFolderLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.CurrentFolderLabel.Location = new System.Drawing.Point(500, 34);
+            this.CurrentFolderLabel.Name = "CurrentFolderLabel";
+            this.CurrentFolderLabel.Size = new System.Drawing.Size(114, 13);
+            this.CurrentFolderLabel.TabIndex = 56;
+            this.CurrentFolderLabel.Text = "CurrentFolderLabel";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label6.Location = new System.Drawing.Point(361, 34);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(142, 13);
+            this.label6.TabIndex = 55;
+            this.label6.Text = "Текущий путь сохранения:";
+            // 
+            // ChooseFolderButton
+            // 
+            this.ChooseFolderButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ChooseFolderButton.CausesValidation = false;
+            this.ChooseFolderButton.Image = ((System.Drawing.Image)(resources.GetObject("ChooseFolderButton.Image")));
+            this.ChooseFolderButton.Location = new System.Drawing.Point(322, 27);
+            this.ChooseFolderButton.Name = "ChooseFolderButton";
+            this.ChooseFolderButton.Size = new System.Drawing.Size(33, 30);
+            this.ChooseFolderButton.TabIndex = 54;
+            this.ChooseFolderButton.UseVisualStyleBackColor = true;
+            this.ChooseFolderButton.Click += new System.EventHandler(this.ChooseFolderButton_Click);
             // 
             // button1
             // 
@@ -255,6 +278,16 @@ namespace NVRCsharpDemo
             // 
             this.status.Text = "Статус загрузки";
             this.status.Width = 197;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(447, 17);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(78, 30);
+            this.button2.TabIndex = 53;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // btn_Exit
             // 
@@ -450,38 +483,6 @@ namespace NVRCsharpDemo
             this.StatusServiceLabel.TabIndex = 49;
             this.StatusServiceLabel.Text = "Статус сервиса: Остановлен";
             this.StatusServiceLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // ChooseFolderButton
-            // 
-            this.ChooseFolderButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ChooseFolderButton.CausesValidation = false;
-            this.ChooseFolderButton.Image = global::NVRCsharpDemo.Properties.Resources._3767084123;
-            this.ChooseFolderButton.Location = new System.Drawing.Point(322, 27);
-            this.ChooseFolderButton.Name = "ChooseFolderButton";
-            this.ChooseFolderButton.Size = new System.Drawing.Size(33, 30);
-            this.ChooseFolderButton.TabIndex = 54;
-            this.ChooseFolderButton.UseVisualStyleBackColor = true;
-            this.ChooseFolderButton.Click += new System.EventHandler(this.ChooseFolderButton_Click);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label6.Location = new System.Drawing.Point(361, 34);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(142, 13);
-            this.label6.TabIndex = 55;
-            this.label6.Text = "Текущий путь сохранения:";
-            // 
-            // CurrentFolderLabel
-            // 
-            this.CurrentFolderLabel.AutoSize = true;
-            this.CurrentFolderLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.CurrentFolderLabel.Location = new System.Drawing.Point(500, 34);
-            this.CurrentFolderLabel.Name = "CurrentFolderLabel";
-            this.CurrentFolderLabel.Size = new System.Drawing.Size(114, 13);
-            this.CurrentFolderLabel.TabIndex = 56;
-            this.CurrentFolderLabel.Text = "CurrentFolderLabel";
             // 
             // MainWindow
             // 
