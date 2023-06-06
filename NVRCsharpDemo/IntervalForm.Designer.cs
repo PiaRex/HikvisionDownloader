@@ -31,6 +31,7 @@ namespace NVRCsharpDemo
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(IntervalForm));
             this.label17 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.ChannelsGroupBox = new System.Windows.Forms.GroupBox();
@@ -49,15 +50,6 @@ namespace NVRCsharpDemo
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
-
-            StartDownloadTextbox.Validating += new CancelEventHandler(StartDownloadTextbox_Validating);
-            StartDownloadTextbox.Tag = StartDownloadTextbox.Text;
-
-            StartTimeText.Validating += new CancelEventHandler(StartTimeText_Validating);
-            StartTimeText.Tag = StartTimeText.Text;
-
-            EndTimeText.Validating += new CancelEventHandler(EndTimeText_Validating);
-            EndTimeText.Tag = EndTimeText.Text;
             // 
             // label17
             // 
@@ -150,8 +142,10 @@ namespace NVRCsharpDemo
             this.EndTimeText.Name = "EndTimeText";
             this.EndTimeText.Size = new System.Drawing.Size(42, 20);
             this.EndTimeText.TabIndex = 67;
+            this.EndTimeText.Tag = this.EndTimeText.Text;
             this.EndTimeText.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.EndTimeText.ValidatingType = typeof(System.DateTime);
+            this.EndTimeText.Validating += new System.ComponentModel.CancelEventHandler(this.EndTimeText_Validating);
             // 
             // StartTimeText
             // 
@@ -160,8 +154,10 @@ namespace NVRCsharpDemo
             this.StartTimeText.Name = "StartTimeText";
             this.StartTimeText.Size = new System.Drawing.Size(42, 20);
             this.StartTimeText.TabIndex = 66;
+            this.StartTimeText.Tag = this.StartTimeText.Text;
             this.StartTimeText.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.StartTimeText.ValidatingType = typeof(System.DateTime);
+            this.StartTimeText.Validating += new System.ComponentModel.CancelEventHandler(this.StartTimeText_Validating);
             // 
             // OKButton
             // 
@@ -200,7 +196,9 @@ namespace NVRCsharpDemo
             this.StartDownloadTextbox.Name = "StartDownloadTextbox";
             this.StartDownloadTextbox.Size = new System.Drawing.Size(42, 20);
             this.StartDownloadTextbox.TabIndex = 0;
+            this.StartDownloadTextbox.Tag = this.StartDownloadTextbox.Text;
             this.StartDownloadTextbox.ValidatingType = typeof(System.DateTime);
+            this.StartDownloadTextbox.Validating += new System.ComponentModel.CancelEventHandler(this.StartDownloadTextbox_Validating);
             // 
             // IntervalForm
             // 
@@ -212,6 +210,7 @@ namespace NVRCsharpDemo
             this.Controls.Add(this.OKButton);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.ChannelsGroupBox);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "IntervalForm";
             this.Text = "Новый интервал";
             this.TopMost = true;

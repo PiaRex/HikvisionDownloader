@@ -149,7 +149,7 @@ namespace NVRCsharpDemo
             this.groupBox4.Controls.Add(this.SheduleTable);
             this.groupBox4.Location = new System.Drawing.Point(412, 35);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(1040, 667);
+            this.groupBox4.Size = new System.Drawing.Size(1061, 667);
             this.groupBox4.TabIndex = 42;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Расписание";
@@ -232,7 +232,7 @@ namespace NVRCsharpDemo
             this.SheduleTable.HideSelection = false;
             this.SheduleTable.Location = new System.Drawing.Point(17, 63);
             this.SheduleTable.Name = "SheduleTable";
-            this.SheduleTable.Size = new System.Drawing.Size(1009, 590);
+            this.SheduleTable.Size = new System.Drawing.Size(1032, 590);
             this.SheduleTable.TabIndex = 49;
             this.SheduleTable.UseCompatibleStateImageBehavior = false;
             this.SheduleTable.View = System.Windows.Forms.View.Details;
@@ -276,11 +276,11 @@ namespace NVRCsharpDemo
             // status
             // 
             this.status.Text = "Статус последней загрузки";
-            this.status.Width = 394;
+            this.status.Width = 421;
             // 
             // btn_Exit
             // 
-            this.btn_Exit.Location = new System.Drawing.Point(1311, 708);
+            this.btn_Exit.Location = new System.Drawing.Point(1346, 708);
             this.btn_Exit.Name = "btn_Exit";
             this.btn_Exit.Size = new System.Drawing.Size(127, 32);
             this.btn_Exit.TabIndex = 44;
@@ -434,7 +434,7 @@ namespace NVRCsharpDemo
             // TimeLabel
             // 
             this.TimeLabel.AutoSize = true;
-            this.TimeLabel.Location = new System.Drawing.Point(1296, 16);
+            this.TimeLabel.Location = new System.Drawing.Point(1331, 16);
             this.TimeLabel.Name = "TimeLabel";
             this.TimeLabel.Size = new System.Drawing.Size(90, 13);
             this.TimeLabel.TabIndex = 47;
@@ -443,7 +443,7 @@ namespace NVRCsharpDemo
             // DateTimeLabel
             // 
             this.DateTimeLabel.AutoSize = true;
-            this.DateTimeLabel.Location = new System.Drawing.Point(1382, 16);
+            this.DateTimeLabel.Location = new System.Drawing.Point(1417, 16);
             this.DateTimeLabel.Name = "DateTimeLabel";
             this.DateTimeLabel.Size = new System.Drawing.Size(56, 13);
             this.DateTimeLabel.TabIndex = 48;
@@ -465,7 +465,7 @@ namespace NVRCsharpDemo
             this.StatusServiceLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.StatusServiceLabel.AutoSize = true;
             this.StatusServiceLabel.Font = new System.Drawing.Font("Haettenschweiler", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.StatusServiceLabel.Location = new System.Drawing.Point(149, 10);
+            this.StatusServiceLabel.Location = new System.Drawing.Point(134, 8);
             this.StatusServiceLabel.Name = "StatusServiceLabel";
             this.StatusServiceLabel.Size = new System.Drawing.Size(193, 22);
             this.StatusServiceLabel.TabIndex = 49;
@@ -476,7 +476,7 @@ namespace NVRCsharpDemo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1457, 752);
+            this.ClientSize = new System.Drawing.Size(1485, 752);
             this.Controls.Add(this.StatusServiceLabel);
             this.Controls.Add(this.buttonStartService);
             this.Controls.Add(this.DateTimeLabel);
@@ -485,6 +485,7 @@ namespace NVRCsharpDemo
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btn_Exit);
             this.Controls.Add(this.groupBox4);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "HikVision Downloader v0.9";

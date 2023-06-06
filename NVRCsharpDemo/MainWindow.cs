@@ -204,6 +204,7 @@ namespace NVRCsharpDemo
                 monitor.TimeMonitor(this);
                 buttonStartService.Text = "СТОП";
                 StatusServiceLabel.ForeColor = Color.Green;
+                StatusServiceLabel.Text = "Статус сервиса: Запущен";
             }
             else
             {

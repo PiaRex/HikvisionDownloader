@@ -41,11 +41,6 @@ namespace NVRCsharpDemo
             public string message { get; set; }
         }
 
-        public class DownloadStatus
-        {
-            public bool status { get; set; }
-            public string value { get; set; }
-        }
 
     }
 }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScheduleForm));
             this.label1 = new System.Windows.Forms.Label();
             this.DeviceNameLavel = new System.Windows.Forms.Label();
             this.AddIntervalButton = new System.Windows.Forms.Button();
@@ -143,6 +144,7 @@
             this.Controls.Add(this.AddIntervalButton);
             this.Controls.Add(this.DeviceNameLavel);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ScheduleForm";
             this.Text = "Расписание устройства";
             this.TopMost = true;

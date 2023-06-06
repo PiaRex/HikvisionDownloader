@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DATAREG = NVRCsharpDemo.ConfigurationData.DataReg;
 using DATASHEDULE = NVRCsharpDemo.ConfigurationData.DataShedule;
-using CHANNEL = NVRCsharpDemo.ConfigurationData.Channel;
 
 namespace NVRCsharpDemo
 {
@@ -35,11 +28,11 @@ namespace NVRCsharpDemo
         {
             int startTimeHour = int.Parse(shedule.downloadStartInterval.Split(':')[0]);
             int endTimeHour = int.Parse(shedule.downloadEndInterval.Split(':')[0]);
-            int downloadTime = int.Parse(shedule.startDownloadTime.Split(':')[0]);
-            DateTime startTimeDate = DateTime.Today.AddHours(startTimeHour); ; // время старта
-            DateTime EndTimeDate = DateTime.Today.AddHours(endTimeHour); // время финиша
+            int endTimeMinute = int.Parse(shedule.downloadStartInterval.Split(':')[1]);
+            int downloadTimeHour = int.Parse(shedule.startDownloadTime.Split(':')[0]);
+            int downloadTimeMinute = int.Parse(shedule.startDownloadTime.Split(':')[1]);
 
-            if (downloadTime>endTimeHour) return 0; 
+            if (downloadTimeHour>endTimeHour || (downloadTimeHour == endTimeHour & downloadTimeMinute > endTimeMinute)) return 0; 
             if (endTimeHour>startTimeHour) return -1;
             else return -2;
 

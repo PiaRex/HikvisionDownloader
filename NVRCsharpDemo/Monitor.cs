@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
 using DATAREG = NVRCsharpDemo.ConfigurationData.DataReg;
 using DATASHEDULE = NVRCsharpDemo.ConfigurationData.DataShedule;
 using CHANNEL = NVRCsharpDemo.ConfigurationData.Channel;
 using System.Threading;
+using System.Timers;
+using Timer = System.Timers.Timer;
 
 namespace NVRCsharpDemo
 {
@@ -26,16 +27,21 @@ namespace NVRCsharpDemo
             mainWindowFormDesign = mainWindow;
 
             // Запустите таймер в отдельном потоке     
-            var timerThread = new Thread(() => ScanTime());
-            timerThread.Start();
+           // var timerThread = new Thread(() => ScanTime());
+           // timerThread.Start();
+            Timer minuteTimer = new Timer();
+            minuteTimer.Start();
+            minuteTimer.Interval = 60000;
+            minuteTimer.AutoReset = true;
+            minuteTimer.Elapsed += ScanTime;
         }
 
-        private void ScanTime()
+        private void ScanTime(object sender, ElapsedEventArgs e)
         {
             // Читаем данные из файла
             DataRegList = FileOperations.LoadDataReg(); // чтение данных о регике
             DataSheduleList = FileOperations.LoadDataShedule(); // чтение данных расписание  
-            setStatusLabel("Статус сервиса: запущен");
+            //setStatusLabel("Статус сервиса: запущен");
 
             int i = 0;
             while (true)
@@ -48,14 +54,15 @@ namespace NVRCsharpDemo
                 foreach (var item in DataSheduleList)
                 {
 
-                    DATAREG currentDataReg = DataRegList.FirstOrDefault(x => x.DeviceIP == item.DeviceIP);
-                    DATASHEDULE currentDataShedule = item;
+
                     DateTime now = DateTime.Now;
 
                     if (now.Hour == uint.Parse(item.startDownloadTime.Split(':')[0]) &&
                          now.Minute == uint.Parse(item.startDownloadTime.Split(':')[1]))
                     {
                         // запустить в отдельном потоке закачку каждого канала
+                        DATAREG currentDataReg = DataRegList.FirstOrDefault(x => x.DeviceIP == item.DeviceIP);
+                        DATASHEDULE currentDataShedule = item;
                         deviceController = new DeviceController();
                         var downloadThread = new Thread(() => deviceController.DownloadIntervalDeviceVideo(currentDataReg, currentDataShedule, mainWindowFormDesign));
                         downloadThread.Start();
@@ -63,21 +70,18 @@ namespace NVRCsharpDemo
                 }
 
                 // Приостановите поток на одну минуту 
-                System.Threading.Thread.Sleep(60000);
+                System.Threading.Thread.Sleep(61000);
             }
         }
-
+/*
         private void setStatusLabel(string text)
         {
             mainWindowForm.Invoke(new Action(() =>
             {
                 mainWindowFormDesign.StatusServiceLabel.Text = text;
             }));
-        }
-        private void Downloader()
-        {
-            //
-        }
+        }*/
+
     }
 }
 

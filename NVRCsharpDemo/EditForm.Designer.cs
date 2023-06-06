@@ -30,6 +30,7 @@ namespace NVRCsharpDemo
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.StartDownloadText = new System.Windows.Forms.MaskedTextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -62,8 +63,10 @@ namespace NVRCsharpDemo
             this.StartDownloadText.Name = "StartDownloadText";
             this.StartDownloadText.Size = new System.Drawing.Size(42, 20);
             this.StartDownloadText.TabIndex = 0;
+            this.StartDownloadText.Tag = this.StartDownloadText.Text;
             this.StartDownloadText.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.StartDownloadText.ValidatingType = typeof(System.DateTime);
+            this.StartDownloadText.Validating += new System.ComponentModel.CancelEventHandler(this.StartDownloadText_Validating);
             // 
             // label1
             // 
@@ -103,8 +106,10 @@ namespace NVRCsharpDemo
             this.EndTimeText.Name = "EndTimeText";
             this.EndTimeText.Size = new System.Drawing.Size(42, 20);
             this.EndTimeText.TabIndex = 67;
+            this.EndTimeText.Tag = this.EndTimeText.Text;
             this.EndTimeText.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.EndTimeText.ValidatingType = typeof(System.DateTime);
+            this.EndTimeText.Validating += new System.ComponentModel.CancelEventHandler(this.EndTimeText_Validating);
             // 
             // StartTimeText
             // 
@@ -113,8 +118,10 @@ namespace NVRCsharpDemo
             this.StartTimeText.Name = "StartTimeText";
             this.StartTimeText.Size = new System.Drawing.Size(42, 20);
             this.StartTimeText.TabIndex = 66;
+            this.StartTimeText.Tag = this.StartTimeText.Text;
             this.StartTimeText.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.StartTimeText.ValidatingType = typeof(System.DateTime);
+            this.StartTimeText.Validating += new System.ComponentModel.CancelEventHandler(this.StartTimeText_Validating);
             // 
             // label16
             // 
@@ -165,6 +172,7 @@ namespace NVRCsharpDemo
             this.Controls.Add(this.DeviceNameLabel);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "EditForm";
             this.Text = "Изменить интервал";
             this.Load += new System.EventHandler(this.EditForm_Load);
@@ -174,16 +182,6 @@ namespace NVRCsharpDemo
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-
-
-            StartDownloadText.Validating += new CancelEventHandler(StartDownloadText_Validating);
-            StartDownloadText.Tag = StartDownloadText.Text;
-
-            StartTimeText.Validating += new CancelEventHandler(StartTimeText_Validating);
-            StartTimeText.Tag = StartTimeText.Text;
-
-            EndTimeText.Validating += new CancelEventHandler(EndTimeText_Validating);
-            EndTimeText.Tag = EndTimeText.Text;
 
         }
 

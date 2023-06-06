@@ -163,11 +163,11 @@ namespace NVRCsharpDemo
         }
 
 
-        public static void AddLog(string location, string message, string currentFolder)
+        public static void AddLog(string location, string message, string currentFolder, string fileName)
         {
             DateTime now = DateTime.Now;
-
-            string filePath = currentFolder + "Log.txt";
+            string logFileName = fileName;
+            string filePath = currentFolder + fileName;
 
             string logEntry = $"[{now.ToString()}] {location}: {message}{Environment.NewLine}";
 

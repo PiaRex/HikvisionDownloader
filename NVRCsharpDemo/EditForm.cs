@@ -56,7 +56,7 @@ namespace NVRCsharpDemo
         private void EditForm_Load(object sender, EventArgs e)
         {
             mainWindow = Application.OpenForms.OfType<MainWindow>().FirstOrDefault();
-            this.Left = mainWindow.Width/2;
+            this.Left = mainWindow.Width/2-100;
             this.Top = mainWindow.Top + 130;
         }
 
