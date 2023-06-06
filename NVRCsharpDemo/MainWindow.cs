@@ -124,7 +124,7 @@ namespace NVRCsharpDemo
                 if (m_lUserID < 0)
                 {
                     iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                    errorMessage = "NET_DVR_Login_V30 failed, error code= " + iLastErr; //Login failed,print error code
+                    errorMessage = "Не удалось войти в устройство. Код ошибки: " + iLastErr; //Login failed,print error code
                     MessageBox.Show(errorMessage);
                     return;
                 }

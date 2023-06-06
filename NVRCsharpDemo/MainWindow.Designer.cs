@@ -486,7 +486,7 @@ namespace NVRCsharpDemo
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "HikVision Downloader v0.9";
+            this.Text = "HikVision Downloader v1.0";
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
