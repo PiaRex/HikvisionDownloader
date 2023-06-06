@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using DATAREG = NVRCsharpDemo.ConfigurationData.DataReg;
 using DATASHEDULE = NVRCsharpDemo.ConfigurationData.DataShedule;
-using CHANNEL = NVRCsharpDemo.ConfigurationData.Channel;
 using System.Threading;
 using System.Timers;
 using Timer = System.Timers.Timer;
@@ -15,16 +12,15 @@ namespace NVRCsharpDemo
 {
     internal class Monitor
     {
-        Form mainWindowForm = Application.OpenForms.OfType<MainWindow>().FirstOrDefault();
         DeviceController deviceController;
-        MainWindow mainWindowFormDesign;
+        MainWindow mainWindowForm;
 
         List<DATAREG> DataRegList;
         List<DATASHEDULE> DataSheduleList;
 
         public void TimeMonitor(MainWindow mainWindow)
         {
-            mainWindowFormDesign = mainWindow;
+            mainWindowForm = mainWindow;
 
             // Запустите таймер в отдельном потоке     
            // var timerThread = new Thread(() => ScanTime());
@@ -64,7 +60,7 @@ namespace NVRCsharpDemo
                         DATAREG currentDataReg = DataRegList.FirstOrDefault(x => x.DeviceIP == item.DeviceIP);
                         DATASHEDULE currentDataShedule = item;
                         deviceController = new DeviceController();
-                        var downloadThread = new Thread(() => deviceController.DownloadIntervalDeviceVideo(currentDataReg, currentDataShedule, mainWindowFormDesign));
+                        var downloadThread = new Thread(() => deviceController.DownloadIntervalDeviceVideo(currentDataReg, currentDataShedule, mainWindowForm));
                         downloadThread.Start();
                     }
                 }
@@ -73,15 +69,6 @@ namespace NVRCsharpDemo
                 System.Threading.Thread.Sleep(61000);
             }
         }
-/*
-        private void setStatusLabel(string text)
-        {
-            mainWindowForm.Invoke(new Action(() =>
-            {
-                mainWindowFormDesign.StatusServiceLabel.Text = text;
-            }));
-        }*/
-
     }
 }
 

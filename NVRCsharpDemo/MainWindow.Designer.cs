@@ -116,7 +116,6 @@ namespace NVRCsharpDemo
             this.DevicesList.TabIndex = 32;
             this.DevicesList.UseCompatibleStateImageBehavior = false;
             this.DevicesList.View = System.Windows.Forms.View.Details;
-            this.DevicesList.SelectedIndexChanged += new System.EventHandler(this.DevicesList_SelectedIndexChanged);
             // 
             // ColumnHeader1
             // 
@@ -236,7 +235,6 @@ namespace NVRCsharpDemo
             this.SheduleTable.TabIndex = 49;
             this.SheduleTable.UseCompatibleStateImageBehavior = false;
             this.SheduleTable.View = System.Windows.Forms.View.Details;
-            this.SheduleTable.SelectedIndexChanged += new System.EventHandler(this.listViewFile_SelectedIndexChanged);
             // 
             // ID
             // 

@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;  // требуется NuGet-пакет Newtonsoft.Json
 using System.IO;
-using static NVRCsharpDemo.MainWindow;
 using DATAREG = NVRCsharpDemo.ConfigurationData.DataReg;
 using DATASHEDULE = NVRCsharpDemo.ConfigurationData.DataShedule;
-using DATALOG = NVRCsharpDemo.ConfigurationData.LogData;
-using System.Dynamic;
-using static NVRCsharpDemo.ConfigurationData;
-using System.Windows.Forms;
 
 namespace NVRCsharpDemo
 {

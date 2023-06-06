@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static NVRCsharpDemo.ConfigurationData;
 using DATAREG = NVRCsharpDemo.ConfigurationData.DataReg;
 using DATASHEDULE = NVRCsharpDemo.ConfigurationData.DataShedule;
-using CHANNEL = NVRCsharpDemo.ConfigurationData.Channel;
 using System.Globalization;
 
 namespace NVRCsharpDemo

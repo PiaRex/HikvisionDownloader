@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Security.Authentication.ExtendedProtection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using DATAREG = NVRCsharpDemo.ConfigurationData.DataReg;
 using DATASHEDULE = NVRCsharpDemo.ConfigurationData.DataShedule;
 using CHANNEL = NVRCsharpDemo.ConfigurationData.Channel;
@@ -21,7 +15,6 @@ namespace NVRCsharpDemo
     {
         Form mainWindowForm = Application.OpenForms.OfType<MainWindow>().FirstOrDefault();
         MainWindow mainWindowFormDesign;
-
         DATASHEDULE shedule;
         private Int32 m_lDownHandle = -1;
         private Int32 m_lUserID = -1;
@@ -143,35 +136,46 @@ namespace NVRCsharpDemo
             int successDownload = 0;
             int failDownload = 0;
             string currentFolder = "";
-
-            DownloadCompletedCallback callback = (currentDownloadFolder, success) =>
+            if (m_lUserID < 0)
             {
-                if (!success) Interlocked.Increment(ref failDownload);
-                else Interlocked.Increment(ref successDownload);
-
-            };
-
-            LoginDevice(loginData, deviceFolder);
-            refreshSheduleTableStatus(shedule.ID, "Загрузка начата...");
-            for (int i = 0; i < countHour; i++)
-            {  
-                int j = i + 1;
-                currentFolder = DownloadDeviceVideo(loginData, shedule, i, callback); // запускаем закачку с параметрами час = i}
-                FileOperations.AddLog("DeviceController", "Старт загрузки: " + j + " из " + countHour, currentFolder, logFileName);
-                // бесконечный цикл который ждёт когда видос скачается или закрашится
-                bool status;
-                do
-                {
-                    status = GetDownloadStatus(currentFolder , callback);
-                    Thread.Sleep(1000);
-                } while (!status);
-                refreshSheduleTableStatus(shedule.ID, "Загрузка... файлов загружено: " + successDownload + " из " + countHour + ", ошибок: " + failDownload);
+                // todo вывести ошибку в статус расписания
+                iLastErr = CHCNetSDK.NET_DVR_GetLastError();
+                FileOperations.SetSheduleStatus(shedule.ID, DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ". Ошибка входа в устройство.");
+                refreshSheduleTableStatus(shedule.ID, DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ". Ошибка входа в устройство.");
+                return;
             }
+            else
+            {
+                DownloadCompletedCallback callback = (currentDownloadFolder, success) =>
+                {
+                    if (!success) Interlocked.Increment(ref failDownload);
+                    else Interlocked.Increment(ref successDownload);
 
-            // вывести таблицу закачано из общкол (3/10)
-            FileOperations.AddLog("DeviceController", "Загрузка завершена. Файлов загружено: " + successDownload + " из " + countHour, currentFolder, logFileName);
-            FileOperations.SetSheduleStatus(shedule.ID, DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ". Загрузка завершена. Файлов загружено: " + successDownload + " из " + countHour + ", ошибок: " + failDownload);
-            refreshSheduleTableStatus(shedule.ID, DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ". Загрузка завершена. Файлов загружено: " + successDownload + " из " + countHour + ", ошибок: " + failDownload);
+                };
+
+                LoginDevice(loginData, deviceFolder);
+                refreshSheduleTableStatus(shedule.ID, "Загрузка начата...");
+                for (int i = 0; i < countHour; i++)
+                {
+                    int j = i + 1;
+                    currentFolder = DownloadDeviceVideo(loginData, shedule, i, callback); // запускаем закачку с параметрами час = i}
+                    FileOperations.AddLog("DeviceController", "Старт загрузки: " + j + " из " + countHour, currentFolder, logFileName);
+                    // бесконечный цикл который ждёт когда видос скачается или закрашится
+                    bool status;
+                    do
+                    {
+                        status = GetDownloadStatus(currentFolder, callback);
+                        Thread.Sleep(1000);
+                    } while (!status);
+                    refreshSheduleTableStatus(shedule.ID, "Загрузка... файлов загружено: " + successDownload + " из " + countHour + ", ошибок: " + failDownload);
+                }
+
+                // вывести таблицу закачано из общкол (3/10)
+                FileOperations.AddLog("DeviceController", "Загрузка завершена. Файлов загружено: " + successDownload + " из " + countHour, currentFolder, logFileName);
+                FileOperations.SetSheduleStatus(shedule.ID, DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ". Загрузка завершена. Файлов загружено: " + successDownload + " из " + countHour + ", ошибок: " + failDownload);
+                refreshSheduleTableStatus(shedule.ID, DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ". Загрузка завершена. Файлов загружено: " + successDownload + " из " + countHour + ", ошибок: " + failDownload);
+            }
+     
         }
 
 
@@ -194,7 +198,7 @@ namespace NVRCsharpDemo
             string logFileName = "Download.log";
             DateTime dayOffSet = startDateTime.AddDays(offset); // вставит кол дней которые отнимаем
             DateTime startDownloadDateTime = dayOffSet.AddHours(currentHour);
-            DateTime endDownloadDateTime = startDownloadDateTime.AddMinutes(2);
+            DateTime endDownloadDateTime = startDownloadDateTime.AddMinutes(60);
             string currentFolder = FileOperations.SetDownloadDestinationFolder(loginData.DeviceName, shedule.channelNum.ToString(), startDownloadDateTime);
             struDownPara.dwChannel = totalNumChannels + (uint)shedule.channelNum;
 
@@ -255,7 +259,7 @@ namespace NVRCsharpDemo
             if ((iPos >= 0) && (iPos < 100))
             {
                 // вернуть статус проценты
-                FileOperations.AddLog("DeviceController.GetDownloadStatus", "Загрузка: " + shedule.ID + ": " + m_lDownHandle + " (" + iPos + "%)", currentFolder, logFileName);
+                // FileOperations.AddLog("DeviceController.GetDownloadStatus", "Загрузка: " + shedule.ID + ": " + m_lDownHandle + " (" + iPos + "%)", currentFolder, logFileName);
                 return false;
             }
 

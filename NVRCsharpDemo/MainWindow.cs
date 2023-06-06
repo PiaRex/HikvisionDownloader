@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.IO;
-using System.Runtime.InteropServices;
-using Newtonsoft.Json;
 using DATAREG = NVRCsharpDemo.ConfigurationData.DataReg;
 using DATASHEDULE = NVRCsharpDemo.ConfigurationData.DataShedule;
 using System.Threading;
@@ -24,19 +18,11 @@ namespace NVRCsharpDemo
         private bool m_bInitSDK = false;
         private uint iLastErr = 0;
         private Int32 m_lUserID = -1;
-        private Int32 m_lFindHandle = -1;
         private Int32 m_lPlayHandle = -1;
         private Int32 m_lDownHandle = -1;
-        private string str;
-        private string str1;
-        private string str2;
-        private string str3;
+        private string errorMessage;
         private string sPlayBackFileName = null;
-        private Int32 i = 0;
-        private Int32 m_lTree = 0;
         private System.Windows.Forms.Timer currentTimeTimer = new System.Windows.Forms.Timer();
-        private int DeviceIndex = 0;
-        private uint dwAChanTotalNum = 0;
         private uint dwDChanTotalNum = 0;
 
         public CHCNetSDK.NET_DVR_DEVICEINFO_V30 DeviceInfo;
@@ -72,13 +58,6 @@ namespace NVRCsharpDemo
             RefreshSheduleTable();
         }
 
-        private void listViewFile_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (SheduleTable.SelectedItems.Count > 0)
-            {
-                sPlayBackFileName = SheduleTable.FocusedItem.SubItems[0].Text;
-            }
-        }
         private void Timer_Tick(object sender, EventArgs e)
         {
             //Show current time
@@ -145,8 +124,8 @@ namespace NVRCsharpDemo
                 if (m_lUserID < 0)
                 {
                     iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                    str1 = "NET_DVR_Login_V30 failed, error code= " + iLastErr; //Login failed,print error code
-                    MessageBox.Show(str1);
+                    errorMessage = "NET_DVR_Login_V30 failed, error code= " + iLastErr; //Login failed,print error code
+                    MessageBox.Show(errorMessage);
                     return;
                 }
                 else
@@ -154,7 +133,6 @@ namespace NVRCsharpDemo
                     //Login successsfully
                     MessageBox.Show("Login Success!");
 
-                    dwAChanTotalNum = (uint)DeviceInfo.byChanNum;
                     dwDChanTotalNum = (uint)DeviceInfo.byIPChanNum + 256 * (uint)DeviceInfo.byHighDChanNum;
                     uint iDChanNum = 64;
 
@@ -218,8 +196,6 @@ namespace NVRCsharpDemo
         }
 
         public static bool getStatusService() { return service; }
-        public void UpdateStatusServiceLabel(string newText)
-        { StatusServiceLabel.Text = newText; }
 
         public string GetSelectedDeviceIP()
         {
@@ -234,11 +210,6 @@ namespace NVRCsharpDemo
             }
 
             return null;
-        }
-
-        private void DevicesList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void RefreshDeviceTable()
