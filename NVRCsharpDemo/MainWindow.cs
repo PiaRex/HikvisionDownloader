@@ -130,12 +130,8 @@ namespace NVRCsharpDemo
                 }
                 else
                 {
-                    //Login successsfully
-                    MessageBox.Show("Login Success!");
-
                     dwDChanTotalNum = (uint)DeviceInfo.byIPChanNum + 256 * (uint)DeviceInfo.byHighDChanNum;
                     uint iDChanNum = 64;
-
                     if (dwDChanTotalNum < 64 & dwDChanTotalNum > 0)
                     {
                         iDChanNum = dwDChanTotalNum; //If the ip channels of device is less than 64,will get the real channel of device
