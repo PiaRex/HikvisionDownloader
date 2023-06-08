@@ -136,6 +136,7 @@ namespace NVRCsharpDemo
             int successDownload = 0;
             int failDownload = 0;
             string currentFolder = "";
+            LoginDevice(loginData, deviceFolder);
             if (m_lUserID < 0)
             {
                 // todo вывести ошибку в статус расписания
@@ -152,8 +153,6 @@ namespace NVRCsharpDemo
                     else Interlocked.Increment(ref successDownload);
 
                 };
-
-                LoginDevice(loginData, deviceFolder);
                 refreshSheduleTableStatus(shedule.ID, "Загрузка начата...");
                 for (int i = 0; i < countHour; i++)
                 {
@@ -165,7 +164,7 @@ namespace NVRCsharpDemo
                     do
                     {
                         status = GetDownloadStatus(currentFolder, callback);
-                        Thread.Sleep(1000);
+                        Thread.Sleep(500);
                     } while (!status);
                     refreshSheduleTableStatus(shedule.ID, "Загрузка... файлов загружено: " + successDownload + " из " + countHour + ", ошибок: " + failDownload);
                 }
@@ -230,7 +229,7 @@ namespace NVRCsharpDemo
             if (m_lDownHandle < 0)
             {
                 iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                FileOperations.AddLog("DeviceController.DownloadDeviceVideo", "Код ошибки: " + iLastErr, currentFolder, logFileName);
+                FileOperations.AddLog("DeviceController.DownloadDeviceVideo", "Ошибка, загрузки, код ошибки: " + iLastErr, currentFolder, logFileName);
                 callback?.Invoke(currentFolder, false);
                 return null;
             }
