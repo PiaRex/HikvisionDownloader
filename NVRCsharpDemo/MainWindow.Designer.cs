@@ -59,7 +59,7 @@ namespace NVRCsharpDemo
             this.CurrentFolderLabel = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.ChooseFolderButton = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.MainDownloadButton = new System.Windows.Forms.Button();
             this.DelScheduleButton = new System.Windows.Forms.Button();
             this.EditScheduleButton = new System.Windows.Forms.Button();
             this.SheduleTable = new System.Windows.Forms.ListView();
@@ -142,7 +142,7 @@ namespace NVRCsharpDemo
             this.groupBox4.Controls.Add(this.CurrentFolderLabel);
             this.groupBox4.Controls.Add(this.label6);
             this.groupBox4.Controls.Add(this.ChooseFolderButton);
-            this.groupBox4.Controls.Add(this.button1);
+            this.groupBox4.Controls.Add(this.MainDownloadButton);
             this.groupBox4.Controls.Add(this.DelScheduleButton);
             this.groupBox4.Controls.Add(this.EditScheduleButton);
             this.groupBox4.Controls.Add(this.SheduleTable);
@@ -185,15 +185,15 @@ namespace NVRCsharpDemo
             this.ChooseFolderButton.UseVisualStyleBackColor = true;
             this.ChooseFolderButton.Click += new System.EventHandler(this.ChooseFolderButton_Click);
             // 
-            // button1
+            // MainDownloadButton
             // 
-            this.button1.Location = new System.Drawing.Point(204, 26);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(112, 31);
-            this.button1.TabIndex = 52;
-            this.button1.Text = "Загрузить вручную";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.MainDownloadButton.Location = new System.Drawing.Point(204, 26);
+            this.MainDownloadButton.Name = "MainDownloadButton";
+            this.MainDownloadButton.Size = new System.Drawing.Size(112, 31);
+            this.MainDownloadButton.TabIndex = 52;
+            this.MainDownloadButton.Text = "Загрузить вручную";
+            this.MainDownloadButton.UseVisualStyleBackColor = true;
+            this.MainDownloadButton.Click += new System.EventHandler(this.MainDownloadButton_Click);
             // 
             // DelScheduleButton
             // 
@@ -538,7 +538,7 @@ namespace NVRCsharpDemo
         public System.Windows.Forms.Label StatusServiceLabel;
         private System.Windows.Forms.ColumnHeader ID;
         private System.Windows.Forms.ColumnHeader StartDownload;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button MainDownloadButton;
         private System.Windows.Forms.Button ChooseFolderButton;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
         private System.Windows.Forms.Label label6;

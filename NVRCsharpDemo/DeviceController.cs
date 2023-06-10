@@ -7,6 +7,7 @@ using DATAREG = NVRCsharpDemo.ConfigurationData.DataReg;
 using DATASHEDULE = NVRCsharpDemo.ConfigurationData.DataShedule;
 using CHANNEL = NVRCsharpDemo.ConfigurationData.Channel;
 using System.Threading;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace NVRCsharpDemo
 {
@@ -29,41 +30,80 @@ namespace NVRCsharpDemo
         public CHCNetSDK.NET_DVR_GET_STREAM_UNION m_unionGetStream;
         public CHCNetSDK.NET_DVR_IPCHANINFO m_struChanInfo;
         List<CHANNEL> listChannel = new List<CHANNEL>();
+        int globalTriesCount = 10;
 
         public List<CHANNEL> getDeviceChannel(string deviceIP)
         {
-            LoginDevice(FileOperations.GetDeviceReg(deviceIP), " ");
+            LoginDevice_channels(FileOperations.GetDeviceReg(deviceIP));
             return listChannel;
         }
 
-        public void LoginDevice(DATAREG loginData, string DeviceFolder)
+        public void LoginDevice_channels(DATAREG loginData)
         {
-            string deviceFolder = DeviceFolder;
             if (m_lUserID < 0)
             {
-                //Login the device
                 Int16 PortNumber = Int16.Parse(loginData.DevicePort);//Service port of device
-                m_lUserID = CHCNetSDK.NET_DVR_Login_V30
-                    (
-                    loginData.DeviceIP,
-                    PortNumber,
-                    loginData.UserName,
-                    loginData.Password,
-                    ref DeviceInfo
-                    );
-                if (m_lUserID < 0)
+                    m_lUserID = CHCNetSDK.NET_DVR_Login_V30
+                        (
+                        loginData.DeviceIP,
+                        PortNumber,
+                        loginData.UserName,
+                        loginData.Password,
+                        ref DeviceInfo
+                        );
+                    if (m_lUserID < 0)
+                    {
+                        iLastErr = CHCNetSDK.NET_DVR_GetLastError();
+                        MessageBox.Show("При попытке войти на устройство для получения списка доступных каналов произошла ошибка, код ошибки: " + iLastErr);
+                        return;
+                    }
+                    else
+                    {
+                        dwDChanTotalNum = (uint)DeviceInfo.byIPChanNum + 256 * (uint)DeviceInfo.byHighDChanNum;
+                        GetIPChannels("");
+                    }
+            }
+        }
+        public void LoginDevice_download(DATAREG loginData, string DeviceFolder, LoginCallback callback)
+        {
+            string deviceFolder = DeviceFolder;
+            int localTriesCount = 20;
+            if (m_lUserID < 0)
+            {
+                for (int i = 1; i <= globalTriesCount; i++)
                 {
-                    // todo вывести ошибку в статус расписания
-                    iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                    FileOperations.AddLog("DeviceController.LoginDevice", "Неудачный логин, код  ошибки: " + iLastErr, deviceFolder, "Login.log");
-                    return;
-                }
-                else
-                {
-                    //статус расписания загружен успешно залогинились
-                    FileOperations.AddLog("DeviceController.LoginDevice", "Успешный логин. IP: " + loginData.DeviceIP, deviceFolder, "Login.log");
-                    dwDChanTotalNum = (uint)DeviceInfo.byIPChanNum + 256 * (uint)DeviceInfo.byHighDChanNum;
-                    GetIPChannels(deviceFolder);
+                    for (int j = 0; j < localTriesCount; j++)
+                    {
+                        Int16 PortNumber = Int16.Parse(loginData.DevicePort);//Service port of device
+                                                                             //Login the device
+                        m_lUserID = CHCNetSDK.NET_DVR_Login_V30
+                            (
+                            loginData.DeviceIP,
+                            PortNumber,
+                            loginData.UserName,
+                            loginData.Password,
+                            ref DeviceInfo
+                            );
+                        if (m_lUserID < 0)
+                        {
+                            // todo вывести ошибку в статус расписания
+                            iLastErr = CHCNetSDK.NET_DVR_GetLastError();
+                            FileOperations.AddLog("DeviceController.LoginDevice", "Неудачный логин, код  ошибки: " + iLastErr, deviceFolder, "Login.log");
+                        }
+                        else
+                        {
+                            //статус расписания загружен успешно залогинились
+                            FileOperations.AddLog("DeviceController.LoginDevice", "Успешный логин. IP: " + loginData.DeviceIP, deviceFolder, "Login.log");
+                            dwDChanTotalNum = (uint)DeviceInfo.byIPChanNum + 256 * (uint)DeviceInfo.byHighDChanNum;
+                            GetIPChannels(deviceFolder);
+                            callback?.Invoke(0, true);
+                            return;
+                        }
+                        Thread.Sleep(1000);
+                    }
+                    FileOperations.AddLog("DeviceController.LoginDevice", "Неудачный логин, попытка: " + i + " из " + globalTriesCount, deviceFolder, "Login.log");
+                    callback?.Invoke(i, false);
+                    Thread.Sleep(60000);
                 }
             }
         }
@@ -125,31 +165,42 @@ namespace NVRCsharpDemo
         }
 
         public delegate void DownloadCompletedCallback(string currentFolder, bool success);
+        public delegate void LoginCallback(int triesCount, bool success);
         public void DownloadIntervalDeviceVideo(DATAREG loginData, DATASHEDULE shedule, MainWindow mainWindow)
         {
             mainWindowFormDesign = mainWindow;
             string deviceFolder = FileOperations.SetDeviceDestinationFolder(loginData.DeviceName,shedule.channelNum.ToString());
             string logFileName = "Download.log";
-
+            bool isLoggedIn = false;
             // цикл по количеству часов
             int countHour = Helpers.GetHourCountDownload(shedule);
             int successDownload = 0;
             int failDownload = 0;
             string currentFolder = "";
-            LoginDevice(loginData, deviceFolder);
-            if (m_lUserID < 0)
+            LoginCallback loginCallback = (triesCount, success) =>
             {
-                // todo вывести ошибку в статус расписания
-                iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                FileOperations.SetSheduleStatus(shedule.ID, DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ". Ошибка входа в устройство.");
-                refreshSheduleTableStatus(shedule.ID, DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ". Ошибка входа в устройство.");
-                return;
-            }
-            else
-            {
-                DownloadCompletedCallback callback = (currentDownloadFolder, success) =>
+                if (!success)
                 {
-                    if (!success) Interlocked.Increment(ref failDownload);
+
+                    refreshSheduleTableStatus(shedule.ID, "Ошибка входа в устройство, переподключение... попытка " + triesCount + "  из " + globalTriesCount);
+                    if (triesCount == 10)
+                    {
+                        isLoggedIn = false;
+                    }
+                }
+
+                else
+                {
+                    isLoggedIn = true;
+                }
+
+            };
+            LoginDevice_download(loginData, deviceFolder , loginCallback);
+            if (isLoggedIn)
+            {
+                DownloadCompletedCallback downloadCallback = (currentDownloadFolder, downloadSuccess) =>
+                {
+                    if (!downloadSuccess) Interlocked.Increment(ref failDownload);
                     else Interlocked.Increment(ref successDownload);
 
                 };
@@ -157,13 +208,13 @@ namespace NVRCsharpDemo
                 for (int i = 0; i < countHour; i++)
                 {
                     int j = i + 1;
-                    currentFolder = DownloadDeviceVideo(loginData, shedule, i, callback); // запускаем закачку с параметрами час = i}
+                    currentFolder = DownloadDeviceVideo(loginData, shedule, i, downloadCallback); // запускаем закачку с параметрами час = i}
                     FileOperations.AddLog("DeviceController", "Старт загрузки: " + j + " из " + countHour, currentFolder, logFileName);
                     // бесконечный цикл который ждёт когда видос скачается или закрашится
                     bool status;
                     do
                     {
-                        status = GetDownloadStatus(currentFolder, callback);
+                        status = GetDownloadStatus(currentFolder, downloadCallback);
                         Thread.Sleep(500);
                     } while (!status);
                     refreshSheduleTableStatus(shedule.ID, "Загрузка... файлов загружено: " + successDownload + " из " + countHour + ", ошибок: " + failDownload);
@@ -174,7 +225,11 @@ namespace NVRCsharpDemo
                 FileOperations.SetSheduleStatus(shedule.ID, DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ". Загрузка завершена. Файлов загружено: " + successDownload + " из " + countHour + ", ошибок: " + failDownload);
                 refreshSheduleTableStatus(shedule.ID, DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ". Загрузка завершена. Файлов загружено: " + successDownload + " из " + countHour + ", ошибок: " + failDownload);
             }
-     
+            else
+            {
+                FileOperations.SetSheduleStatus(shedule.ID, DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ". Ошибка входа в устройство. Попыток: " + globalTriesCount);
+                refreshSheduleTableStatus(shedule.ID, DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ". Ошибка входа в устройство. Попыток: " + globalTriesCount);
+            }    
         }
 
 
@@ -284,7 +339,7 @@ namespace NVRCsharpDemo
             {
                 // вернуть статус abnormal
                 m_lDownHandle = -1;
-                FileOperations.AddLog("DeviceController.GetDownloadStatus", "Ошибка загрузки: Abnormal" + shedule.ID + ": " + iPos, currentFolder,logFileName);
+                FileOperations.AddLog("DeviceController.GetDownloadStatus", "Ошибка загрузки: Abnormal:" + iPos, currentFolder,logFileName);
                 callback?.Invoke(currentFolder, false);
                 return true;
             }

@@ -56,6 +56,22 @@ namespace NVRCsharpDemo
             CurrentFolderLabel.Text = FileOperations.CurrentFolder;
             RefreshDeviceTable();
             RefreshSheduleTable();
+            //Start the service
+            service = true;
+            //todo когда сервис запущен заблочит возможность добавления новых региков и расписания, что-бы каждый раз не читать из файла
+            Monitor monitor = new Monitor();
+            monitor.TimeMonitor(this);
+            buttonStartService.Text = "СТОП";
+            StatusServiceLabel.ForeColor = Color.Green;
+            StatusServiceLabel.Text = "Статус сервиса: Запущен";
+            AddDeviceButton.Enabled = false;
+            AddIntervalButton.Enabled = false;
+            EditScheduleButton.Enabled = false;
+            DelDeviceButton.Enabled = false;
+            DelScheduleButton.Enabled = false;
+            MainDownloadButton.Enabled = false;
+            ChooseFolderButton.Enabled = false;
+
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -179,6 +195,14 @@ namespace NVRCsharpDemo
                 buttonStartService.Text = "СТОП";
                 StatusServiceLabel.ForeColor = Color.Green;
                 StatusServiceLabel.Text = "Статус сервиса: Запущен";
+                AddDeviceButton.Enabled = false; 
+                AddIntervalButton.Enabled = false;
+                EditScheduleButton.Enabled = false;
+                DelDeviceButton.Enabled = false;
+                DelScheduleButton.Enabled = false;
+                MainDownloadButton.Enabled = false;
+                ChooseFolderButton.Enabled = false;
+
             }
             else
             {
@@ -187,7 +211,13 @@ namespace NVRCsharpDemo
                 buttonStartService.Text = "СТАРТ";
                 StatusServiceLabel.ForeColor = Color.Black;
                 StatusServiceLabel.Text = "Статус сервиса: Остановлен";
-
+                AddDeviceButton.Enabled = true;
+                AddIntervalButton.Enabled = true;
+                EditScheduleButton.Enabled = true;
+                DelDeviceButton.Enabled = true;
+                DelScheduleButton.Enabled = true;
+                MainDownloadButton.Enabled = true;
+                ChooseFolderButton.Enabled = true;
             }
         }
 
@@ -258,7 +288,7 @@ namespace NVRCsharpDemo
             return null;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void MainDownloadButton_Click(object sender, EventArgs e)
         {
             
             if (GetSelectedSheduleID() != null)

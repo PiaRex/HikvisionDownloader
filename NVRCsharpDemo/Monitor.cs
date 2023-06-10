@@ -22,14 +22,12 @@ namespace NVRCsharpDemo
         {
             mainWindowForm = mainWindow;
 
-            // Запустите таймер в отдельном потоке     
-           // var timerThread = new Thread(() => ScanTime());
-           // timerThread.Start();
             Timer minuteTimer = new Timer();
             minuteTimer.Start();
             minuteTimer.Interval = 60000;
             minuteTimer.AutoReset = true;
             minuteTimer.Elapsed += ScanTime;
+
         }
 
         private void ScanTime(object sender, ElapsedEventArgs e)
@@ -40,12 +38,8 @@ namespace NVRCsharpDemo
             //setStatusLabel("Статус сервиса: запущен");
 
             int i = 0;
-            while (true)
-            {
                 //проверить не остановлена ли служба
                 if (!MainWindow.getStatusService()) return;
-
-                // Проверьте текущее время каждую минуту 
 
                 foreach (var item in DataSheduleList)
                 {
@@ -64,10 +58,6 @@ namespace NVRCsharpDemo
                         downloadThread.Start();
                     }
                 }
-
-                // Приостановите поток на одну минуту 
-                System.Threading.Thread.Sleep(61000);
-            }
         }
     }
 }
