@@ -7,7 +7,6 @@ using DATAREG = NVRCsharpDemo.ConfigurationData.DataReg;
 using DATASHEDULE = NVRCsharpDemo.ConfigurationData.DataShedule;
 using CHANNEL = NVRCsharpDemo.ConfigurationData.Channel;
 using System.Threading;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace NVRCsharpDemo
 {
@@ -88,12 +87,12 @@ namespace NVRCsharpDemo
                         {
                             // todo вывести ошибку в статус расписания
                             iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                            FileOperations.AddLog("DeviceController.LoginDevice", "Неудачный логин, код  ошибки: " + iLastErr, deviceFolder, "Login.log");
+                            //FileOperations.AddLog("DeviceController.LoginDevice", "Неудачный логин, код  ошибки: " + iLastErr, deviceFolder, "Login.log");
                         }
                         else
                         {
                             //статус расписания загружен успешно залогинились
-                            FileOperations.AddLog("DeviceController.LoginDevice", "Успешный логин. IP: " + loginData.DeviceIP, deviceFolder, "Login.log");
+                            //FileOperations.AddLog("DeviceController.LoginDevice", "Успешный логин. IP: " + loginData.DeviceIP, deviceFolder, "Login.log");
                             dwDChanTotalNum = (uint)DeviceInfo.byIPChanNum + 256 * (uint)DeviceInfo.byHighDChanNum;
                             GetIPChannels(deviceFolder);
                             callback?.Invoke(0, true);
@@ -101,7 +100,7 @@ namespace NVRCsharpDemo
                         }
                         Thread.Sleep(1000);
                     }
-                    FileOperations.AddLog("DeviceController.LoginDevice", "Неудачный логин, попытка: " + i + " из " + globalTriesCount, deviceFolder, "Login.log");
+                    //FileOperations.AddLog("DeviceController.LoginDevice", "Неудачный логин, попытка: " + i + " из " + globalTriesCount, deviceFolder, "Login.log");
                     callback?.Invoke(i, false);
                     Thread.Sleep(60000);
                 }
@@ -120,7 +119,7 @@ namespace NVRCsharpDemo
             if (!CHCNetSDK.NET_DVR_GetDVRConfig(m_lUserID, CHCNetSDK.NET_DVR_GET_IPPARACFG_V40, iGroupNo, ptrIpParaCfgV40, dwSize, ref dwReturn))
             {
                 iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                FileOperations.AddLog("DeviceController.GetIPChannels", "Ошибка получения списка каналов, код ошибки: " + iLastErr, deviceFolder, "Login.log");
+               // FileOperations.AddLog("DeviceController.GetIPChannels", "Ошибка получения списка каналов, код ошибки: " + iLastErr, deviceFolder, "Login.log");
             }
             else
             {
@@ -170,7 +169,7 @@ namespace NVRCsharpDemo
         {
             mainWindowFormDesign = mainWindow;
             string deviceFolder = FileOperations.SetDeviceDestinationFolder(loginData.DeviceName,shedule.channelNum.ToString());
-            string logFileName = "Download.log";
+            //string logFileName = "Download.log";
             bool isLoggedIn = false;
             // цикл по количеству часов
             int countHour = Helpers.GetHourCountDownload(shedule);
@@ -209,7 +208,7 @@ namespace NVRCsharpDemo
                 {
                     int j = i + 1;
                     currentFolder = DownloadDeviceVideo(loginData, shedule, i, downloadCallback); // запускаем закачку с параметрами час = i}
-                    FileOperations.AddLog("DeviceController", "Старт загрузки: " + j + " из " + countHour, currentFolder, logFileName);
+                   // FileOperations.AddLog("DeviceController", "Старт загрузки: " + j + " из " + countHour, currentFolder, logFileName);
                     // бесконечный цикл который ждёт когда видос скачается или закрашится
                     bool status;
                     do
@@ -221,7 +220,7 @@ namespace NVRCsharpDemo
                 }
 
                 // вывести таблицу закачано из общкол (3/10)
-                FileOperations.AddLog("DeviceController", "Загрузка завершена. Файлов загружено: " + successDownload + " из " + countHour, currentFolder, logFileName);
+               // FileOperations.AddLog("DeviceController", "Загрузка завершена. Файлов загружено: " + successDownload + " из " + countHour, currentFolder, logFileName);
                 FileOperations.SetSheduleStatus(shedule.ID, DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ". Загрузка завершена. Файлов загружено: " + successDownload + " из " + countHour + ", ошибок: " + failDownload);
                 refreshSheduleTableStatus(shedule.ID, DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ". Загрузка завершена. Файлов загружено: " + successDownload + " из " + countHour + ", ошибок: " + failDownload);
             }
@@ -284,7 +283,7 @@ namespace NVRCsharpDemo
             if (m_lDownHandle < 0)
             {
                 iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                FileOperations.AddLog("DeviceController.DownloadDeviceVideo", "Ошибка, загрузки, код ошибки: " + iLastErr, currentFolder, logFileName);
+                //FileOperations.AddLog("DeviceController.DownloadDeviceVideo", "Ошибка, загрузки, код ошибки: " + iLastErr, currentFolder, logFileName);
                 callback?.Invoke(currentFolder, false);
                 return null;
             }
@@ -292,11 +291,11 @@ namespace NVRCsharpDemo
             if (!CHCNetSDK.NET_DVR_PlayBackControl_V40(m_lDownHandle, CHCNetSDK.NET_DVR_PLAYSTART, IntPtr.Zero, 0, IntPtr.Zero, ref iOutValue))
             {
                 iLastErr = CHCNetSDK.NET_DVR_GetLastError();
-                FileOperations.AddLog("DeviceController.DownloadDeviceVideo", "Код ошибки: " + iLastErr, currentFolder, logFileName);
+                //FileOperations.AddLog("DeviceController.DownloadDeviceVideo", "Код ошибки: " + iLastErr, currentFolder, logFileName);
                 callback?.Invoke(currentFolder, false);
                 return null;
             }
-            FileOperations.AddLog("DeviceController.DownloadDeviceVideo", "Загрузка: " + shedule.ID + ": " + sVideoFileName, currentFolder, logFileName);
+            //FileOperations.AddLog("DeviceController.DownloadDeviceVideo", "Загрузка: " + shedule.ID + ": " + sVideoFileName, currentFolder, logFileName);
             return currentFolder;
         }
 
@@ -325,12 +324,12 @@ namespace NVRCsharpDemo
                 {
                     iLastErr = CHCNetSDK.NET_DVR_GetLastError();
                     // вернуть статус ошибка
-                    FileOperations.AddLog("DeviceController.GetDownloadStatus", "Ошибка загрузки: " + shedule.ID + ": " + iLastErr.ToString(), currentFolder, logFileName);
+                    //FileOperations.AddLog("DeviceController.GetDownloadStatus", "Ошибка загрузки: " + shedule.ID + ": " + iLastErr.ToString(), currentFolder, logFileName);
                     if (iLastErr == 12) callback?.Invoke(currentFolder, true); else callback?.Invoke(currentFolder, false);
                     return true;
                 }
                 m_lDownHandle = -1;
-                FileOperations.AddLog("DeviceController.GetDownloadStatus", shedule.ID + " Финиш " + iPos + "%", currentFolder, logFileName);
+                //FileOperations.AddLog("DeviceController.GetDownloadStatus", shedule.ID + " Финиш " + iPos + "%", currentFolder, logFileName);
                 callback?.Invoke(currentFolder, true);
                 return true;
             }
@@ -339,12 +338,12 @@ namespace NVRCsharpDemo
             {
                 // вернуть статус abnormal
                 m_lDownHandle = -1;
-                FileOperations.AddLog("DeviceController.GetDownloadStatus", "Ошибка загрузки: Abnormal:" + iPos, currentFolder,logFileName);
+               // FileOperations.AddLog("DeviceController.GetDownloadStatus", "Ошибка загрузки: Abnormal:" + iPos, currentFolder,logFileName);
                 callback?.Invoke(currentFolder, false);
                 return true;
             }
             m_lDownHandle = -1;
-            FileOperations.AddLog("DeviceController.GetDownloadStatus", shedule.ID + " непредвиденный результат: " + iPos.ToString(), currentFolder, logFileName);
+            //FileOperations.AddLog("DeviceController.GetDownloadStatus", shedule.ID + " непредвиденный результат: " + iPos.ToString(), currentFolder, logFileName);
             callback?.Invoke(currentFolder, true);
             return true;
         }

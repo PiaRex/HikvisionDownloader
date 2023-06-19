@@ -71,6 +71,7 @@ namespace NVRCsharpDemo
             DelScheduleButton.Enabled = false;
             MainDownloadButton.Enabled = false;
             ChooseFolderButton.Enabled = false;
+            RenameButtton.Enabled = false;
 
         }
 
@@ -165,6 +166,9 @@ namespace NVRCsharpDemo
                     });
                     FileOperations.SaveDataReg(DataRegList);
                     RefreshDeviceTable();
+                    Thread.Sleep(2000);
+                    CHCNetSDK.NET_DVR_Logout_V30(m_lUserID);
+                    m_lUserID = -1;
                 }
 
             }
@@ -202,6 +206,7 @@ namespace NVRCsharpDemo
                 DelScheduleButton.Enabled = false;
                 MainDownloadButton.Enabled = false;
                 ChooseFolderButton.Enabled = false;
+                RenameButtton.Enabled = false;
 
             }
             else
@@ -218,6 +223,7 @@ namespace NVRCsharpDemo
                 DelScheduleButton.Enabled = true;
                 MainDownloadButton.Enabled = true;
                 ChooseFolderButton.Enabled = true;
+                RenameButtton.Enabled = true;
             }
         }
 
@@ -238,7 +244,7 @@ namespace NVRCsharpDemo
             return null;
         }
 
-        private void RefreshDeviceTable()
+        public void RefreshDeviceTable()
         {
             DevicesList.Items.Clear();
             DataRegList = FileOperations.LoadDataReg();
@@ -251,20 +257,40 @@ namespace NVRCsharpDemo
             SheduleTable.Items.Clear();
             DataRegList = FileOperations.LoadDataReg();
             DataSheduleList = FileOperations.LoadDataShedule();
-            foreach (DATASHEDULE Item in DataSheduleList)
-            {
-                SheduleTable.Items.Add(new ListViewItem(new string[]
+            
+                foreach (DATASHEDULE Item in DataSheduleList)
                 {
+                DATAREG Device = DataRegList.Find(x => x.DeviceIP == Item.DeviceIP);
+                if (Device != null)
+                {
+                    SheduleTable.Items.Add(new ListViewItem(new string[]
+                    {
                     Item.ID.ToString(),
-                    DataRegList.Find(x => x.DeviceIP == Item.DeviceIP).DeviceName,
+                    Device.DeviceName,
                     Item.DeviceIP,
                     Item.channelNum.ToString(),
                     Item.startDownloadTime,
                     Item.downloadStartInterval,
                     Item.downloadEndInterval,
                     Item.status
-                }));
-            }
+                    }));
+                }
+                else
+                {
+                    SheduleTable.Items.Add(new ListViewItem(new string[]
+{
+                    Item.ID.ToString(),
+                    " ",
+                    Item.DeviceIP,
+                    Item.channelNum.ToString(),
+                    Item.startDownloadTime,
+                    Item.downloadStartInterval,
+                    Item.downloadEndInterval,
+                    Item.status
+                    }));
+                }
+
+                }
         }
 
         private void DelScheduleButton_Click(object sender, EventArgs e)
@@ -318,6 +344,16 @@ namespace NVRCsharpDemo
             folderBrowserDialog.ShowDialog();
             FileOperations.CurrentFolder = folderBrowserDialog.SelectedPath;
             CurrentFolderLabel.Text = FileOperations.CurrentFolder;
+        }
+
+        private void RenameButtton_Click(object sender, EventArgs e)
+        {
+            string selectedDeviceIP = GetSelectedDeviceIP();
+            if (selectedDeviceIP != null)
+            {
+                Form renameDeviceForm = new RenameDeviceForm(GetSelectedDeviceIP(), this);
+                renameDeviceForm.Show();
+            }
         }
     }
 }

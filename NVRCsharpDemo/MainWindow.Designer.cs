@@ -94,6 +94,7 @@ namespace NVRCsharpDemo
             this.buttonStartService = new System.Windows.Forms.Button();
             this.StatusServiceLabel = new System.Windows.Forms.Label();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.RenameButtton = new System.Windows.Forms.Button();
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -288,6 +289,7 @@ namespace NVRCsharpDemo
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.RenameButtton);
             this.groupBox1.Controls.Add(this.DelDeviceButton);
             this.groupBox1.Controls.Add(this.AddIntervalButton);
             this.groupBox1.Controls.Add(this.DevicesList);
@@ -300,9 +302,9 @@ namespace NVRCsharpDemo
             // 
             // DelDeviceButton
             // 
-            this.DelDeviceButton.Location = new System.Drawing.Point(235, 34);
+            this.DelDeviceButton.Location = new System.Drawing.Point(261, 34);
             this.DelDeviceButton.Name = "DelDeviceButton";
-            this.DelDeviceButton.Size = new System.Drawing.Size(144, 35);
+            this.DelDeviceButton.Size = new System.Drawing.Size(118, 35);
             this.DelDeviceButton.TabIndex = 34;
             this.DelDeviceButton.Text = "Удалить устройство";
             this.DelDeviceButton.UseVisualStyleBackColor = true;
@@ -312,7 +314,7 @@ namespace NVRCsharpDemo
             // 
             this.AddIntervalButton.Location = new System.Drawing.Point(9, 34);
             this.AddIntervalButton.Name = "AddIntervalButton";
-            this.AddIntervalButton.Size = new System.Drawing.Size(144, 35);
+            this.AddIntervalButton.Size = new System.Drawing.Size(139, 35);
             this.AddIntervalButton.TabIndex = 33;
             this.AddIntervalButton.Text = "Добавить в расписание";
             this.AddIntervalButton.UseVisualStyleBackColor = true;
@@ -390,9 +392,9 @@ namespace NVRCsharpDemo
             // 
             // AddDeviceButton
             // 
-            this.AddDeviceButton.Location = new System.Drawing.Point(289, 93);
+            this.AddDeviceButton.Location = new System.Drawing.Point(291, 93);
             this.AddDeviceButton.Name = "AddDeviceButton";
-            this.AddDeviceButton.Size = new System.Drawing.Size(90, 54);
+            this.AddDeviceButton.Size = new System.Drawing.Size(88, 54);
             this.AddDeviceButton.TabIndex = 28;
             this.AddDeviceButton.Text = "Добавить устройство";
             this.AddDeviceButton.Click += new System.EventHandler(this.AddDeviceButton_Click);
@@ -470,6 +472,16 @@ namespace NVRCsharpDemo
             this.StatusServiceLabel.Text = "Статус сервиса: Остановлен";
             this.StatusServiceLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // RenameButtton
+            // 
+            this.RenameButtton.Location = new System.Drawing.Point(154, 34);
+            this.RenameButtton.Name = "RenameButtton";
+            this.RenameButtton.Size = new System.Drawing.Size(101, 35);
+            this.RenameButtton.TabIndex = 57;
+            this.RenameButtton.Text = "Переименовать";
+            this.RenameButtton.UseVisualStyleBackColor = true;
+            this.RenameButtton.Click += new System.EventHandler(this.RenameButtton_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -486,7 +498,7 @@ namespace NVRCsharpDemo
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "HikVision Downloader v1.0";
+            this.Text = "HikVision Downloader v1.02";
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
@@ -543,6 +555,7 @@ namespace NVRCsharpDemo
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label CurrentFolderLabel;
+        private System.Windows.Forms.Button RenameButtton;
     }
 }
 
