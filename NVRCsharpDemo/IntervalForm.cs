@@ -30,7 +30,7 @@ namespace NVRCsharpDemo
                 else if (Ch1CheckBox.Text == Item.ChannelNum.ToString() & Item.IPID != 0) Ch1CheckBox.Enabled = true;
                 if (Ch2CheckBox.Text == Item.ChannelNum.ToString() & Item.IPID == 0) Ch2CheckBox.Enabled = false;
                 else if (Ch2CheckBox.Text == Item.ChannelNum.ToString() & Item.IPID != 0) Ch2CheckBox.Enabled = true;
-                if (Ch3CheckBox.Text == Item.ChannelNum.ToString() & Item.IPID == 0) Ch1CheckBox.Enabled = false;
+                if (Ch3CheckBox.Text == Item.ChannelNum.ToString() & Item.IPID == 0) Ch3CheckBox.Enabled = false;
                 else if (Ch3CheckBox.Text == Item.ChannelNum.ToString() & Item.IPID != 0) Ch3CheckBox.Enabled = true;
                 if (Ch4CheckBox.Text == Item.ChannelNum.ToString() & Item.IPID == 0) Ch4CheckBox.Enabled = false;
                 else if (Ch4CheckBox.Text == Item.ChannelNum.ToString() & Item.IPID != 0) Ch4CheckBox.Enabled = true;
@@ -68,7 +68,7 @@ namespace NVRCsharpDemo
             {
                 addNewShedule(4);
             }
-            this.Close();
+            Close();
             scheduleForm.Refresh();
             mainWindow.RefreshSheduleTable();
         }

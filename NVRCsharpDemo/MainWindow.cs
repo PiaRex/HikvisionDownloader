@@ -33,7 +33,7 @@ namespace NVRCsharpDemo
         // создание колекции обьектов
         public List<DATAREG> DataRegList = new List<DATAREG>();
         public List<DATASHEDULE> DataSheduleList = new List<DATASHEDULE>();
-
+        public event ConfigurationData.StopDownloadCallback stopDownloadCallback;
         public MainWindow()
         {
             InitializeComponent();
@@ -70,6 +70,7 @@ namespace NVRCsharpDemo
             DelDeviceButton.Enabled = false;
             DelScheduleButton.Enabled = false;
             MainDownloadButton.Enabled = false;
+            StopDownloadButton.Enabled = false;
             ChooseFolderButton.Enabled = false;
             RenameButtton.Enabled = false;
 
@@ -205,9 +206,9 @@ namespace NVRCsharpDemo
                 DelDeviceButton.Enabled = false;
                 DelScheduleButton.Enabled = false;
                 MainDownloadButton.Enabled = false;
+                StopDownloadButton.Enabled = false;
                 ChooseFolderButton.Enabled = false;
                 RenameButtton.Enabled = false;
-
             }
             else
             {
@@ -222,6 +223,7 @@ namespace NVRCsharpDemo
                 DelDeviceButton.Enabled = true;
                 DelScheduleButton.Enabled = true;
                 MainDownloadButton.Enabled = true;
+                StopDownloadButton.Enabled = true;
                 ChooseFolderButton.Enabled = true;
                 RenameButtton.Enabled = true;
             }
@@ -316,7 +318,6 @@ namespace NVRCsharpDemo
 
         private void MainDownloadButton_Click(object sender, EventArgs e)
         {
-            
             if (GetSelectedSheduleID() != null)
             {
                 DeviceController deviceController = new DeviceController();
@@ -354,6 +355,11 @@ namespace NVRCsharpDemo
                 Form renameDeviceForm = new RenameDeviceForm(GetSelectedDeviceIP(), this);
                 renameDeviceForm.Show();
             }
+        }
+
+        private void StopDownloadButton_Click(object sender, EventArgs e)
+        {
+            stopDownloadCallback?.Invoke(GetSelectedSheduleID());
         }
     }
 }

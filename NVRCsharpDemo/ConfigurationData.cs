@@ -36,6 +36,7 @@ namespace NVRCsharpDemo
             public string message { get; set; }
         }
 
+        public delegate void StopDownloadCallback(string sheduleID);
 
     }
 }

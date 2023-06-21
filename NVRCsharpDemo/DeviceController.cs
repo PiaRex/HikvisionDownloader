@@ -30,6 +30,7 @@ namespace NVRCsharpDemo
         public CHCNetSDK.NET_DVR_IPCHANINFO m_struChanInfo;
         List<CHANNEL> listChannel = new List<CHANNEL>();
         int globalTriesCount = 10;
+        bool stopDownloading = false;
 
         public List<CHANNEL> getDeviceChannel(string deviceIP)
         {
@@ -168,6 +169,7 @@ namespace NVRCsharpDemo
         public void DownloadIntervalDeviceVideo(DATAREG loginData, DATASHEDULE shedule, MainWindow mainWindow)
         {
             mainWindowFormDesign = mainWindow;
+            mainWindowFormDesign.stopDownloadCallback += handleStopDownloading;
             string deviceFolder = FileOperations.SetDeviceDestinationFolder(loginData.DeviceName,shedule.channelNum.ToString());
             //string logFileName = "Download.log";
             bool isLoggedIn = false;
@@ -213,6 +215,7 @@ namespace NVRCsharpDemo
                     bool status;
                     do
                     {
+                        if (stopDownloading) return;
                         status = GetDownloadStatus(currentFolder, downloadCallback);
                         Thread.Sleep(500);
                     } while (!status);
@@ -354,6 +357,19 @@ namespace NVRCsharpDemo
             {
                 mainWindowFormDesign.SheduleTable.Items[ID].SubItems[7].Text = status;
             }));
+        }
+
+        private void handleStopDownloading(string sheduleID)
+        {
+            if (m_lDownHandle >= 0 & shedule.ID.ToString() == sheduleID)
+            {
+                CHCNetSDK.NET_DVR_StopGetFile(m_lDownHandle);
+                m_lDownHandle = -1;
+                FileOperations.SetSheduleStatus(int.Parse(sheduleID), DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ". Загрузка прервана пользователем.");
+                refreshSheduleTableStatus(int.Parse(sheduleID), DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ". Загрузка прервана пользователем.");
+                stopDownloading = true;
+            }
+            else stopDownloading = false;  
         }
     }
 }

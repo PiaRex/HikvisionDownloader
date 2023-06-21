@@ -56,10 +56,12 @@ namespace NVRCsharpDemo
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.StopDownloadButton = new System.Windows.Forms.Button();
+            this.MainDownloadButton = new System.Windows.Forms.Button();
             this.CurrentFolderLabel = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.ChooseFolderButton = new System.Windows.Forms.Button();
-            this.MainDownloadButton = new System.Windows.Forms.Button();
             this.DelScheduleButton = new System.Windows.Forms.Button();
             this.EditScheduleButton = new System.Windows.Forms.Button();
             this.SheduleTable = new System.Windows.Forms.ListView();
@@ -75,6 +77,7 @@ namespace NVRCsharpDemo
             this.timerPlayback = new System.Windows.Forms.Timer(this.components);
             this.btn_Exit = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.RenameButtton = new System.Windows.Forms.Button();
             this.DelDeviceButton = new System.Windows.Forms.Button();
             this.AddIntervalButton = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -94,8 +97,8 @@ namespace NVRCsharpDemo
             this.buttonStartService = new System.Windows.Forms.Button();
             this.StatusServiceLabel = new System.Windows.Forms.Label();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.RenameButtton = new System.Windows.Forms.Button();
             this.groupBox4.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
@@ -113,7 +116,7 @@ namespace NVRCsharpDemo
             this.DevicesList.Location = new System.Drawing.Point(9, 75);
             this.DevicesList.MultiSelect = false;
             this.DevicesList.Name = "DevicesList";
-            this.DevicesList.Size = new System.Drawing.Size(370, 410);
+            this.DevicesList.Size = new System.Drawing.Size(370, 422);
             this.DevicesList.TabIndex = 32;
             this.DevicesList.UseCompatibleStateImageBehavior = false;
             this.DevicesList.View = System.Windows.Forms.View.Details;
@@ -140,25 +143,57 @@ namespace NVRCsharpDemo
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.groupBox2);
             this.groupBox4.Controls.Add(this.CurrentFolderLabel);
             this.groupBox4.Controls.Add(this.label6);
             this.groupBox4.Controls.Add(this.ChooseFolderButton);
-            this.groupBox4.Controls.Add(this.MainDownloadButton);
             this.groupBox4.Controls.Add(this.DelScheduleButton);
             this.groupBox4.Controls.Add(this.EditScheduleButton);
             this.groupBox4.Controls.Add(this.SheduleTable);
             this.groupBox4.Location = new System.Drawing.Point(412, 35);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(1061, 667);
+            this.groupBox4.Size = new System.Drawing.Size(1061, 676);
             this.groupBox4.TabIndex = 42;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Расписание";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.StopDownloadButton);
+            this.groupBox2.Controls.Add(this.MainDownloadButton);
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.groupBox2.Location = new System.Drawing.Point(958, 11);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(91, 58);
+            this.groupBox2.TabIndex = 58;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Ручная загрузка";
+            // 
+            // StopDownloadButton
+            // 
+            this.StopDownloadButton.Image = ((System.Drawing.Image)(resources.GetObject("StopDownloadButton.Image")));
+            this.StopDownloadButton.Location = new System.Drawing.Point(49, 15);
+            this.StopDownloadButton.Name = "StopDownloadButton";
+            this.StopDownloadButton.Size = new System.Drawing.Size(36, 34);
+            this.StopDownloadButton.TabIndex = 57;
+            this.StopDownloadButton.UseVisualStyleBackColor = true;
+            this.StopDownloadButton.Click += new System.EventHandler(this.StopDownloadButton_Click);
+            // 
+            // MainDownloadButton
+            // 
+            this.MainDownloadButton.Image = ((System.Drawing.Image)(resources.GetObject("MainDownloadButton.Image")));
+            this.MainDownloadButton.Location = new System.Drawing.Point(6, 15);
+            this.MainDownloadButton.Name = "MainDownloadButton";
+            this.MainDownloadButton.Size = new System.Drawing.Size(36, 34);
+            this.MainDownloadButton.TabIndex = 52;
+            this.MainDownloadButton.UseVisualStyleBackColor = true;
+            this.MainDownloadButton.Click += new System.EventHandler(this.MainDownloadButton_Click);
             // 
             // CurrentFolderLabel
             // 
             this.CurrentFolderLabel.AutoSize = true;
             this.CurrentFolderLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.CurrentFolderLabel.Location = new System.Drawing.Point(500, 34);
+            this.CurrentFolderLabel.Location = new System.Drawing.Point(367, 39);
             this.CurrentFolderLabel.Name = "CurrentFolderLabel";
             this.CurrentFolderLabel.Size = new System.Drawing.Size(114, 13);
             this.CurrentFolderLabel.TabIndex = 56;
@@ -168,7 +203,7 @@ namespace NVRCsharpDemo
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label6.Location = new System.Drawing.Point(361, 34);
+            this.label6.Location = new System.Drawing.Point(229, 39);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(142, 13);
             this.label6.TabIndex = 55;
@@ -179,28 +214,18 @@ namespace NVRCsharpDemo
             this.ChooseFolderButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ChooseFolderButton.CausesValidation = false;
             this.ChooseFolderButton.Image = ((System.Drawing.Image)(resources.GetObject("ChooseFolderButton.Image")));
-            this.ChooseFolderButton.Location = new System.Drawing.Point(322, 27);
+            this.ChooseFolderButton.Location = new System.Drawing.Point(182, 27);
             this.ChooseFolderButton.Name = "ChooseFolderButton";
-            this.ChooseFolderButton.Size = new System.Drawing.Size(33, 30);
+            this.ChooseFolderButton.Size = new System.Drawing.Size(41, 37);
             this.ChooseFolderButton.TabIndex = 54;
             this.ChooseFolderButton.UseVisualStyleBackColor = true;
             this.ChooseFolderButton.Click += new System.EventHandler(this.ChooseFolderButton_Click);
             // 
-            // MainDownloadButton
-            // 
-            this.MainDownloadButton.Location = new System.Drawing.Point(204, 26);
-            this.MainDownloadButton.Name = "MainDownloadButton";
-            this.MainDownloadButton.Size = new System.Drawing.Size(112, 31);
-            this.MainDownloadButton.TabIndex = 52;
-            this.MainDownloadButton.Text = "Загрузить вручную";
-            this.MainDownloadButton.UseVisualStyleBackColor = true;
-            this.MainDownloadButton.Click += new System.EventHandler(this.MainDownloadButton_Click);
-            // 
             // DelScheduleButton
             // 
-            this.DelScheduleButton.Location = new System.Drawing.Point(123, 27);
+            this.DelScheduleButton.Location = new System.Drawing.Point(116, 27);
             this.DelScheduleButton.Name = "DelScheduleButton";
-            this.DelScheduleButton.Size = new System.Drawing.Size(75, 30);
+            this.DelScheduleButton.Size = new System.Drawing.Size(60, 37);
             this.DelScheduleButton.TabIndex = 51;
             this.DelScheduleButton.Text = "Удалить";
             this.DelScheduleButton.UseVisualStyleBackColor = true;
@@ -208,9 +233,9 @@ namespace NVRCsharpDemo
             // 
             // EditScheduleButton
             // 
-            this.EditScheduleButton.Location = new System.Drawing.Point(17, 26);
+            this.EditScheduleButton.Location = new System.Drawing.Point(17, 27);
             this.EditScheduleButton.Name = "EditScheduleButton";
-            this.EditScheduleButton.Size = new System.Drawing.Size(100, 31);
+            this.EditScheduleButton.Size = new System.Drawing.Size(93, 37);
             this.EditScheduleButton.TabIndex = 50;
             this.EditScheduleButton.Text = "Редактировать";
             this.EditScheduleButton.UseVisualStyleBackColor = true;
@@ -230,7 +255,7 @@ namespace NVRCsharpDemo
             this.SheduleTable.FullRowSelect = true;
             this.SheduleTable.GridLines = true;
             this.SheduleTable.HideSelection = false;
-            this.SheduleTable.Location = new System.Drawing.Point(17, 63);
+            this.SheduleTable.Location = new System.Drawing.Point(17, 75);
             this.SheduleTable.Name = "SheduleTable";
             this.SheduleTable.Size = new System.Drawing.Size(1032, 590);
             this.SheduleTable.TabIndex = 49;
@@ -279,7 +304,7 @@ namespace NVRCsharpDemo
             // 
             // btn_Exit
             // 
-            this.btn_Exit.Location = new System.Drawing.Point(1346, 708);
+            this.btn_Exit.Location = new System.Drawing.Point(1346, 717);
             this.btn_Exit.Name = "btn_Exit";
             this.btn_Exit.Size = new System.Drawing.Size(127, 32);
             this.btn_Exit.TabIndex = 44;
@@ -295,10 +320,20 @@ namespace NVRCsharpDemo
             this.groupBox1.Controls.Add(this.DevicesList);
             this.groupBox1.Location = new System.Drawing.Point(12, 203);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(394, 499);
+            this.groupBox1.Size = new System.Drawing.Size(394, 508);
             this.groupBox1.TabIndex = 45;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Устройства";
+            // 
+            // RenameButtton
+            // 
+            this.RenameButtton.Location = new System.Drawing.Point(154, 34);
+            this.RenameButtton.Name = "RenameButtton";
+            this.RenameButtton.Size = new System.Drawing.Size(101, 35);
+            this.RenameButtton.TabIndex = 57;
+            this.RenameButtton.Text = "Переименовать";
+            this.RenameButtton.UseVisualStyleBackColor = true;
+            this.RenameButtton.Click += new System.EventHandler(this.RenameButtton_Click);
             // 
             // DelDeviceButton
             // 
@@ -472,21 +507,11 @@ namespace NVRCsharpDemo
             this.StatusServiceLabel.Text = "Статус сервиса: Остановлен";
             this.StatusServiceLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // RenameButtton
-            // 
-            this.RenameButtton.Location = new System.Drawing.Point(154, 34);
-            this.RenameButtton.Name = "RenameButtton";
-            this.RenameButtton.Size = new System.Drawing.Size(101, 35);
-            this.RenameButtton.TabIndex = 57;
-            this.RenameButtton.Text = "Переименовать";
-            this.RenameButtton.UseVisualStyleBackColor = true;
-            this.RenameButtton.Click += new System.EventHandler(this.RenameButtton_Click);
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1485, 752);
+            this.ClientSize = new System.Drawing.Size(1485, 757);
             this.Controls.Add(this.StatusServiceLabel);
             this.Controls.Add(this.buttonStartService);
             this.Controls.Add(this.DateTimeLabel);
@@ -498,10 +523,11 @@ namespace NVRCsharpDemo
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "HikVision Downloader v1.02";
+            this.Text = "HikVision Downloader v1.03";
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
@@ -556,6 +582,8 @@ namespace NVRCsharpDemo
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label CurrentFolderLabel;
         private System.Windows.Forms.Button RenameButtton;
+        private System.Windows.Forms.Button StopDownloadButton;
+        private System.Windows.Forms.GroupBox groupBox2;
     }
 }
 
