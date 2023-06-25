@@ -83,7 +83,8 @@ namespace NVRCsharpDemo
                 Item.channelNum.ToString(),
                 Item.startDownloadTime,
                 Item.downloadStartInterval.ToString(),
-                Item.downloadEndInterval.ToString()
+                Item.downloadEndInterval.ToString(),
+                Item.triesCount
                 }
                 ));
             }

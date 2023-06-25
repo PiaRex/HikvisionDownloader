@@ -57,11 +57,8 @@ namespace NVRCsharpDemo
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.StopDownloadButton = new System.Windows.Forms.Button();
-            this.MainDownloadButton = new System.Windows.Forms.Button();
             this.CurrentFolderLabel = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.ChooseFolderButton = new System.Windows.Forms.Button();
             this.DelScheduleButton = new System.Windows.Forms.Button();
             this.EditScheduleButton = new System.Windows.Forms.Button();
             this.SheduleTable = new System.Windows.Forms.ListView();
@@ -97,6 +94,10 @@ namespace NVRCsharpDemo
             this.buttonStartService = new System.Windows.Forms.Button();
             this.StatusServiceLabel = new System.Windows.Forms.Label();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.Tries = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.StopDownloadButton = new System.Windows.Forms.Button();
+            this.MainDownloadButton = new System.Windows.Forms.Button();
+            this.ChooseFolderButton = new System.Windows.Forms.Button();
             this.groupBox4.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -169,26 +170,6 @@ namespace NVRCsharpDemo
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Ручная загрузка";
             // 
-            // StopDownloadButton
-            // 
-            this.StopDownloadButton.Image = ((System.Drawing.Image)(resources.GetObject("StopDownloadButton.Image")));
-            this.StopDownloadButton.Location = new System.Drawing.Point(49, 15);
-            this.StopDownloadButton.Name = "StopDownloadButton";
-            this.StopDownloadButton.Size = new System.Drawing.Size(36, 34);
-            this.StopDownloadButton.TabIndex = 57;
-            this.StopDownloadButton.UseVisualStyleBackColor = true;
-            this.StopDownloadButton.Click += new System.EventHandler(this.StopDownloadButton_Click);
-            // 
-            // MainDownloadButton
-            // 
-            this.MainDownloadButton.Image = ((System.Drawing.Image)(resources.GetObject("MainDownloadButton.Image")));
-            this.MainDownloadButton.Location = new System.Drawing.Point(6, 15);
-            this.MainDownloadButton.Name = "MainDownloadButton";
-            this.MainDownloadButton.Size = new System.Drawing.Size(36, 34);
-            this.MainDownloadButton.TabIndex = 52;
-            this.MainDownloadButton.UseVisualStyleBackColor = true;
-            this.MainDownloadButton.Click += new System.EventHandler(this.MainDownloadButton_Click);
-            // 
             // CurrentFolderLabel
             // 
             this.CurrentFolderLabel.AutoSize = true;
@@ -208,18 +189,6 @@ namespace NVRCsharpDemo
             this.label6.Size = new System.Drawing.Size(142, 13);
             this.label6.TabIndex = 55;
             this.label6.Text = "Текущий путь сохранения:";
-            // 
-            // ChooseFolderButton
-            // 
-            this.ChooseFolderButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ChooseFolderButton.CausesValidation = false;
-            this.ChooseFolderButton.Image = ((System.Drawing.Image)(resources.GetObject("ChooseFolderButton.Image")));
-            this.ChooseFolderButton.Location = new System.Drawing.Point(182, 27);
-            this.ChooseFolderButton.Name = "ChooseFolderButton";
-            this.ChooseFolderButton.Size = new System.Drawing.Size(41, 37);
-            this.ChooseFolderButton.TabIndex = 54;
-            this.ChooseFolderButton.UseVisualStyleBackColor = true;
-            this.ChooseFolderButton.Click += new System.EventHandler(this.ChooseFolderButton_Click);
             // 
             // DelScheduleButton
             // 
@@ -251,6 +220,7 @@ namespace NVRCsharpDemo
             this.StartDownload,
             this.Start_Interval,
             this.End_Interval,
+            this.Tries,
             this.status});
             this.SheduleTable.FullRowSelect = true;
             this.SheduleTable.GridLines = true;
@@ -289,18 +259,18 @@ namespace NVRCsharpDemo
             // 
             // Start_Interval
             // 
-            this.Start_Interval.Text = "Начальное \n время";
-            this.Start_Interval.Width = 107;
+            this.Start_Interval.Text = "Нач.\n время";
+            this.Start_Interval.Width = 71;
             // 
             // End_Interval
             // 
-            this.End_Interval.Text = "Конечное \n время";
-            this.End_Interval.Width = 101;
+            this.End_Interval.Text = "Кон. время";
+            this.End_Interval.Width = 70;
             // 
             // status
             // 
             this.status.Text = "Статус последней загрузки";
-            this.status.Width = 421;
+            this.status.Width = 424;
             // 
             // btn_Exit
             // 
@@ -507,6 +477,44 @@ namespace NVRCsharpDemo
             this.StatusServiceLabel.Text = "Статус сервиса: Остановлен";
             this.StatusServiceLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // Tries
+            // 
+            this.Tries.Text = "Попыток";
+            this.Tries.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Tries.Width = 57;
+            // 
+            // StopDownloadButton
+            // 
+            this.StopDownloadButton.Image = ((System.Drawing.Image)(resources.GetObject("StopDownloadButton.Image")));
+            this.StopDownloadButton.Location = new System.Drawing.Point(49, 15);
+            this.StopDownloadButton.Name = "StopDownloadButton";
+            this.StopDownloadButton.Size = new System.Drawing.Size(36, 34);
+            this.StopDownloadButton.TabIndex = 57;
+            this.StopDownloadButton.UseVisualStyleBackColor = true;
+            this.StopDownloadButton.Click += new System.EventHandler(this.StopDownloadButton_Click);
+            // 
+            // MainDownloadButton
+            // 
+            this.MainDownloadButton.Image = ((System.Drawing.Image)(resources.GetObject("MainDownloadButton.Image")));
+            this.MainDownloadButton.Location = new System.Drawing.Point(6, 15);
+            this.MainDownloadButton.Name = "MainDownloadButton";
+            this.MainDownloadButton.Size = new System.Drawing.Size(36, 34);
+            this.MainDownloadButton.TabIndex = 52;
+            this.MainDownloadButton.UseVisualStyleBackColor = true;
+            this.MainDownloadButton.Click += new System.EventHandler(this.MainDownloadButton_Click);
+            // 
+            // ChooseFolderButton
+            // 
+            this.ChooseFolderButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ChooseFolderButton.CausesValidation = false;
+            this.ChooseFolderButton.Image = ((System.Drawing.Image)(resources.GetObject("ChooseFolderButton.Image")));
+            this.ChooseFolderButton.Location = new System.Drawing.Point(182, 27);
+            this.ChooseFolderButton.Name = "ChooseFolderButton";
+            this.ChooseFolderButton.Size = new System.Drawing.Size(41, 37);
+            this.ChooseFolderButton.TabIndex = 54;
+            this.ChooseFolderButton.UseVisualStyleBackColor = true;
+            this.ChooseFolderButton.Click += new System.EventHandler(this.ChooseFolderButton_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -523,7 +531,7 @@ namespace NVRCsharpDemo
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "HikVision Downloader v1.03";
+            this.Text = "HikVision Downloader v1.05";
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
@@ -584,6 +592,7 @@ namespace NVRCsharpDemo
         private System.Windows.Forms.Button RenameButtton;
         private System.Windows.Forms.Button StopDownloadButton;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.ColumnHeader Tries;
     }
 }
 

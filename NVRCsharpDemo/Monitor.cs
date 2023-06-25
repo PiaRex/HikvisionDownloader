@@ -17,12 +17,10 @@ namespace NVRCsharpDemo
 
         List<DATAREG> DataRegList;
         List<DATASHEDULE> DataSheduleList;
-
+        public Timer minuteTimer = new Timer();
         public void TimeMonitor(MainWindow mainWindow)
         {
             mainWindowForm = mainWindow;
-
-            Timer minuteTimer = new Timer();
             minuteTimer.Start();
             minuteTimer.Interval = 60000;
             minuteTimer.AutoReset = true;
@@ -35,8 +33,6 @@ namespace NVRCsharpDemo
             // Читаем данные из файла
             DataRegList = FileOperations.LoadDataReg(); // чтение данных о регике
             DataSheduleList = FileOperations.LoadDataShedule(); // чтение данных расписание  
-            //setStatusLabel("Статус сервиса: запущен");
-
             int i = 0;
                 //проверить не остановлена ли служба
                 if (!MainWindow.getStatusService()) return;

@@ -30,6 +30,7 @@ namespace NVRCsharpDemo
             StartDownloadText.Text = selectedShedule.startDownloadTime;
             StartTimeText.Text = selectedShedule.downloadStartInterval;
             EndTimeText.Text = selectedShedule.downloadEndInterval;
+            TriesCountTextBox.Text = selectedShedule.triesCount;
         }
 
         private void OKButton_Click(object sender, EventArgs e)
@@ -37,6 +38,7 @@ namespace NVRCsharpDemo
             dataSheduleList.FirstOrDefault(x => x.ID.ToString() == selectedSheduleID).startDownloadTime = StartDownloadText.Text;
             dataSheduleList.FirstOrDefault(x => x.ID.ToString() == selectedSheduleID).downloadStartInterval = StartTimeText.Text;
             dataSheduleList.FirstOrDefault(x => x.ID.ToString() == selectedSheduleID).downloadEndInterval = EndTimeText.Text;
+            dataSheduleList.FirstOrDefault(x => x.ID.ToString() == selectedSheduleID).triesCount = TriesCountTextBox.Text;
             FileOperations.SaveDataSchedule(dataSheduleList);
             mainWindow.RefreshSheduleTable();
             this.Close();

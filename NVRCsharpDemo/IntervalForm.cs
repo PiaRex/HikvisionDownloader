@@ -52,25 +52,34 @@ namespace NVRCsharpDemo
 
         private void OKButton_Click(object sender, EventArgs e)
         {
-            if (Ch1CheckBox.Checked)
+            if (!Ch1CheckBox.Checked & !Ch2CheckBox.Checked & !Ch3CheckBox.Checked & !Ch4CheckBox.Checked) MessageBox.Show("Каналы не выбраны!");
+            else if (StartDownloadTextbox.Text == "  :") MessageBox.Show("Введите время начала загрузки!");
+            else if (StartTimeText.Text == "  :") MessageBox.Show("Введите начальное время!");
+            else if (EndTimeText.Text == "  :") MessageBox.Show("Введите конечное время!");
+            else if (string.IsNullOrEmpty(TriesCountTextBox.Text) || TriesCountTextBox.Text == "0") MessageBox.Show("Количество попыток не должно быть равным нулю!");
+            else
             {
-                addNewShedule(1);
+                if (Ch1CheckBox.Checked)
+                {
+                    addNewShedule(1);
+                }
+                if (Ch2CheckBox.Checked)
+                {
+                    addNewShedule(2);
+                }
+                if (Ch3CheckBox.Checked)
+                {
+                    addNewShedule(3);
+                }
+                if (Ch4CheckBox.Checked)
+                {
+                    addNewShedule(4);
+                }
+                Close();
+                scheduleForm.Refresh();
+                mainWindow.RefreshSheduleTable();
             }
-            if (Ch2CheckBox.Checked)
-            {
-                addNewShedule(2);
-            }
-            if (Ch3CheckBox.Checked)
-            {
-                addNewShedule(3);
-            }
-            if (Ch4CheckBox.Checked)
-            {
-                addNewShedule(4);
-            }
-            Close();
-            scheduleForm.Refresh();
-            mainWindow.RefreshSheduleTable();
+
         }
 
         private void addNewShedule(int channel)
@@ -82,7 +91,8 @@ namespace NVRCsharpDemo
                 channelNum = channel,
                 startDownloadTime = StartDownloadTextbox.Text,
                 downloadStartInterval = StartTimeText.Text,
-                downloadEndInterval = EndTimeText.Text
+                downloadEndInterval = EndTimeText.Text,
+                triesCount = TriesCountTextBox.Text
             });
             FileOperations.SaveDataSchedule(dataSheduleList);
         }

@@ -42,6 +42,8 @@ namespace NVRCsharpDemo
             this.label17 = new System.Windows.Forms.Label();
             this.OKButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
+            this.TriesCountTextBox = new System.Windows.Forms.MaskedTextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -49,7 +51,7 @@ namespace NVRCsharpDemo
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.StartDownloadText);
-            this.groupBox1.Location = new System.Drawing.Point(12, 44);
+            this.groupBox1.Location = new System.Drawing.Point(11, 74);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(204, 67);
             this.groupBox1.TabIndex = 0;
@@ -92,7 +94,7 @@ namespace NVRCsharpDemo
             this.groupBox2.Controls.Add(this.StartTimeText);
             this.groupBox2.Controls.Add(this.label16);
             this.groupBox2.Controls.Add(this.label17);
-            this.groupBox2.Location = new System.Drawing.Point(12, 117);
+            this.groupBox2.Location = new System.Drawing.Point(11, 147);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(204, 147);
             this.groupBox2.TabIndex = 69;
@@ -143,7 +145,7 @@ namespace NVRCsharpDemo
             // 
             // OKButton
             // 
-            this.OKButton.Location = new System.Drawing.Point(92, 270);
+            this.OKButton.Location = new System.Drawing.Point(91, 302);
             this.OKButton.Name = "OKButton";
             this.OKButton.Size = new System.Drawing.Size(53, 23);
             this.OKButton.TabIndex = 70;
@@ -153,7 +155,7 @@ namespace NVRCsharpDemo
             // 
             // CancelButton
             // 
-            this.CancelButton.Location = new System.Drawing.Point(151, 270);
+            this.CancelButton.Location = new System.Drawing.Point(150, 302);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(65, 23);
             this.CancelButton.TabIndex = 71;
@@ -161,11 +163,32 @@ namespace NVRCsharpDemo
             this.CancelButton.UseVisualStyleBackColor = true;
             this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
+            // TriesCountTextBox
+            // 
+            this.TriesCountTextBox.Location = new System.Drawing.Point(193, 39);
+            this.TriesCountTextBox.Mask = "0";
+            this.TriesCountTextBox.Name = "TriesCountTextBox";
+            this.TriesCountTextBox.Size = new System.Drawing.Size(22, 20);
+            this.TriesCountTextBox.TabIndex = 75;
+            this.TriesCountTextBox.Text = "1";
+            this.TriesCountTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(132, 42);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(55, 13);
+            this.label2.TabIndex = 74;
+            this.label2.Text = "Попыток:";
+            // 
             // EditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(229, 303);
+            this.ClientSize = new System.Drawing.Size(227, 334);
+            this.Controls.Add(this.TriesCountTextBox);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.OKButton);
             this.Controls.Add(this.groupBox2);
@@ -198,5 +221,7 @@ namespace NVRCsharpDemo
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Button OKButton;
         private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.MaskedTextBox TriesCountTextBox;
+        private System.Windows.Forms.Label label2;
     }
 }

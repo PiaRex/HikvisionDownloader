@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using DATAREG = NVRCsharpDemo.ConfigurationData.DataReg;
 using DATASHEDULE = NVRCsharpDemo.ConfigurationData.DataShedule;
 using System.Threading;
+using System.Drawing.Text;
 
 namespace NVRCsharpDemo
 {
@@ -34,10 +35,22 @@ namespace NVRCsharpDemo
         public List<DATAREG> DataRegList = new List<DATAREG>();
         public List<DATASHEDULE> DataSheduleList = new List<DATASHEDULE>();
         public event ConfigurationData.StopDownloadCallback stopDownloadCallback;
+        Monitor monitor;
+        PrivateFontCollection fontCollection = new PrivateFontCollection();
+        Font fontFR, fontHT;
         public MainWindow()
         {
             InitializeComponent();
-            
+            fontCollection.AddFontFile("FRAMDCN.ttf");
+            fontCollection.AddFontFile("HATTEN.ttf");
+            FontFamily FRAMDCN = fontCollection.Families[0];
+            FontFamily HATTEN = fontCollection.Families[1];
+            // Создаём шрифт и используем далее
+            fontFR = new Font(FRAMDCN, 15);
+            fontHT = new Font(HATTEN, 15);
+
+
+
             m_bInitSDK = CHCNetSDK.NET_DVR_Init();
             if (m_bInitSDK == false)
             {
@@ -58,8 +71,7 @@ namespace NVRCsharpDemo
             RefreshSheduleTable();
             //Start the service
             service = true;
-            //todo когда сервис запущен заблочит возможность добавления новых региков и расписания, что-бы каждый раз не читать из файла
-            Monitor monitor = new Monitor();
+            monitor = new Monitor();
             monitor.TimeMonitor(this);
             buttonStartService.Text = "СТОП";
             StatusServiceLabel.ForeColor = Color.Green;
@@ -73,7 +85,8 @@ namespace NVRCsharpDemo
             StopDownloadButton.Enabled = false;
             ChooseFolderButton.Enabled = false;
             RenameButtton.Enabled = false;
-
+            buttonStartService.Font = fontFR;
+            StatusServiceLabel.Font = fontHT;
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -189,13 +202,11 @@ namespace NVRCsharpDemo
 
         private void buttonStartService_Click(object sender, EventArgs e)
         {
-
             if (!service)
             {
-                //Start the service
+                //Старт сервиса
                 service = true;
-                //todo когда сервис запущен заблочит возможность добавления новых региков и расписания, что-бы каждый раз не читать из файла
-                Monitor monitor = new Monitor();
+                monitor = new Monitor();
                 monitor.TimeMonitor(this);
                 buttonStartService.Text = "СТОП";
                 StatusServiceLabel.ForeColor = Color.Green;
@@ -209,11 +220,14 @@ namespace NVRCsharpDemo
                 StopDownloadButton.Enabled = false;
                 ChooseFolderButton.Enabled = false;
                 RenameButtton.Enabled = false;
+                buttonStartService.Font = fontFR;
+                StatusServiceLabel.Font = fontHT;
             }
             else
             {
+                //Стоп сервиса
                 service = false;
-                //todo восстановить возможность редактировать регики и расписание
+                monitor.minuteTimer.Stop();
                 buttonStartService.Text = "СТАРТ";
                 StatusServiceLabel.ForeColor = Color.Black;
                 StatusServiceLabel.Text = "Статус сервиса: Остановлен";
@@ -226,6 +240,8 @@ namespace NVRCsharpDemo
                 StopDownloadButton.Enabled = true;
                 ChooseFolderButton.Enabled = true;
                 RenameButtton.Enabled = true;
+                buttonStartService.Font = fontFR;
+                StatusServiceLabel.Font = fontHT;
             }
         }
 
@@ -274,6 +290,7 @@ namespace NVRCsharpDemo
                     Item.startDownloadTime,
                     Item.downloadStartInterval,
                     Item.downloadEndInterval,
+                    Item.triesCount,
                     Item.status
                     }));
                 }
@@ -288,6 +305,7 @@ namespace NVRCsharpDemo
                     Item.startDownloadTime,
                     Item.downloadStartInterval,
                     Item.downloadEndInterval,
+                    Item.triesCount,
                     Item.status
                     }));
                 }

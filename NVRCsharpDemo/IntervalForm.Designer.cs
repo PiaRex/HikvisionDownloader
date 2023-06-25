@@ -46,6 +46,8 @@ namespace NVRCsharpDemo
             this.CancelButton = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.StartDownloadTextbox = new System.Windows.Forms.MaskedTextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.TriesCountTextBox = new System.Windows.Forms.MaskedTextBox();
             this.ChannelsGroupBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -75,7 +77,7 @@ namespace NVRCsharpDemo
             this.ChannelsGroupBox.Controls.Add(this.Ch3CheckBox);
             this.ChannelsGroupBox.Controls.Add(this.Ch2CheckBox);
             this.ChannelsGroupBox.Controls.Add(this.Ch1CheckBox);
-            this.ChannelsGroupBox.Location = new System.Drawing.Point(12, 12);
+            this.ChannelsGroupBox.Location = new System.Drawing.Point(15, 35);
             this.ChannelsGroupBox.Name = "ChannelsGroupBox";
             this.ChannelsGroupBox.Size = new System.Drawing.Size(196, 75);
             this.ChannelsGroupBox.TabIndex = 67;
@@ -128,7 +130,7 @@ namespace NVRCsharpDemo
             this.groupBox1.Controls.Add(this.StartTimeText);
             this.groupBox1.Controls.Add(this.label16);
             this.groupBox1.Controls.Add(this.label17);
-            this.groupBox1.Location = new System.Drawing.Point(12, 163);
+            this.groupBox1.Location = new System.Drawing.Point(15, 186);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(196, 147);
             this.groupBox1.TabIndex = 68;
@@ -161,7 +163,7 @@ namespace NVRCsharpDemo
             // 
             // OKButton
             // 
-            this.OKButton.Location = new System.Drawing.Point(68, 316);
+            this.OKButton.Location = new System.Drawing.Point(71, 339);
             this.OKButton.Name = "OKButton";
             this.OKButton.Size = new System.Drawing.Size(59, 23);
             this.OKButton.TabIndex = 69;
@@ -171,7 +173,7 @@ namespace NVRCsharpDemo
             // 
             // CancelButton
             // 
-            this.CancelButton.Location = new System.Drawing.Point(133, 316);
+            this.CancelButton.Location = new System.Drawing.Point(136, 339);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(75, 23);
             this.CancelButton.TabIndex = 70;
@@ -182,7 +184,7 @@ namespace NVRCsharpDemo
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.StartDownloadTextbox);
-            this.groupBox2.Location = new System.Drawing.Point(12, 93);
+            this.groupBox2.Location = new System.Drawing.Point(15, 116);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(196, 64);
             this.groupBox2.TabIndex = 71;
@@ -200,13 +202,35 @@ namespace NVRCsharpDemo
             this.StartDownloadTextbox.ValidatingType = typeof(System.DateTime);
             this.StartDownloadTextbox.Validating += new System.ComponentModel.CancelEventHandler(this.StartDownloadTextbox_Validating);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(126, 12);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(55, 13);
+            this.label1.TabIndex = 72;
+            this.label1.Text = "Попыток:";
+            // 
+            // TriesCountTextBox
+            // 
+            this.TriesCountTextBox.Location = new System.Drawing.Point(187, 9);
+            this.TriesCountTextBox.Mask = "0";
+            this.TriesCountTextBox.Name = "TriesCountTextBox";
+            this.TriesCountTextBox.Size = new System.Drawing.Size(24, 20);
+            this.TriesCountTextBox.TabIndex = 73;
+            this.TriesCountTextBox.Tag = "";
+            this.TriesCountTextBox.Text = "1";
+            this.TriesCountTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // IntervalForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(223, 351);
+            this.ClientSize = new System.Drawing.Size(223, 367);
+            this.Controls.Add(this.TriesCountTextBox);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.CancelButton);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.OKButton);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.ChannelsGroupBox);
@@ -222,6 +246,7 @@ namespace NVRCsharpDemo
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -240,5 +265,7 @@ namespace NVRCsharpDemo
         private System.Windows.Forms.MaskedTextBox EndTimeText;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.MaskedTextBox StartDownloadTextbox;
+        private Label label1;
+        private MaskedTextBox TriesCountTextBox;
     }
 }

@@ -39,6 +39,7 @@
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CancelButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -87,7 +88,8 @@
             this.columnHeader1,
             this.columnHeader4,
             this.columnHeader2,
-            this.columnHeader3});
+            this.columnHeader3,
+            this.columnHeader6});
             this.SheduleDeviceTable.FullRowSelect = true;
             this.SheduleDeviceTable.GridLines = true;
             this.SheduleDeviceTable.HideSelection = false;
@@ -115,13 +117,18 @@
             // 
             // columnHeader2
             // 
-            this.columnHeader2.Text = "Начальный интервал";
-            this.columnHeader2.Width = 123;
+            this.columnHeader2.Text = "Нач. время";
+            this.columnHeader2.Width = 85;
             // 
             // columnHeader3
             // 
-            this.columnHeader3.Text = "Конечный интервал";
-            this.columnHeader3.Width = 118;
+            this.columnHeader3.Text = "Кон. время";
+            this.columnHeader3.Width = 91;
+            // 
+            // columnHeader6
+            // 
+            this.columnHeader6.Text = "Попыток";
+            this.columnHeader6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // CancelButton
             // 
@@ -168,5 +175,6 @@
         private System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ColumnHeader columnHeader5;
+        private System.Windows.Forms.ColumnHeader columnHeader6;
     }
 }
