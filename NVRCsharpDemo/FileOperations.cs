@@ -5,11 +5,29 @@ using Newtonsoft.Json;  // требуется NuGet-пакет Newtonsoft.Json
 using System.IO;
 using DATAREG = NVRCsharpDemo.ConfigurationData.DataReg;
 using DATASHEDULE = NVRCsharpDemo.ConfigurationData.DataShedule;
+using EMAILDATA = NVRCsharpDemo.ConfigurationData.EmailData;
 
 namespace NVRCsharpDemo
 {
     public static class FileOperations
     {
+        public static void SaveEmailData(EMAILDATA emailData) // запись данных о регике
+        {
+            string json = JsonConvert.SerializeObject(emailData, Formatting.Indented);
+            File.WriteAllText("EmailData.json", json);
+        }
+        public static EMAILDATA LoadEmailData() // чтение данных расписание
+        {
+            string json;
+            if (File.Exists("EmailData.json"))
+            {
+                json = File.ReadAllText("EmailData.json");
+                EMAILDATA emailData =
+                    JsonConvert.DeserializeObject<EMAILDATA>(json);
+                return emailData;
+            }
+            return null;
+        }
         public static List<DATAREG> LoadDataReg() // чтение данных о регике
         {
             string json;
@@ -156,18 +174,39 @@ namespace NVRCsharpDemo
         }
 
 
+        private static readonly object logLock = new object();
+
         public static void AddLog(string location, string message, string currentFolder, string fileName)
         {
             DateTime now = DateTime.Now;
             string filePath = currentFolder + fileName;
-
             string logEntry = $"[{now.ToString()}] {location}: {message}{Environment.NewLine}";
 
-            using (StreamWriter writer = File.AppendText(filePath))
+            try
             {
-                writer.Write(logEntry);
+                lock (logLock)  // Здесь происходит блокировка
+                {
+                    using (StreamWriter writer = File.AppendText(filePath))
+                    {
+                        writer.Write(logEntry);
+                    }
+                }
             }
-
+            catch (IOException ioEx)
+            {
+                Console.WriteLine($"Ошибка записи в файл: {ioEx.Message}");
+                //MessageBox.Show(ioEx.Message);
+            }
+            catch (UnauthorizedAccessException uaEx)
+            {
+                Console.WriteLine($"Нет прав доступа к файлу: {uaEx.Message}");
+                //MessageBox.Show(uaEx.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Произошла неожиданная ошибка: {ex.Message}");
+                //MessageBox.Show(ex.Message);
+            }
         }
 
         public static string CurrentFolder

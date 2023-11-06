@@ -104,6 +104,7 @@
     <Compile Include="EditForm.Designer.cs">
       <DependentUpon>EditForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ListViewItemComparer.cs" />
     <Compile Include="RenameDeviceForm.cs">
       <SubType>Form</SubType>
     </Compile>

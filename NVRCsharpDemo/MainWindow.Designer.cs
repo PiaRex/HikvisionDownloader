@@ -57,8 +57,11 @@ namespace NVRCsharpDemo
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.StopDownloadButton = new System.Windows.Forms.Button();
+            this.MainDownloadButton = new System.Windows.Forms.Button();
             this.CurrentFolderLabel = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.ChooseFolderButton = new System.Windows.Forms.Button();
             this.DelScheduleButton = new System.Windows.Forms.Button();
             this.EditScheduleButton = new System.Windows.Forms.Button();
             this.SheduleTable = new System.Windows.Forms.ListView();
@@ -69,7 +72,10 @@ namespace NVRCsharpDemo
             this.StartDownload = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Start_Interval = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.End_Interval = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Tries = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.status = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.EmailStatusLabel = new System.Windows.Forms.Label();
+            this.SendEmailButton = new System.Windows.Forms.Button();
             this.timerDownload = new System.Windows.Forms.Timer(this.components);
             this.timerPlayback = new System.Windows.Forms.Timer(this.components);
             this.btn_Exit = new System.Windows.Forms.Button();
@@ -94,14 +100,27 @@ namespace NVRCsharpDemo
             this.buttonStartService = new System.Windows.Forms.Button();
             this.StatusServiceLabel = new System.Windows.Forms.Label();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.Tries = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.StopDownloadButton = new System.Windows.Forms.Button();
-            this.MainDownloadButton = new System.Windows.Forms.Button();
-            this.ChooseFolderButton = new System.Windows.Forms.Button();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.ReceiverEmailText = new System.Windows.Forms.TextBox();
+            this.SenderPasswordText = new System.Windows.Forms.TextBox();
+            this.SenderEmailText = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.SMTPPortText = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.SMTPServerText = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.DownloadOneRadio = new System.Windows.Forms.RadioButton();
+            this.DownloadAllRadio = new System.Windows.Forms.RadioButton();
             this.groupBox4.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // DevicesList
@@ -114,33 +133,34 @@ namespace NVRCsharpDemo
             this.DevicesList.FullRowSelect = true;
             this.DevicesList.GridLines = true;
             this.DevicesList.HideSelection = false;
-            this.DevicesList.Location = new System.Drawing.Point(9, 75);
+            this.DevicesList.Location = new System.Drawing.Point(15, 60);
             this.DevicesList.MultiSelect = false;
             this.DevicesList.Name = "DevicesList";
-            this.DevicesList.Size = new System.Drawing.Size(370, 422);
+            this.DevicesList.Size = new System.Drawing.Size(512, 459);
             this.DevicesList.TabIndex = 32;
             this.DevicesList.UseCompatibleStateImageBehavior = false;
             this.DevicesList.View = System.Windows.Forms.View.Details;
+            this.DevicesList.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.DevicesList_ColumnClick);
             // 
             // ColumnHeader1
             // 
             this.ColumnHeader1.Text = "Имя";
-            this.ColumnHeader1.Width = 140;
+            this.ColumnHeader1.Width = 165;
             // 
             // ColumnHeader2
             // 
             this.ColumnHeader2.Text = "IP-адрес";
-            this.ColumnHeader2.Width = 90;
+            this.ColumnHeader2.Width = 105;
             // 
             // columnHeader6
             // 
             this.columnHeader6.Text = "Порт";
-            this.columnHeader6.Width = 44;
+            this.columnHeader6.Width = 65;
             // 
             // columnHeader7
             // 
             this.columnHeader7.Text = "Пользователь";
-            this.columnHeader7.Width = 90;
+            this.columnHeader7.Width = 150;
             // 
             // groupBox4
             // 
@@ -151,24 +171,48 @@ namespace NVRCsharpDemo
             this.groupBox4.Controls.Add(this.DelScheduleButton);
             this.groupBox4.Controls.Add(this.EditScheduleButton);
             this.groupBox4.Controls.Add(this.SheduleTable);
-            this.groupBox4.Location = new System.Drawing.Point(412, 35);
+            this.groupBox4.Location = new System.Drawing.Point(561, 35);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(1061, 676);
+            this.groupBox4.Size = new System.Drawing.Size(1044, 728);
             this.groupBox4.TabIndex = 42;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Расписание";
             // 
             // groupBox2
             // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.DownloadOneRadio);
+            this.groupBox2.Controls.Add(this.DownloadAllRadio);
             this.groupBox2.Controls.Add(this.StopDownloadButton);
             this.groupBox2.Controls.Add(this.MainDownloadButton);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox2.Location = new System.Drawing.Point(958, 11);
+            this.groupBox2.Location = new System.Drawing.Point(855, 11);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(91, 58);
+            this.groupBox2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.groupBox2.Size = new System.Drawing.Size(181, 58);
             this.groupBox2.TabIndex = 58;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Ручная загрузка";
+            // 
+            // StopDownloadButton
+            // 
+            this.StopDownloadButton.Image = ((System.Drawing.Image)(resources.GetObject("StopDownloadButton.Image")));
+            this.StopDownloadButton.Location = new System.Drawing.Point(138, 16);
+            this.StopDownloadButton.Name = "StopDownloadButton";
+            this.StopDownloadButton.Size = new System.Drawing.Size(36, 34);
+            this.StopDownloadButton.TabIndex = 57;
+            this.StopDownloadButton.UseVisualStyleBackColor = true;
+            this.StopDownloadButton.Click += new System.EventHandler(this.StopDownloadButton_Click);
+            // 
+            // MainDownloadButton
+            // 
+            this.MainDownloadButton.Image = ((System.Drawing.Image)(resources.GetObject("MainDownloadButton.Image")));
+            this.MainDownloadButton.Location = new System.Drawing.Point(96, 16);
+            this.MainDownloadButton.Name = "MainDownloadButton";
+            this.MainDownloadButton.Size = new System.Drawing.Size(36, 34);
+            this.MainDownloadButton.TabIndex = 52;
+            this.MainDownloadButton.UseVisualStyleBackColor = true;
+            this.MainDownloadButton.Click += new System.EventHandler(this.MainDownloadButton_Click);
             // 
             // CurrentFolderLabel
             // 
@@ -189,6 +233,18 @@ namespace NVRCsharpDemo
             this.label6.Size = new System.Drawing.Size(142, 13);
             this.label6.TabIndex = 55;
             this.label6.Text = "Текущий путь сохранения:";
+            // 
+            // ChooseFolderButton
+            // 
+            this.ChooseFolderButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ChooseFolderButton.CausesValidation = false;
+            this.ChooseFolderButton.Image = ((System.Drawing.Image)(resources.GetObject("ChooseFolderButton.Image")));
+            this.ChooseFolderButton.Location = new System.Drawing.Point(182, 27);
+            this.ChooseFolderButton.Name = "ChooseFolderButton";
+            this.ChooseFolderButton.Size = new System.Drawing.Size(41, 37);
+            this.ChooseFolderButton.TabIndex = 54;
+            this.ChooseFolderButton.UseVisualStyleBackColor = true;
+            this.ChooseFolderButton.Click += new System.EventHandler(this.ChooseFolderButton_Click);
             // 
             // DelScheduleButton
             // 
@@ -227,10 +283,11 @@ namespace NVRCsharpDemo
             this.SheduleTable.HideSelection = false;
             this.SheduleTable.Location = new System.Drawing.Point(17, 75);
             this.SheduleTable.Name = "SheduleTable";
-            this.SheduleTable.Size = new System.Drawing.Size(1032, 590);
+            this.SheduleTable.Size = new System.Drawing.Size(1019, 641);
             this.SheduleTable.TabIndex = 49;
             this.SheduleTable.UseCompatibleStateImageBehavior = false;
             this.SheduleTable.View = System.Windows.Forms.View.Details;
+            this.SheduleTable.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.SheduleTable_ColumnClick);
             // 
             // ID
             // 
@@ -245,7 +302,7 @@ namespace NVRCsharpDemo
             // IP
             // 
             this.IP.Text = "IP-адрес";
-            this.IP.Width = 96;
+            this.IP.Width = 85;
             // 
             // channel
             // 
@@ -255,7 +312,7 @@ namespace NVRCsharpDemo
             // StartDownload
             // 
             this.StartDownload.Text = "Начало загрузки";
-            this.StartDownload.Width = 98;
+            this.StartDownload.Width = 102;
             // 
             // Start_Interval
             // 
@@ -267,19 +324,47 @@ namespace NVRCsharpDemo
             this.End_Interval.Text = "Кон. время";
             this.End_Interval.Width = 70;
             // 
+            // Tries
+            // 
+            this.Tries.Text = "Попыток";
+            this.Tries.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Tries.Width = 57;
+            // 
             // status
             // 
             this.status.Text = "Статус последней загрузки";
             this.status.Width = 424;
             // 
+            // EmailStatusLabel
+            // 
+            this.EmailStatusLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.EmailStatusLabel.Location = new System.Drawing.Point(267, 12);
+            this.EmailStatusLabel.Name = "EmailStatusLabel";
+            this.EmailStatusLabel.Size = new System.Drawing.Size(1211, 28);
+            this.EmailStatusLabel.TabIndex = 60;
+            this.EmailStatusLabel.Text = "label7";
+            this.EmailStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // SendEmailButton
+            // 
+            this.SendEmailButton.Location = new System.Drawing.Point(154, 153);
+            this.SendEmailButton.Name = "SendEmailButton";
+            this.SendEmailButton.Size = new System.Drawing.Size(135, 28);
+            this.SendEmailButton.TabIndex = 59;
+            this.SendEmailButton.Text = "Отправить письмо";
+            this.SendEmailButton.UseVisualStyleBackColor = true;
+            this.SendEmailButton.Click += new System.EventHandler(this.SendMailButton_Click);
+            // 
             // btn_Exit
             // 
-            this.btn_Exit.Location = new System.Drawing.Point(1346, 717);
+            this.btn_Exit.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btn_Exit.Font = new System.Drawing.Font("Bahnschrift Condensed", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btn_Exit.Location = new System.Drawing.Point(1502, 766);
             this.btn_Exit.Name = "btn_Exit";
-            this.btn_Exit.Size = new System.Drawing.Size(127, 32);
+            this.btn_Exit.Size = new System.Drawing.Size(103, 40);
             this.btn_Exit.TabIndex = 44;
-            this.btn_Exit.Text = "Выход";
-            this.btn_Exit.UseVisualStyleBackColor = true;
+            this.btn_Exit.Text = "ВЫХОД";
+            this.btn_Exit.UseVisualStyleBackColor = false;
             this.btn_Exit.Click += new System.EventHandler(this.btn_Exit_Click);
             // 
             // groupBox1
@@ -288,16 +373,16 @@ namespace NVRCsharpDemo
             this.groupBox1.Controls.Add(this.DelDeviceButton);
             this.groupBox1.Controls.Add(this.AddIntervalButton);
             this.groupBox1.Controls.Add(this.DevicesList);
-            this.groupBox1.Location = new System.Drawing.Point(12, 203);
+            this.groupBox1.Location = new System.Drawing.Point(12, 232);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(394, 508);
+            this.groupBox1.Size = new System.Drawing.Size(543, 531);
             this.groupBox1.TabIndex = 45;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Устройства";
             // 
             // RenameButtton
             // 
-            this.RenameButtton.Location = new System.Drawing.Point(154, 34);
+            this.RenameButtton.Location = new System.Drawing.Point(160, 19);
             this.RenameButtton.Name = "RenameButtton";
             this.RenameButtton.Size = new System.Drawing.Size(101, 35);
             this.RenameButtton.TabIndex = 57;
@@ -307,7 +392,7 @@ namespace NVRCsharpDemo
             // 
             // DelDeviceButton
             // 
-            this.DelDeviceButton.Location = new System.Drawing.Point(261, 34);
+            this.DelDeviceButton.Location = new System.Drawing.Point(267, 19);
             this.DelDeviceButton.Name = "DelDeviceButton";
             this.DelDeviceButton.Size = new System.Drawing.Size(118, 35);
             this.DelDeviceButton.TabIndex = 34;
@@ -317,7 +402,7 @@ namespace NVRCsharpDemo
             // 
             // AddIntervalButton
             // 
-            this.AddIntervalButton.Location = new System.Drawing.Point(9, 34);
+            this.AddIntervalButton.Location = new System.Drawing.Point(15, 19);
             this.AddIntervalButton.Name = "AddIntervalButton";
             this.AddIntervalButton.Size = new System.Drawing.Size(139, 35);
             this.AddIntervalButton.TabIndex = 33;
@@ -340,7 +425,7 @@ namespace NVRCsharpDemo
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Location = new System.Drawing.Point(12, 35);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(394, 162);
+            this.groupBox3.Size = new System.Drawing.Size(238, 191);
             this.groupBox3.TabIndex = 46;
             this.groupBox3.TabStop = false;
             // 
@@ -348,7 +433,7 @@ namespace NVRCsharpDemo
             // 
             this.textBoxDeviceName.Location = new System.Drawing.Point(113, 23);
             this.textBoxDeviceName.Name = "textBoxDeviceName";
-            this.textBoxDeviceName.Size = new System.Drawing.Size(130, 20);
+            this.textBoxDeviceName.Size = new System.Drawing.Size(117, 20);
             this.textBoxDeviceName.TabIndex = 34;
             this.textBoxDeviceName.Text = "Тест";
             // 
@@ -367,7 +452,7 @@ namespace NVRCsharpDemo
             this.textBoxPassword.Location = new System.Drawing.Point(113, 127);
             this.textBoxPassword.Name = "textBoxPassword";
             this.textBoxPassword.PasswordChar = '*';
-            this.textBoxPassword.Size = new System.Drawing.Size(130, 20);
+            this.textBoxPassword.Size = new System.Drawing.Size(117, 20);
             this.textBoxPassword.TabIndex = 32;
             this.textBoxPassword.Text = "qwer1234";
             // 
@@ -375,7 +460,7 @@ namespace NVRCsharpDemo
             // 
             this.textBoxUserName.Location = new System.Drawing.Point(113, 101);
             this.textBoxUserName.Name = "textBoxUserName";
-            this.textBoxUserName.Size = new System.Drawing.Size(130, 20);
+            this.textBoxUserName.Size = new System.Drawing.Size(117, 20);
             this.textBoxUserName.TabIndex = 31;
             this.textBoxUserName.Text = "Test";
             // 
@@ -383,7 +468,7 @@ namespace NVRCsharpDemo
             // 
             this.textBoxPort.Location = new System.Drawing.Point(113, 75);
             this.textBoxPort.Name = "textBoxPort";
-            this.textBoxPort.Size = new System.Drawing.Size(130, 20);
+            this.textBoxPort.Size = new System.Drawing.Size(117, 20);
             this.textBoxPort.TabIndex = 30;
             this.textBoxPort.Text = "8000";
             // 
@@ -391,15 +476,15 @@ namespace NVRCsharpDemo
             // 
             this.textBoxIP.Location = new System.Drawing.Point(113, 49);
             this.textBoxIP.Name = "textBoxIP";
-            this.textBoxIP.Size = new System.Drawing.Size(130, 20);
+            this.textBoxIP.Size = new System.Drawing.Size(117, 20);
             this.textBoxIP.TabIndex = 29;
             this.textBoxIP.Text = "178.64.253.11";
             // 
             // AddDeviceButton
             // 
-            this.AddDeviceButton.Location = new System.Drawing.Point(291, 93);
+            this.AddDeviceButton.Location = new System.Drawing.Point(94, 153);
             this.AddDeviceButton.Name = "AddDeviceButton";
-            this.AddDeviceButton.Size = new System.Drawing.Size(88, 54);
+            this.AddDeviceButton.Size = new System.Drawing.Size(136, 28);
             this.AddDeviceButton.TabIndex = 28;
             this.AddDeviceButton.Text = "Добавить устройство";
             this.AddDeviceButton.Click += new System.EventHandler(this.AddDeviceButton_Click);
@@ -439,7 +524,7 @@ namespace NVRCsharpDemo
             // TimeLabel
             // 
             this.TimeLabel.AutoSize = true;
-            this.TimeLabel.Location = new System.Drawing.Point(1331, 16);
+            this.TimeLabel.Location = new System.Drawing.Point(1468, 16);
             this.TimeLabel.Name = "TimeLabel";
             this.TimeLabel.Size = new System.Drawing.Size(90, 13);
             this.TimeLabel.TabIndex = 47;
@@ -448,7 +533,7 @@ namespace NVRCsharpDemo
             // DateTimeLabel
             // 
             this.DateTimeLabel.AutoSize = true;
-            this.DateTimeLabel.Location = new System.Drawing.Point(1417, 16);
+            this.DateTimeLabel.Location = new System.Drawing.Point(1554, 16);
             this.DateTimeLabel.Name = "DateTimeLabel";
             this.DateTimeLabel.Size = new System.Drawing.Size(56, 13);
             this.DateTimeLabel.TabIndex = 48;
@@ -456,10 +541,10 @@ namespace NVRCsharpDemo
             // 
             // buttonStartService
             // 
-            this.buttonStartService.Font = new System.Drawing.Font("Franklin Gothic Medium Cond", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonStartService.Font = new System.Drawing.Font("Bahnschrift Condensed", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonStartService.Location = new System.Drawing.Point(12, 4);
             this.buttonStartService.Name = "buttonStartService";
-            this.buttonStartService.Size = new System.Drawing.Size(116, 33);
+            this.buttonStartService.Size = new System.Drawing.Size(100, 34);
             this.buttonStartService.TabIndex = 35;
             this.buttonStartService.Text = "СТАРТ";
             this.buttonStartService.UseVisualStyleBackColor = true;
@@ -469,57 +554,167 @@ namespace NVRCsharpDemo
             // 
             this.StatusServiceLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.StatusServiceLabel.AutoSize = true;
-            this.StatusServiceLabel.Font = new System.Drawing.Font("Haettenschweiler", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.StatusServiceLabel.Location = new System.Drawing.Point(134, 8);
+            this.StatusServiceLabel.Font = new System.Drawing.Font("Haettenschweiler", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.StatusServiceLabel.Location = new System.Drawing.Point(118, 4);
             this.StatusServiceLabel.Name = "StatusServiceLabel";
-            this.StatusServiceLabel.Size = new System.Drawing.Size(193, 22);
+            this.StatusServiceLabel.Size = new System.Drawing.Size(182, 21);
             this.StatusServiceLabel.TabIndex = 49;
             this.StatusServiceLabel.Text = "Статус сервиса: Остановлен";
             this.StatusServiceLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // Tries
+            // groupBox5
             // 
-            this.Tries.Text = "Попыток";
-            this.Tries.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Tries.Width = 57;
+            this.groupBox5.Controls.Add(this.ReceiverEmailText);
+            this.groupBox5.Controls.Add(this.SenderPasswordText);
+            this.groupBox5.Controls.Add(this.SendEmailButton);
+            this.groupBox5.Controls.Add(this.SenderEmailText);
+            this.groupBox5.Controls.Add(this.label11);
+            this.groupBox5.Controls.Add(this.label10);
+            this.groupBox5.Controls.Add(this.label9);
+            this.groupBox5.Controls.Add(this.SMTPPortText);
+            this.groupBox5.Controls.Add(this.label8);
+            this.groupBox5.Controls.Add(this.SMTPServerText);
+            this.groupBox5.Controls.Add(this.label7);
+            this.groupBox5.Location = new System.Drawing.Point(256, 35);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(299, 191);
+            this.groupBox5.TabIndex = 50;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Почта";
             // 
-            // StopDownloadButton
+            // ReceiverEmailText
             // 
-            this.StopDownloadButton.Image = ((System.Drawing.Image)(resources.GetObject("StopDownloadButton.Image")));
-            this.StopDownloadButton.Location = new System.Drawing.Point(49, 15);
-            this.StopDownloadButton.Name = "StopDownloadButton";
-            this.StopDownloadButton.Size = new System.Drawing.Size(36, 34);
-            this.StopDownloadButton.TabIndex = 57;
-            this.StopDownloadButton.UseVisualStyleBackColor = true;
-            this.StopDownloadButton.Click += new System.EventHandler(this.StopDownloadButton_Click);
+            this.ReceiverEmailText.Location = new System.Drawing.Point(125, 127);
+            this.ReceiverEmailText.Name = "ReceiverEmailText";
+            this.ReceiverEmailText.Size = new System.Drawing.Size(164, 20);
+            this.ReceiverEmailText.TabIndex = 9;
             // 
-            // MainDownloadButton
+            // SenderPasswordText
             // 
-            this.MainDownloadButton.Image = ((System.Drawing.Image)(resources.GetObject("MainDownloadButton.Image")));
-            this.MainDownloadButton.Location = new System.Drawing.Point(6, 15);
-            this.MainDownloadButton.Name = "MainDownloadButton";
-            this.MainDownloadButton.Size = new System.Drawing.Size(36, 34);
-            this.MainDownloadButton.TabIndex = 52;
-            this.MainDownloadButton.UseVisualStyleBackColor = true;
-            this.MainDownloadButton.Click += new System.EventHandler(this.MainDownloadButton_Click);
+            this.SenderPasswordText.Location = new System.Drawing.Point(125, 101);
+            this.SenderPasswordText.Name = "SenderPasswordText";
+            this.SenderPasswordText.PasswordChar = '*';
+            this.SenderPasswordText.Size = new System.Drawing.Size(164, 20);
+            this.SenderPasswordText.TabIndex = 8;
             // 
-            // ChooseFolderButton
+            // SenderEmailText
             // 
-            this.ChooseFolderButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ChooseFolderButton.CausesValidation = false;
-            this.ChooseFolderButton.Image = ((System.Drawing.Image)(resources.GetObject("ChooseFolderButton.Image")));
-            this.ChooseFolderButton.Location = new System.Drawing.Point(182, 27);
-            this.ChooseFolderButton.Name = "ChooseFolderButton";
-            this.ChooseFolderButton.Size = new System.Drawing.Size(41, 37);
-            this.ChooseFolderButton.TabIndex = 54;
-            this.ChooseFolderButton.UseVisualStyleBackColor = true;
-            this.ChooseFolderButton.Click += new System.EventHandler(this.ChooseFolderButton_Click);
+            this.SenderEmailText.Location = new System.Drawing.Point(125, 75);
+            this.SenderEmailText.Name = "SenderEmailText";
+            this.SenderEmailText.Size = new System.Drawing.Size(164, 20);
+            this.SenderEmailText.TabIndex = 7;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(6, 127);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(97, 13);
+            this.label11.TabIndex = 6;
+            this.label11.Text = "Почта получателя";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(6, 101);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(45, 13);
+            this.label10.TabIndex = 5;
+            this.label10.Text = "Пароль";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 75);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(104, 13);
+            this.label9.TabIndex = 4;
+            this.label9.Text = "Почта отправителя";
+            // 
+            // SMTPPortText
+            // 
+            this.SMTPPortText.Location = new System.Drawing.Point(125, 49);
+            this.SMTPPortText.Name = "SMTPPortText";
+            this.SMTPPortText.Size = new System.Drawing.Size(164, 20);
+            this.SMTPPortText.TabIndex = 3;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 49);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(32, 13);
+            this.label8.TabIndex = 2;
+            this.label8.Text = "Порт";
+            // 
+            // SMTPServerText
+            // 
+            this.SMTPServerText.Location = new System.Drawing.Point(125, 23);
+            this.SMTPServerText.Name = "SMTPServerText";
+            this.SMTPServerText.Size = new System.Drawing.Size(164, 20);
+            this.SMTPServerText.TabIndex = 1;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 26);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(76, 13);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "SMTP-сервер";
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.label12);
+            this.groupBox6.Controls.Add(this.EmailStatusLabel);
+            this.groupBox6.Location = new System.Drawing.Point(12, 762);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(1484, 44);
+            this.groupBox6.TabIndex = 61;
+            this.groupBox6.TabStop = false;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label12.Location = new System.Drawing.Point(6, 19);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(260, 13);
+            this.label12.TabIndex = 61;
+            this.label12.Text = "Статус последнего отправленного отчёта:";
+            // 
+            // DownloadOneRadio
+            // 
+            this.DownloadOneRadio.AutoSize = true;
+            this.DownloadOneRadio.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.DownloadOneRadio.Location = new System.Drawing.Point(10, 32);
+            this.DownloadOneRadio.Name = "DownloadOneRadio";
+            this.DownloadOneRadio.Size = new System.Drawing.Size(80, 17);
+            this.DownloadOneRadio.TabIndex = 59;
+            this.DownloadOneRadio.TabStop = true;
+            this.DownloadOneRadio.Text = "Выборочно";
+            this.DownloadOneRadio.UseVisualStyleBackColor = true;
+            // 
+            // DownloadAllRadio
+            // 
+            this.DownloadAllRadio.AutoSize = true;
+            this.DownloadAllRadio.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.DownloadAllRadio.Location = new System.Drawing.Point(6, 16);
+            this.DownloadAllRadio.Name = "DownloadAllRadio";
+            this.DownloadAllRadio.Size = new System.Drawing.Size(84, 17);
+            this.DownloadAllRadio.TabIndex = 60;
+            this.DownloadAllRadio.TabStop = true;
+            this.DownloadAllRadio.Text = "Весь список";
+            this.DownloadAllRadio.UseVisualStyleBackColor = true;
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1485, 757);
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.ClientSize = new System.Drawing.Size(1617, 811);
+            this.Controls.Add(this.groupBox6);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.StatusServiceLabel);
             this.Controls.Add(this.buttonStartService);
             this.Controls.Add(this.DateTimeLabel);
@@ -531,14 +726,19 @@ namespace NVRCsharpDemo
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "HikVision Downloader v1.05";
+            this.Text = "HikVision Downloader v1.1";
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -593,6 +793,23 @@ namespace NVRCsharpDemo
         private System.Windows.Forms.Button StopDownloadButton;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ColumnHeader Tries;
+        private System.Windows.Forms.Button SendEmailButton;
+        public System.Windows.Forms.Label EmailStatusLabel;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.TextBox SMTPServerText;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox SMTPPortText;
+        private System.Windows.Forms.TextBox ReceiverEmailText;
+        private System.Windows.Forms.TextBox SenderPasswordText;
+        private System.Windows.Forms.TextBox SenderEmailText;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.RadioButton DownloadAllRadio;
+        private System.Windows.Forms.RadioButton DownloadOneRadio;
     }
 }
 

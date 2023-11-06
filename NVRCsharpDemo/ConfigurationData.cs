@@ -29,12 +29,27 @@ namespace NVRCsharpDemo
             public int ChannelNum { get; set; }
             public byte IPID { get; set; }
         }
-
+        public class DownloadingID 
+        {
+            public int DownloadHandle { get; set; }
+            public int ID { get; set; }
+            public bool isDownloadStopped { get; set; }
+        }
         public class LogData
         {
             public string date { get; set; }
             public string location { get; set; }
             public string message { get; set; }
+        }
+
+        public class EmailData
+        {
+            public string smtpServer { get; set; }
+            public string smtpPort { get; set; }
+            public string senderEmail { get; set; }
+            public string senderPassword { get; set; }
+            public string receiverEmail { get; set; }
+            public string lastEmailStatus { get; set; }
         }
 
         public delegate void StopDownloadCallback(string sheduleID);

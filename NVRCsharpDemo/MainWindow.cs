@@ -3,10 +3,18 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using DATAREG = NVRCsharpDemo.ConfigurationData.DataReg;
-using DATASHEDULE = NVRCsharpDemo.ConfigurationData.DataShedule;
 using System.Threading;
 using System.Drawing.Text;
+using System.Net.Mail;
+using System.Net;
+using System.Threading.Tasks;
+using DATAREG = NVRCsharpDemo.ConfigurationData.DataReg;
+using DATASHEDULE = NVRCsharpDemo.ConfigurationData.DataShedule;
+using EMAILDATA = NVRCsharpDemo.ConfigurationData.EmailData;
+using Timer = System.Timers.Timer;
+using System.Timers;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Text;
 
 namespace NVRCsharpDemo
 {
@@ -36,17 +44,21 @@ namespace NVRCsharpDemo
         public List<DATASHEDULE> DataSheduleList = new List<DATASHEDULE>();
         public event ConfigurationData.StopDownloadCallback stopDownloadCallback;
         Monitor monitor;
+
+        public Timer minuteTimer = new Timer();
+        int emailReportHour = 9;
+        int emailReportMinute = 0;
+        int CleanupHour = 23;
+        int CleanupMinute = 0;
+
         PrivateFontCollection fontCollection = new PrivateFontCollection();
         Font fontFR, fontHT;
         public MainWindow()
         {
             InitializeComponent();
-            fontCollection.AddFontFile("FRAMDCN.ttf");
             fontCollection.AddFontFile("HATTEN.ttf");
-            FontFamily FRAMDCN = fontCollection.Families[0];
-            FontFamily HATTEN = fontCollection.Families[1];
+            FontFamily HATTEN = fontCollection.Families[0];
             // Создаём шрифт и используем далее
-            fontFR = new Font(FRAMDCN, 15);
             fontHT = new Font(HATTEN, 15);
 
 
@@ -73,6 +85,7 @@ namespace NVRCsharpDemo
             service = true;
             monitor = new Monitor();
             monitor.TimeMonitor(this);
+            MaintanceTimeMonitor();
             buttonStartService.Text = "СТОП";
             StatusServiceLabel.ForeColor = Color.Green;
             StatusServiceLabel.Text = "Статус сервиса: Запущен";
@@ -85,8 +98,22 @@ namespace NVRCsharpDemo
             StopDownloadButton.Enabled = false;
             ChooseFolderButton.Enabled = false;
             RenameButtton.Enabled = false;
-            buttonStartService.Font = fontFR;
+            SendEmailButton.Enabled = false;
+            DownloadAllRadio.Enabled = false;
+            DownloadAllRadio.Checked = true;
+            DownloadOneRadio.Enabled = false;
             StatusServiceLabel.Font = fontHT;
+
+            EMAILDATA emailData = FileOperations.LoadEmailData();
+            if (emailData != null)
+            {
+                SMTPServerText.Text = emailData.smtpServer;
+                SMTPPortText.Text = emailData.smtpPort;
+                SenderEmailText.Text = emailData.senderEmail;
+                SenderPasswordText.Text = emailData.senderPassword;
+                ReceiverEmailText.Text = emailData.receiverEmail;
+                EmailStatusLabel.Text = emailData.lastEmailStatus;
+            }
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -103,19 +130,8 @@ namespace NVRCsharpDemo
 
         private void btn_Exit_Click(object sender, EventArgs e)
         {
-            //Stop download
-            if (m_lDownHandle >= 0)
-            {
-                CHCNetSDK.NET_DVR_StopGetFile(m_lDownHandle);
-                m_lDownHandle = -1;
-            }
-
-            //Logout the device
-            if (m_lUserID >= 0)
-            {
-                CHCNetSDK.NET_DVR_Logout(m_lUserID);
-                m_lUserID = -1;
-            }
+            if (m_lDownHandle >= 0) CHCNetSDK.NET_DVR_StopGetFile(m_lDownHandle);
+            CHCNetSDK.NET_DVR_Cleanup();
             service = false;
             Application.Exit();
         }
@@ -220,7 +236,9 @@ namespace NVRCsharpDemo
                 StopDownloadButton.Enabled = false;
                 ChooseFolderButton.Enabled = false;
                 RenameButtton.Enabled = false;
-                buttonStartService.Font = fontFR;
+                SendEmailButton.Enabled = false;
+                DownloadAllRadio.Enabled = false;
+                DownloadOneRadio.Enabled = false;
                 StatusServiceLabel.Font = fontHT;
             }
             else
@@ -240,7 +258,9 @@ namespace NVRCsharpDemo
                 StopDownloadButton.Enabled = true;
                 ChooseFolderButton.Enabled = true;
                 RenameButtton.Enabled = true;
-                buttonStartService.Font = fontFR;
+                SendEmailButton.Enabled = true;
+                DownloadAllRadio.Enabled = true;
+                DownloadOneRadio.Enabled = true;
                 StatusServiceLabel.Font = fontHT;
             }
         }
@@ -327,7 +347,7 @@ namespace NVRCsharpDemo
         {
             if (SheduleTable.SelectedItems.Count > 0)
             {
-                string sheduleID = SheduleTable.SelectedItems[0].SubItems[0].Text;  //Select the current items
+                string sheduleID = SheduleTable.SelectedItems[0].SubItems[0].Text; 
                 return sheduleID;
             }
             MessageBox.Show("Выберите задачу из списка");
@@ -336,17 +356,34 @@ namespace NVRCsharpDemo
 
         private void MainDownloadButton_Click(object sender, EventArgs e)
         {
-            if (GetSelectedSheduleID() != null)
-            {
-                DeviceController deviceController = new DeviceController();
-                string selectedSheduleID = GetSelectedSheduleID();
-                DATASHEDULE selectedShedule = DataSheduleList.FirstOrDefault(x => x.ID.ToString() == selectedSheduleID);
-                DATAREG selectedDevice = DataRegList.FirstOrDefault(x => x.DeviceIP == selectedShedule.DeviceIP);
-                var downloadThread = new Thread(() => deviceController.DownloadIntervalDeviceVideo(selectedDevice, selectedShedule, this));
-                downloadThread.Start();
-            }
+            DATASHEDULE selectedShedule;
+            DATAREG selectedDevice;
             
-        }
+            if (DownloadOneRadio.Checked)
+            {
+                if (GetSelectedSheduleID() != null)
+                {
+                    DeviceController deviceController = new DeviceController();
+                    string selectedSheduleID = GetSelectedSheduleID();
+                    selectedShedule = DataSheduleList.FirstOrDefault(x => x.ID.ToString() == selectedSheduleID);
+                    selectedDevice = DataRegList.FirstOrDefault(x => x.DeviceIP == selectedShedule.DeviceIP);
+                    var downloadThread = new Thread(() => deviceController.DownloadIntervalDeviceVideo(selectedDevice, selectedShedule, this));
+                    downloadThread.Start();
+                }
+            }
+            if (DownloadAllRadio.Checked)
+            {
+                foreach (ListViewItem item in SheduleTable.Items)
+                {
+                    Thread.Sleep(1000);
+                    DeviceController deviceController = new DeviceController();
+                    selectedShedule = DataSheduleList.FirstOrDefault(x => x.ID.ToString() == item.SubItems[0].Text);
+                    selectedDevice = DataRegList.FirstOrDefault(x => x.DeviceIP == item.SubItems[2].Text);
+                    var downloadThread = new Thread(() => deviceController.DownloadIntervalDeviceVideo(selectedDevice, selectedShedule, this));                   
+                    downloadThread.Start();
+                }
+            }
+            }
 
         private void EditScheduleButton_Click(object sender, EventArgs e)
         {
@@ -375,9 +412,136 @@ namespace NVRCsharpDemo
             }
         }
 
+        private void MaintanceTimeMonitor()
+        {
+            minuteTimer.Start();
+            minuteTimer.Interval = 60000;
+            minuteTimer.AutoReset = true;
+            minuteTimer.Elapsed += HandleMaintanceTime;
+
+        }
+        private void HandleMaintanceTime(object sender, ElapsedEventArgs e)
+        { 
+            if (service && DateTime.Now.Hour == emailReportHour && DateTime.Now.Minute == emailReportMinute) _ = SendDailyStatusEmail();
+            if (service && DateTime.Now.Hour == CleanupHour && DateTime.Now.Minute == CleanupMinute)
+            {
+                CHCNetSDK.NET_DVR_Cleanup();
+                m_bInitSDK = CHCNetSDK.NET_DVR_Init();
+                if (m_bInitSDK == false)
+                {
+                    MessageBox.Show("NET_DVR_Init error!");
+                    return;
+                }
+                else
+                {
+                    //Save log of SDK
+                    CHCNetSDK.NET_DVR_SetLogToFile(3, "C:\\SdkLog\\", true);
+                }
+            }
+        }
+        private void SendMailButton_Click(object sender, EventArgs e)
+        {
+            EMAILDATA emailData = new EMAILDATA();
+            emailData.smtpServer = SMTPServerText.Text;
+            emailData.smtpPort = SMTPPortText.Text;
+            emailData.senderEmail = SenderEmailText.Text;
+            emailData.senderPassword = SenderPasswordText.Text;
+            emailData.receiverEmail = ReceiverEmailText.Text;
+            FileOperations.SaveEmailData(emailData);
+            _ = SendDailyStatusEmail();
+
+        }
+        public async Task SendDailyStatusEmail()
+        {
+            EMAILDATA emailData = FileOperations.LoadEmailData();
+            StringBuilder ScheduleTableContent = new StringBuilder();
+            SheduleTable.Invoke((Action)delegate
+            {
+                foreach (ListViewItem item in SheduleTable.Items) ScheduleTableContent.AppendLine($"{item.SubItems[1].Text} {item.SubItems[8].Text}");
+            });
+            try
+            {
+                if (emailData == null)
+                {
+                    emailData = new EMAILDATA();
+                    emailData.smtpServer = SMTPServerText.Text;
+                    emailData.smtpPort = SMTPPortText.Text;
+                    emailData.senderEmail = SenderEmailText.Text;
+                    emailData.senderPassword = SenderPasswordText.Text;
+                    emailData.receiverEmail = ReceiverEmailText.Text;
+                }
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient(emailData.smtpServer);
+                SmtpServer.Port = int.Parse(emailData.smtpPort);
+                SmtpServer.Credentials = new NetworkCredential(emailData.senderEmail, emailData.senderPassword);
+                SmtpServer.EnableSsl = true;
+
+                mail.From = new MailAddress(emailData.senderEmail);
+                mail.To.Add(emailData.receiverEmail);
+                mail.Subject = "HikVision Downloader. Отчёт " + DateTime.Today.ToShortDateString();
+                mail.Body = ScheduleTableContent.ToString();
+
+                await SmtpServer.SendMailAsync(mail).ConfigureAwait(false);
+
+                EmailStatusLabel.Invoke((Action)delegate
+                {
+                    EmailStatusLabel.Text = "Успешно отправлен " + DateTime.Now + " на " + emailData.receiverEmail + ".";
+                    EmailStatusLabel.ForeColor = Color.Green;
+                });
+            }
+            catch (Exception ex)
+            {
+                EmailStatusLabel.Invoke((Action)delegate
+                {
+                    EmailStatusLabel.Text = ex.ToString();
+                    EmailStatusLabel.ForeColor = Color.Red;
+                });
+
+            }
+            emailData.lastEmailStatus = EmailStatusLabel.Text;
+            FileOperations.SaveEmailData(emailData);
+        }
+
         private void StopDownloadButton_Click(object sender, EventArgs e)
         {
-            stopDownloadCallback?.Invoke(GetSelectedSheduleID());
+            if (DownloadOneRadio.Checked)
+            {
+                stopDownloadCallback?.Invoke(GetSelectedSheduleID());
+            }
+            if (DownloadAllRadio.Checked)
+            {
+                foreach (ListViewItem item in SheduleTable.Items)
+                {
+                    stopDownloadCallback?.Invoke(item.SubItems[0].Text);
+                }
+            }
+            
+        }
+        
+        private void SheduleTable_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            if (SheduleTable.Sorting == SortOrder.Ascending)
+            {
+                SheduleTable.Sorting = SortOrder.Descending;
+            }
+            else
+            {
+                SheduleTable.Sorting = SortOrder.Ascending;
+            }
+            SheduleTable.ListViewItemSorter = new ListViewItemComparer(e.Column, SheduleTable.Sorting);
+        }
+
+        private void DevicesList_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            if (DevicesList.Sorting == SortOrder.Ascending)
+            {
+                DevicesList.Sorting = SortOrder.Descending;
+            }
+            else
+            {
+                DevicesList.Sorting = SortOrder.Ascending;
+            }
+            DevicesList.ListViewItemSorter = new ListViewItemComparer(e.Column, DevicesList.Sorting);
         }
     }
 }

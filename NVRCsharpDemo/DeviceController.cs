@@ -6,7 +6,9 @@ using System.Windows.Forms;
 using DATAREG = NVRCsharpDemo.ConfigurationData.DataReg;
 using DATASHEDULE = NVRCsharpDemo.ConfigurationData.DataShedule;
 using CHANNEL = NVRCsharpDemo.ConfigurationData.Channel;
+using DWNID = NVRCsharpDemo.ConfigurationData.DownloadingID;
 using System.Threading;
+using static NVRCsharpDemo.ConfigurationData;
 
 namespace NVRCsharpDemo
 {
@@ -30,7 +32,7 @@ namespace NVRCsharpDemo
         public CHCNetSDK.NET_DVR_IPCHANINFO m_struChanInfo;
         List<CHANNEL> listChannel = new List<CHANNEL>();
         int globalTriesCount = 10;
-        bool stopDownloading = false;
+        List<DWNID> downloadingIDs = new List<DWNID>();
 
         public List<CHANNEL> getDeviceChannel(string deviceIP)
         {
@@ -181,12 +183,13 @@ namespace NVRCsharpDemo
             int successDownload = 0;
             int failDownload = 0;
             string currentFolder = "";
+            DWNID downloadingID;
             LoginCallback loginCallback = (loginTriesCount, success) =>
             {
                 if (!success)
                 {
 
-                    refreshSheduleTableStatus(shedule.ID, "Ошибка входа в устройство, переподключение... попытка " + loginTriesCount + "  из " + globalTriesCount);
+                    refreshSheduleTableStatus(shedule.ID, "Ошибка входа в устройство, переподключение... попытка " + loginTriesCount + "  из " + globalTriesCount);                   
                     if (loginTriesCount == 10) isLoggedIn = false;
                 }
                 else isLoggedIn = true;
@@ -222,22 +225,38 @@ namespace NVRCsharpDemo
                         //TODO 
                         FileOperations.AddLog("DeviceController.DownloadIntervalDeviceVideo", "Попытка " + t + ". Старт загрузки: " + j + " из " + countHour, currentFolder, logFileName);
                         // бесконечный цикл который ждёт когда видос скачается или закрашится
-                        bool status;
+                        bool status;                    
                         do
                         {
-                            if (stopDownloading) return;
+                            downloadingID = downloadingIDs.FirstOrDefault(x => x.ID == shedule.ID);
+                            if (downloadingID != null && downloadingID.isDownloadStopped)
+                            {
+                                downloadingIDs.Remove(downloadingIDs.FirstOrDefault(x => x.ID == shedule.ID));
+                                return;
+                            } 
                             status = GetDownloadStatus(currentFolder, downloadCallback);
                             Thread.Sleep(500);
                         } while (!status);
-                        if (stopDownloading) return;
+                        downloadingID = downloadingIDs.FirstOrDefault(x => x.ID == shedule.ID);
+                        if (downloadingID != null && downloadingID.isDownloadStopped)
+                        {
+                            downloadingIDs.Remove(downloadingIDs.FirstOrDefault(x => x.ID == shedule.ID));
+                            return;
+                        }
                         refreshSheduleTableStatus(shedule.ID, "Загрузка... файлов загружено: " + successDownload + " из " + countHour + ", ошибок: " + failDownload);
-                        Thread.Sleep(30000);
+                        Thread.Sleep(5000);
                     } while (downloadTriesCount != totalDownloadTriesCount);                     
                 }
-                //TODO 
+                downloadingID = downloadingIDs.FirstOrDefault(x => x.ID == shedule.ID);
+                if (downloadingID != null && downloadingID.isDownloadStopped)
+                {
+                    downloadingIDs.Remove(downloadingIDs.FirstOrDefault(x => x.ID == shedule.ID));
+                    return;
+                }
                 FileOperations.AddLog("DeviceController", "Загрузка завершена. Файлов загружено: " + successDownload + " из " + countHour, currentFolder, logFileName);
                 FileOperations.SetSheduleStatus(shedule.ID, DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ". Загрузка завершена. Файлов загружено: " + successDownload + " из " + countHour + ", ошибок: " + failDownload);
                 refreshSheduleTableStatus(shedule.ID, DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ". Загрузка завершена. Файлов загружено: " + successDownload + " из " + countHour + ", ошибок: " + failDownload);
+                downloadingIDs.Remove(downloadingIDs.FirstOrDefault(x => x.ID == shedule.ID));              
             }
             else
             {
@@ -269,14 +288,14 @@ namespace NVRCsharpDemo
             string currentFolder = FileOperations.SetDownloadDestinationFolder(loginData.DeviceName, shedule.channelNum.ToString(), startDownloadDateTime);
 
             struDownPara.dwChannel = totalNumChannels + (uint)shedule.channelNum;
-            //Set the starting time
+            
             struDownPara.struStartTime.dwYear = (uint)startDownloadDateTime.Year;
             struDownPara.struStartTime.dwMonth = (uint)startDownloadDateTime.Month;
             struDownPara.struStartTime.dwDay = (uint)startDownloadDateTime.Day;
             struDownPara.struStartTime.dwHour = (uint)startDownloadDateTime.Hour;
             struDownPara.struStartTime.dwMinute = (uint)startDownloadDateTime.Minute;
             struDownPara.struStartTime.dwSecond = 0;
-            //Set the stopping time
+            
             struDownPara.struStopTime.dwYear = (uint)endDownloadDateTime.Year;
             struDownPara.struStopTime.dwMonth = (uint)endDownloadDateTime.Month;
             struDownPara.struStopTime.dwDay = (uint)endDownloadDateTime.Day;
@@ -284,7 +303,7 @@ namespace NVRCsharpDemo
             struDownPara.struStopTime.dwMinute = (uint)endDownloadDateTime.Minute;
             struDownPara.struStopTime.dwSecond = 0;
 
-            string sVideoFileName;  //the path and file name to save
+            string sVideoFileName;  
 
             sVideoFileName = $"{currentFolder}" +
                 $"{startDownloadDateTime.Hour}-" +
@@ -293,6 +312,12 @@ namespace NVRCsharpDemo
                 $"{endDownloadDateTime.Minute}.mp4";
             //Download by time
             m_lDownHandle = CHCNetSDK.NET_DVR_GetFileByTime_V40(m_lUserID, sVideoFileName, ref struDownPara);
+            downloadingIDs.Add(new DWNID
+            {
+                DownloadHandle = m_lDownHandle,
+                ID = shedule.ID,
+                isDownloadStopped = false
+            });
             if (m_lDownHandle < 0)
             {
                 iLastErr = CHCNetSDK.NET_DVR_GetLastError();
@@ -352,13 +377,11 @@ namespace NVRCsharpDemo
             if (iPos == 200) //Network abnormal,download failed
             {
                 m_lDownHandle = -1;
-                //TODO 
                 FileOperations.AddLog("DeviceController.GetDownloadStatus", "Ошибка загрузки: Abnormal:" + iPos, currentFolder,logFileName);
                 callback?.Invoke(currentFolder, false);
                 return true;
             }
             m_lDownHandle = -1;
-            //TODO 
             FileOperations.AddLog("DeviceController.GetDownloadStatus", shedule.ID + " непредвиденный результат: " + iPos.ToString(), currentFolder, logFileName);
             callback?.Invoke(currentFolder, false);
             return true;
@@ -368,21 +391,22 @@ namespace NVRCsharpDemo
         {
             mainWindowForm.Invoke(new Action(() =>
             {
-                mainWindowFormDesign.SheduleTable.Items[ID].SubItems[8].Text = status;
+                mainWindowFormDesign.SheduleTable.FindItemWithText(ID.ToString()).SubItems[8].Text = status;
             }));
         }
 
         private void handleStopDownloading(string sheduleID)
         {
-            if (m_lDownHandle >= 0 & shedule.ID.ToString() == sheduleID)
+            DWNID downloadingID = downloadingIDs.FirstOrDefault(x => x.ID == int.Parse(sheduleID));
+            if (downloadingID !=null && m_lDownHandle >= 0)
             {
-                CHCNetSDK.NET_DVR_StopGetFile(m_lDownHandle);
-                m_lDownHandle = -1;
+                downloadingIDs.FirstOrDefault(x => x.ID == int.Parse(sheduleID)).isDownloadStopped = true;
+                CHCNetSDK.NET_DVR_StopGetFile(downloadingID.DownloadHandle);
+                m_lDownHandle -= 1;                            
                 FileOperations.SetSheduleStatus(int.Parse(sheduleID), DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ". Загрузка прервана пользователем.");
                 refreshSheduleTableStatus(int.Parse(sheduleID), DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ". Загрузка прервана пользователем.");
-                stopDownloading = true;
-            }
-            else stopDownloading = false;  
+                
+            } 
         }
     }
 }

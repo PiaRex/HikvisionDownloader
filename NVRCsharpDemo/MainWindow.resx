@@ -121,7 +121,7 @@
   <data name="StopDownloadButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wQAADsEBuJFr7QAAApBJREFUaEPtmD1LBEEMhuU60UKUA8FGsLKXq0TQxs5OLez8GdpZ+yusPK7XTntb
+        vAAADrwBlbxySQAAApBJREFUaEPtmD1LBEEMhuU60UKUA8FGsLKXq0TQxs5OLez8GdpZ+yusPK7XTntb
         GyvtBPGrU9AiJlxE9+bN7Mzc7uxx3ANvs0neSfxgZzNFY8JkkFFjMkgwn5991Uy1g/R6RAcHREtL7MzW
         SO020e4u0dmZFlUDOw/J3R3R5qbbcKjW1ohubtQsHXZK5P2daHXVbSxVi4tEDw9qHg87JHB05DZSlQ4P
         9ZA4uDKSlRX38Ko1N6eHhcNVEbRa7qF16utLDy6HswPJPcSvAgnLzPHnZGl6Wpvww5klHB+75rm1v6/N
@@ -138,7 +138,7 @@
   <data name="MainDownloadButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wQAADsEBuJFr7QAABWdJREFUaEPtWFlslUUUviCCWi2CGxoMCfpAXELCA5q++GJSaFUWKYvgiuBSdwHj
+        vAAADrwBlbxySQAABWdJREFUaEPtWFlslUUUviCCWi2CGxoMCfpAXELCA5q++GJSaFUWKYvgiuBSdwHj
         gwokGHwgPrihCfHBlBZuoa2ldCMWkapUIoQmVKViBKSFYinclNvWkuN8w/ze3nvP/8+Zn1tDSL/kSwi9
         c2a+f842J0KXCYaEXGoYEiJFT3+f5mAjo0K2/fUTFe5dT1NqXqdRm2ZTZONDFCl+5ALVv68smUX3bn+Z
         ljZ9QtEjjWZVZnDRQlpjbVSwe6066MM0Uh0+u3Q+3bh1EY0re5JuK38qifi/m9TfRqvfjNr0KEWK8mna
@@ -191,7 +191,7 @@
     <value>272, 3</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>25</value>
+    <value>26</value>
   </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

@@ -34,7 +34,7 @@ namespace NVRCsharpDemo
         {
             mainWindow = Application.OpenForms.OfType<MainWindow>().FirstOrDefault();
             this.Left = mainWindow.Left + 170;
-            this.Top = mainWindow.Top + 270;
+            this.Top = mainWindow.Top + 298;
         }
 
         private void OKButton_Click(object sender, EventArgs e)
